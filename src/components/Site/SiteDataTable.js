@@ -131,7 +131,7 @@ const SiteDataTable = ({ onEditSite, onCreateQuote }) => {
   ];
 
   return (
-    <Box sx={{ height: 600, width: "100%" }}>
+    <Box sx={{ height: 600 }}>
       <TextField
         label="Search"
         variant="outlined"
@@ -144,21 +144,12 @@ const SiteDataTable = ({ onEditSite, onCreateQuote }) => {
         columns={columns}
         pageSize={10}
         rowsPerPageOptions={[10, 20, 50]}
-        components={{
-          Toolbar: GridToolbar,
-        }}
+
       />
     </Box>
   );
 };
 
-function GridToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarExport />
-      <GridToolbarFilterButton />
-    </GridToolbarContainer>
-  );
-}
+
 
 export default SiteDataTable;

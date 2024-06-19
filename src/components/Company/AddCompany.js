@@ -6,6 +6,7 @@ import {
   Box,
   Grid,
   Paper,
+  Toolbar,
   Switch,
   FormControlLabel,
   Stepper,
@@ -13,6 +14,8 @@ import {
   StepLabel,
 } from "@mui/material";
 import moment from "moment";
+
+const drawerWidth = 240;
 
 const initialState = {
   name: "",
@@ -443,6 +446,8 @@ const AddCompany = () => {
         </Box>
       </form>
     </Paper>
+
+
   );
 };
 

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Paper, Box, Toolbar } from "@mui/material";
+import { Typography, Box, Toolbar, Card } from "@mui/material";
 import CompanyDataTable from "./CompanyDataTable";
 import AddCompany from "./AddCompany";
 
@@ -33,16 +33,21 @@ const CompanyList = () => {
           Companies
         </Typography>
 
-        <Box >
-          <AddCompany />
-        </Box>
+        <Card sx={{ p: 3, m: 2, boxShadow: 3 }}>
+          <Box >
+            <AddCompany />
+          </Box>
+        </Card>
 
-        <Box >
-          <CompanyDataTable
-            onAddSite={handleAddSite}
-            onEditCompany={handleEditCompany}
-          />
-        </Box>
+        <Card sx={{ p: 3, m: 2, boxShadow: 3 }} >
+          <Box >
+            <CompanyDataTable
+              onAddSite={handleAddSite}
+              onEditCompany={handleEditCompany}
+            />
+          </Box>
+        </Card>
+
       </Box>
     </Box>
   );

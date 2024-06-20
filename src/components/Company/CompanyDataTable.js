@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   DataGrid,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarFilterButton,
 } from "@mui/x-data-grid";
-import { TextField, Box, IconButton, Tooltip } from "@mui/material";
+import { TextField, Box, IconButton, Tooltip, Container } from "@mui/material";
 import { Add as AddIcon, Edit as EditIcon } from "@mui/icons-material";
 import axios from "axios";
 
@@ -104,34 +101,27 @@ const CompanyDataTable = ({ onAddSite, onEditCompany }) => {
   ];
 
   return (
-    <Box sx={{ height: 600, width: "100%" }}>
-      <TextField
-        label="Search"
-        variant="outlined"
-        value={searchText}
-        onChange={handleSearch}
-        sx={{ mb: 2 }}
-      />
-      <DataGrid
-        rows={filteredCompanies}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10, 20, 50]}
-        components={{
-          Toolbar: GridToolbar,
-        }}
-      />
-    </Box>
+    <Container>
+      <Box sx={{ height: 600 }}>
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchText}
+          onChange={handleSearch}
+          sx={{ mb: 2 }}
+        />
+        <DataGrid
+          rows={filteredCompanies}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10, 20, 50]}
+
+        />
+      </Box>
+    </Container>
   );
 };
 
-function GridToolbar() {
-  return (
-    <GridToolbarContainer>
-      <GridToolbarExport />
-      <GridToolbarFilterButton />
-    </GridToolbarContainer>
-  );
-}
+
 
 export default CompanyDataTable;

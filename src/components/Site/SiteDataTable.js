@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import {
   DataGrid,
-  GridToolbarContainer,
-  GridToolbarExport,
-  GridToolbarFilterButton,
 } from "@mui/x-data-grid";
-import { TextField, Box, IconButton, Tooltip } from "@mui/material";
+import { TextField, Box, IconButton, Tooltip, Container } from "@mui/material";
 import {
   Edit as EditIcon,
   Description as DescriptionIcon,
@@ -131,22 +128,24 @@ const SiteDataTable = ({ onEditSite, onCreateQuote }) => {
   ];
 
   return (
-    <Box sx={{ height: 600 }}>
-      <TextField
-        label="Search"
-        variant="outlined"
-        value={searchText}
-        onChange={handleSearch}
-        sx={{ mb: 2 }}
-      />
-      <DataGrid
-        rows={filteredSites}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10, 20, 50]}
+    <Container>
+      <Box sx={{ height: 600 }}>
+        <TextField
+          label="Search"
+          variant="outlined"
+          value={searchText}
+          onChange={handleSearch}
+          sx={{ mb: 2, mt: 2 }}
+        />
+        <DataGrid
+          rows={filteredSites}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10, 20, 50]}
 
-      />
-    </Box>
+        />
+      </Box>
+    </Container>
   );
 };
 

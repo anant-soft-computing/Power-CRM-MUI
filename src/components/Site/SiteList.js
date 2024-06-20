@@ -19,8 +19,6 @@ const SiteList = () => {
   };
 
   return (
-
-
     <Box >
       <Box
         component="main"
@@ -35,16 +33,20 @@ const SiteList = () => {
           Sites
         </Typography>
 
-        <Box >
-          <AddSite />
-        </Box>
+        <Card sx={{ p: 3, m: 2, boxShadow: 3 }}>
+          <Box >
+            <AddSite />
+          </Box>
+        </Card>
 
-        <Box >
-          <SiteDataTable
-            onEditSite={handleEditSite}
-            onCreateQuote={handleCreateQuote}
-          />
-        </Box>
+        <Card sx={{ p: 3, m: 2, boxShadow: 3 }}>
+          <Box >
+            <SiteDataTable
+              onEditSite={handleEditSite}
+              onCreateQuote={handleCreateQuote}
+            />
+          </Box>
+        </Card>
       </Box>
     </Box>
   );

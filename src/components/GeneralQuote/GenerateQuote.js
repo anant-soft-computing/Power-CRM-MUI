@@ -26,7 +26,6 @@ const initialQuoteState = {
 };
 
 
-
 const GenerateQuote = ({ site }) => {
   const [quoteData, setQuoteData] = useState(initialQuoteState);
 
@@ -55,8 +54,6 @@ const GenerateQuote = ({ site }) => {
   };
 
   return (
-
-
     <Box sx={{ display: "flex" }}>
       <Box
         component="main"

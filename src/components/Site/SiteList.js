@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Typography, Paper, Box, Grid, Toolbar } from "@mui/material";
+import { Typography, Paper, Box, Grid, Toolbar, Card } from "@mui/material";
 import SiteDataTable from "./SiteDataTable";
 import AddSite from "./AddSite";
 import GenerateQuote from "../GeneralQuote/GenerateQuote";
@@ -19,28 +19,9 @@ const SiteList = () => {
   };
 
   return (
-    // <Box sx={{ flexGrow: 1, p: 3 }}>
-    //   <Paper sx={{ p: 3 }}>
-    //     <Typography variant="h4" gutterBottom>
-    //       Sites
-    //     </Typography>
-    //     <Grid container spacing={2}>
-    //       <Grid item xs={12}>
-    //         <AddSite />
-    //       </Grid>
-    //       <Grid item xs={12}>
-    //         <SiteDataTable
-    //           onEditSite={handleEditSite}
-    //           onCreateQuote={handleCreateQuote}
-    //         />
-    //       </Grid>
 
-    //     </Grid>
-    //   </Paper>
-    // </Box>
 
-    <Box sx={{ display: "flex" }}>
-
+    <Box >
       <Box
         component="main"
         sx={{
@@ -54,10 +35,11 @@ const SiteList = () => {
           Sites
         </Typography>
 
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <Box >
           <AddSite />
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+
+        <Box >
           <SiteDataTable
             onEditSite={handleEditSite}
             onCreateQuote={handleCreateQuote}

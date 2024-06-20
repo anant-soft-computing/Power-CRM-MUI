@@ -6,11 +6,13 @@ import {
   Box,
   Grid,
   Paper,
+  Card,
   Switch,
   FormControlLabel,
   Stepper,
   Step,
   StepLabel,
+  Container
 } from "@mui/material";
 
 const initialState = {
@@ -60,13 +62,7 @@ const initialState = {
   loa_template: "",
 };
 
-const steps = [
-  "Site Information",
-  "Site Address",
-  "Billing Information",
-  "Contact Information",
-  "Additional Information",
-];
+const steps = ["Site Information", "Site Address", "Billing Information", "Contact Information", "Additional Information"];
 
 const AddSite = () => {
   const [formData, setFormData] = useState(initialState);
@@ -511,37 +507,41 @@ const AddSite = () => {
   };
 
   return (
-    <Paper sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom>
-        Add Site
-      </Typography>
-      <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      <form onSubmit={handleSubmit}>
-        {renderStepContent(activeStep)}
-        <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-          {activeStep !== 0 && (
-            <Button onClick={handleBack} sx={{ mr: 1 }}>
-              Back
-            </Button>
-          )}
-          {activeStep === steps.length - 1 ? (
-            <Button variant="contained" color="primary" type="submit">
-              Submit
-            </Button>
-          ) : (
-            <Button variant="contained" color="primary" onClick={handleNext}>
-              Next
-            </Button>
-          )}
+    <Container maxWidth="lg">
+      <Box >
+        <Box >
+          <Typography variant="h4" gutterBottom>
+            Add Site
+          </Typography>
+          <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <form onSubmit={handleSubmit}>
+            {renderStepContent(activeStep)}
+            <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+              {activeStep !== 0 && (
+                <Button onClick={handleBack} sx={{ mr: 1 }}>
+                  Back
+                </Button>
+              )}
+              {activeStep === steps.length - 1 ? (
+                <Button variant="contained" color="primary" type="submit">
+                  Submit
+                </Button>
+              ) : (
+                <Button variant="contained" color="primary" onClick={handleNext}>
+                  Next
+                </Button>
+              )}
+            </Box>
+          </form>
         </Box>
-      </form>
-    </Paper>
+      </Box>
+    </Container>
   );
 };
 

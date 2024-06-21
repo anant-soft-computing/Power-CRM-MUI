@@ -13,6 +13,7 @@ import {
   Button,
 } from "@mui/material";
 import { useTheme } from "@mui/material/styles";
+import { useNavigate } from 'react-router-dom';
 
 function createData(name, owner, company, email) {
   return { name, owner, company, email };
@@ -26,6 +27,11 @@ const rows = [
 function RecentSites() {
   const theme = useTheme();
 
+  const navigate = useNavigate();
+  const handleNavigation = (path) => {
+    navigate(path);
+  };
+
   return (
     <Card sx={{ mt: 3 }}>
       <CardContent>
@@ -35,7 +41,7 @@ function RecentSites() {
         <TableContainer component={Paper}>
           <Table aria-label="simple table">
             <TableHead>
-              <TableRow sx={{ backgroundColor: theme.palette.primary.main }}>
+              <TableRow sx={{ backgroundColor: theme.palette.primary.light }}>
                 <TableCell sx={{ color: theme.palette.primary.contrastText }}>
                   Site Name
                 </TableCell>
@@ -75,7 +81,7 @@ function RecentSites() {
             </TableBody>
           </Table>
         </TableContainer>
-        <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+        <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => handleNavigation('/sites')}>
           Create Site
         </Button>
       </CardContent>

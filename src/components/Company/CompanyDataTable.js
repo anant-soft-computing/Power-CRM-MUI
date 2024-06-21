@@ -38,8 +38,6 @@ const CompanyDataTable = ({ onCompanyClick, onAddSite, onEditCompany }) => {
     );
   }, [searchText, companies]);
 
-
-
   const columns = [
     { field: 'id', headerName: 'ID', width: 90 },
     { field: 'name', headerName: 'Name', width: 150 },

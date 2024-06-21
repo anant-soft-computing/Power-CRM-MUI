@@ -4,9 +4,8 @@ import SiteReport from "./SiteReport";
 import QuoteReport from "./QuoteReport";
 import RecentSites from "./RecentSites";
 
-const drawerWidth = 240;
 
-function Dashboard() {
+function Dashboard({ isOpen }) {
   return (
     <Box sx={{ display: "flex" }}>
       <Container
@@ -14,7 +13,7 @@ function Dashboard() {
         sx={{
           flexGrow: 1,
           marginTop: 1,
-          marginLeft: `${drawerWidth}px`,
+          width: "100%"
         }}
       >
         <Toolbar />

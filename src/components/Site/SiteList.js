@@ -3,7 +3,6 @@ import { Typography, Box, Container, Toolbar, Card } from "@mui/material";
 import SiteDataTable from "./SiteDataTable";
 import AddSite from "./AddSite";
 
-const drawerWidth = 240;
 const SiteList = () => {
   const [selectedSite, setSelectedSite] = useState(null);
 
@@ -21,7 +20,7 @@ const SiteList = () => {
         component="main"
         sx={{
           marginTop: 1,
-          marginLeft: `${drawerWidth}px`,
+          width: "100%",
         }}
       >
         <Toolbar />

@@ -1,30 +1,29 @@
-// src/theme.js
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#69b2ff',  // light blue
-      main: '#1890ff',   // primary blue
-      dark: '#006bb3',   // dark blue
+      light: '#69b2ff',
+      main: '#1890ff',
+      dark: '#006bb3',
       contrastText: '#ffffff',
     },
     secondary: {
-      light: '#ff9e9e',  // light red
-      main: '#ff4d4f',   // primary red
-      dark: '#b32424',   // dark red
+      light: '#ff9e9e',
+      main: '#ff4d4f',
+      dark: '#b32424',
       contrastText: '#ffffff',
     },
     background: {
-      default: '#f0f5ff', // light blue-grey
+      default: '#f0f5ff',
       paper: '#ffffff',
     },
     text: {
-      primary: '#000000',  // black
-      secondary: '#595959',  // medium grey
-      disabled: '#bfbfbf',  // light grey
+      primary: '#000000',
+      secondary: '#595959',
+      disabled: '#bfbfbf',
     },
-    divider: '#d9d9d9',  // light grey
+    divider: '#d9d9d9',
   },
   typography: {
     fontFamily: [
@@ -65,7 +64,7 @@ const theme = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#006bb3',  // dark blue
+          backgroundColor: '#006bb3',
           color: '#ffffff',
         },
       },
@@ -74,8 +73,8 @@ const theme = createTheme({
       styleOverrides: {
         paper: {
           width: 240,
-          backgroundColor: '#ffffff',  // white background
-          color: '#000000',  // black text
+          backgroundColor: '#ffffff',
+          color: '#000000',
         },
       },
     },

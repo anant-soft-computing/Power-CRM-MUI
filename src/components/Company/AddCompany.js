@@ -5,8 +5,6 @@ import {
   Typography,
   Box,
   Grid,
-  Paper,
-  Toolbar,
   Switch,
   FormControlLabel,
   Stepper,
@@ -14,9 +12,9 @@ import {
   StepLabel,
   Container
 } from "@mui/material";
+
 import moment from "moment";
 
-const drawerWidth = 240;
 
 const initialState = {
   name: "",
@@ -419,7 +417,7 @@ const AddCompany = () => {
     <Container maxWidth="lg">
       <Box >
         <Box >
-          <Typography variant="h4" gutterBottom>
+          <Typography variant="h6" gutterBottom>
             Add Company
           </Typography>
           <Stepper activeStep={activeStep} sx={{ mb: 3 }}>

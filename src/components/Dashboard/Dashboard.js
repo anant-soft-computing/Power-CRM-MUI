@@ -1,25 +1,24 @@
 import React from "react";
-import { Box, Toolbar, Typography } from "@mui/material";
-import SiteReport from "../SiteReport";
-import QuoteReport from "../QuoteReport";
-import RecentSites from "../RecentSites";
+import { Box, Toolbar, Typography, Container } from "@mui/material";
+import SiteReport from "./SiteReport";
+import QuoteReport from "./QuoteReport";
+import RecentSites from "./RecentSites";
 
 const drawerWidth = 240;
 
 function Dashboard() {
   return (
     <Box sx={{ display: "flex" }}>
-      <Box
+      <Container
         component="main"
         sx={{
           flexGrow: 1,
-          p: 3,
           marginTop: 1,
           marginLeft: `${drawerWidth}px`,
         }}
       >
         <Toolbar />
-        <Typography variant="h4" gutterBottom>
+        <Typography variant="h5" gutterBottom>
           Dashboard
         </Typography>
         <Box sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -27,8 +26,8 @@ function Dashboard() {
           <QuoteReport />
         </Box>
         <RecentSites />
-      </Box>
-    </Box>
+      </Container>
+    </Box >
   );
 }
 

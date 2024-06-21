@@ -142,7 +142,6 @@ const SiteDataTable = ({ onEditSite, onCreateQuote }) => {
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10, 20, 50]}
-
         />
       </Box>
     </Container>

@@ -21,7 +21,7 @@ const Sidebar = () => {
                 position: 'fixed',
                 height: '100%',
                 backgroundColor: '#f4f4f4',
-                paddingTop: '64px', // Adjust this value if your AppBar height changes
+                paddingTop: '64px',
             }}
         >
             <List>
@@ -31,18 +31,21 @@ const Sidebar = () => {
                     </ListItemIcon>
                     <ListItemText primary="Dashboard" />
                 </ListItem>
-                <ListItem button key="Sites" onClick={() => handleNavigation('/sites')}>
-                    <ListItemIcon>
-                        <LanguageIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Sites" />
-                </ListItem>
+
                 <ListItem button key="Company" onClick={() => handleNavigation('/company')}>
                     <ListItemIcon>
                         <BusinessIcon />
                     </ListItemIcon>
                     <ListItemText primary="Company" />
                 </ListItem>
+
+                <ListItem button key="Sites" onClick={() => handleNavigation('/sites')}>
+                    <ListItemIcon>
+                        <LanguageIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Sites" />
+                </ListItem>
+
                 <ListItem button key="Generate Quote" onClick={() => handleNavigation('/generate-quote')}>
                     <ListItemIcon>
                         <FormatQuoteIcon />

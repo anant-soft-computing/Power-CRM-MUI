@@ -1,19 +1,9 @@
 import React, { useState } from "react";
+import axios from 'axios';
 import {
-  TextField,
-  Button,
-  Typography,
-  Box,
-  Grid,
-  Paper,
-  Card,
-  Switch,
-  FormControlLabel,
-  Stepper,
-  Step,
-  StepLabel,
-  Container
-} from "@mui/material";
+  TextField, Button, Typography, Box, Grid, Switch,
+  FormControlLabel, Stepper, Step, StepLabel, Dialog, DialogTitle, DialogContent, DialogActions, List, ListItem, ListItemText, InputAdornment, Container
+} from '@mui/material';
 
 const initialState = {
   site_name: "",
@@ -67,6 +57,9 @@ const steps = ["Site Information", "Site Address", "Billing Information", "Conta
 const AddSite = () => {
   const [formData, setFormData] = useState(initialState);
   const [activeStep, setActiveStep] = useState(0);
+  const [postcode, setPostcode] = useState('');
+  const [addresses, setAddresses] = useState([]);
+  const [open, setOpen] = useState(false);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -87,6 +80,35 @@ const AddSite = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(formData);
+  };
+
+  const handlePostcodeChange = (e) => {
+    setPostcode(e.target.value);
+  };
+
+  const fetchAddresses = async () => {
+    try {
+      const response = await axios.get(`https://api.postcodes.io/postcodes/${postcode}`);
+      const results = response.data.result;
+      setAddresses(Array.isArray(results) ? results : []);
+      setOpen(true);
+    } catch (error) {
+      console.error("Error fetching addresses:", error);
+      setAddresses([]);
+    }
+  };
+
+  const handleAddressSelect = (address) => {
+    setFormData({
+      ...formData,
+      siteAddressLine1: address.line1,
+      siteAddressLine2: address.line2,
+      siteAddressLine3: address.line3,
+      siteAddressLine4: address.line4,
+      siteCountry: address.country,
+      sitePostCode: address.postcode,
+    });
+    setOpen(false);
   };
 
   const renderStepContent = (step) => {
@@ -510,9 +532,26 @@ const AddSite = () => {
     <Container maxWidth="lg">
       <Box >
         <Box >
-          <Typography variant="h4" gutterBottom>
-            Add Site
-          </Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Typography variant="h6" gutterBottom>
+              Add Site
+            </Typography>
+            <TextField
+              sx={{ mb: 2 }}
+              label="Postcode"
+              value={postcode}
+              onChange={handlePostcodeChange}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end" >
+                    <Button variant="contained" color="primary" onClick={fetchAddresses}>
+                      Lookup
+                    </Button>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Box>
           <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
             {steps.map((label) => (
               <Step key={label}>
@@ -539,9 +578,25 @@ const AddSite = () => {
               )}
             </Box>
           </form>
+
+          <Dialog open={open} onClose={() => setOpen(false)}>
+            <DialogTitle>Select Address</DialogTitle>
+            <DialogContent>
+              <List>
+                {addresses.map((address, index) => (
+                  <ListItem button key={index} onClick={() => handleAddressSelect(address)}>
+                    <ListItemText primary={address.line1} secondary={`${address.line2}, ${address.line3}, ${address.postcode}`} />
+                  </ListItem>
+                ))}
+              </List>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={() => setOpen(false)} color="primary">Cancel</Button>
+            </DialogActions>
+          </Dialog>
         </Box>
       </Box>
-    </Container>
+    </Container >
   );
 };
 

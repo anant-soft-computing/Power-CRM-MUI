@@ -21,6 +21,7 @@ const Sidebar = ({ isOpen }) => {
                 flexShrink: 0,
                 position: 'fixed',
                 height: '100%',
+                backgroundColor: '#ffffff',
                 paddingTop: '64px',
                 transition: 'width 0.3s',
                 overflowX: 'hidden'

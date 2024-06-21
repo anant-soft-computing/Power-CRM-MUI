@@ -5,8 +5,9 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import LanguageIcon from '@mui/icons-material/Language';
 import BusinessIcon from '@mui/icons-material/Business';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
+import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen }) => {
     const navigate = useNavigate();
 
     const handleNavigation = (path) => {
@@ -16,12 +17,13 @@ const Sidebar = () => {
     return (
         <Box
             sx={{
-                width: 240,
+                width: isOpen ? 230 : 0,
                 flexShrink: 0,
                 position: 'fixed',
                 height: '100%',
-                backgroundColor: '#f4f4f4',
                 paddingTop: '64px',
+                transition: 'width 0.3s',
+                overflowX: 'hidden'
             }}
         >
             <List>
@@ -37,6 +39,13 @@ const Sidebar = () => {
                         <BusinessIcon />
                     </ListItemIcon>
                     <ListItemText primary="Company" />
+                </ListItem>
+
+                <ListItem button key="Company" onClick={() => handleNavigation('/companyDashboard')}>
+                    <ListItemIcon>
+                        <SpaceDashboardIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="CompanyDashboard" />
                 </ListItem>
 
                 <ListItem button key="Sites" onClick={() => handleNavigation('/sites')}>

@@ -14,7 +14,6 @@ import {
 } from "@mui/material";
 import moment from "moment";
 
-const drawerWidth = 240;
 
 const initialQuoteState = {
   e_mpan_topline: "",
@@ -274,7 +273,7 @@ const GenerateQuote = ({ site }) => {
         component="main"
         sx={{
           marginTop: 1,
-          marginLeft: `${drawerWidth}px`,
+          width: "100%",
         }}
       >
         <Toolbar />

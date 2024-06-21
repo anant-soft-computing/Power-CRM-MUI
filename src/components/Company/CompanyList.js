@@ -3,7 +3,6 @@ import { Typography, Box, Toolbar, Card, Container } from "@mui/material";
 import CompanyDataTable from "./CompanyDataTable";
 import AddCompany from "./AddCompany";
 
-const drawerWidth = 240;
 
 const CompanyList = (onCompanyClick) => {
   const [selectedCompany, setSelectedCompany] = useState(null);
@@ -22,7 +21,7 @@ const CompanyList = (onCompanyClick) => {
         component="main"
         sx={{
           marginTop: 1,
-          marginLeft: `${drawerWidth}px`,
+          width: "100%",
         }}
       >
         <Toolbar />

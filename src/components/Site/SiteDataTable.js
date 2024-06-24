@@ -7,24 +7,53 @@ import {
   Edit as EditIcon,
   Description as DescriptionIcon,
 } from "@mui/icons-material";
-import axios from "axios";
 
 const SiteDataTable = ({ onEditSite, onCreateQuote }) => {
   const [sites, setSites] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [filteredSites, setFilteredSites] = useState([]);
 
+  const [errs, setErrs] = useState("");
+
   useEffect(() => {
-    axios
-      .get("/api/sites")
-      .then((response) => {
-        setSites(response.data);
-        setFilteredSites(response.data);
-      })
-      .catch((error) => {
-        console.error("There was an error fetching the sites!", error);
-      });
+    const token = localStorage.getItem("token");
+    fetchSitesData(token);
   }, []);
+
+
+  const fetchData = async (url, setter, errorMessage, showNoDataMessage = true) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        const data = await response.json();
+        if (data.length === 0 && showNoDataMessage) {
+          setErrs(errorMessage);
+        } else {
+          setter(data);
+        }
+      } else if (response.status === 500) {
+        setErrs(errorMessage);
+      } else {
+        setter([]);
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
+  };
+
+  const fetchSitesData = () =>
+    fetchData(
+      " https://aumhealthresort.com/powercrm/api/sites/get/site/",
+      setSites,
+      "No Company Data found",
+      true
+    );
+
 
   useEffect(() => {
     setFilteredSites(
@@ -40,7 +69,7 @@ const SiteDataTable = ({ onEditSite, onCreateQuote }) => {
 
   const columns = [
     { field: "site_name", headerName: "Site Name", width: 200 },
-    { field: "company", headerName: "Company", width: 200 },
+    { field: "company.name", headerName: "Company", width: 200 },
     { field: "owner_name", headerName: "Owner Name", width: 200 },
     {
       field: "current_gas_and_electricity_supplier_details",
@@ -58,31 +87,6 @@ const SiteDataTable = ({ onEditSite, onCreateQuote }) => {
     { field: "siteAddressLine4", headerName: "Address Line 4", width: 200 },
     { field: "siteCountry", headerName: "Country", width: 200 },
     { field: "sitePostCode", headerName: "Post Code", width: 150 },
-    {
-      field: "isBillingSiteSame",
-      headerName: "Billing Same as Site",
-      width: 150,
-    },
-    {
-      field: "billingAddressLine1",
-      headerName: "Billing Address Line 1",
-      width: 200,
-    },
-    {
-      field: "billingAddressLine2",
-      headerName: "Billing Address Line 2",
-      width: 200,
-    },
-    {
-      field: "billingAddressLine3",
-      headerName: "Billing Address Line 3",
-      width: 200,
-    },
-    {
-      field: "billingAddressLine4",
-      headerName: "Billing Address Line 4",
-      width: 200,
-    },
     { field: "billingCountry", headerName: "Billing Country", width: 200 },
     { field: "billingPostCode", headerName: "Billing Post Code", width: 150 },
     { field: "site_reference", headerName: "Site Reference", width: 200 },
@@ -138,7 +142,7 @@ const SiteDataTable = ({ onEditSite, onCreateQuote }) => {
           sx={{ mb: 2, mt: 2 }}
         />
         <DataGrid
-          rows={filteredSites}
+          rows={sites}
           columns={columns}
           pageSize={10}
           rowsPerPageOptions={[10, 20, 50]}

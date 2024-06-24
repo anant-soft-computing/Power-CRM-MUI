@@ -1,20 +1,19 @@
 import React, { useState } from "react";
+import { Grid, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { toast } from "react-toastify";
+import moment from "moment";
 import {
   TextField,
   Button,
   Typography,
   Box,
-  Grid,
   Switch,
   FormControlLabel,
   Stepper,
   Step,
   StepLabel,
-  Container
+  Container,
 } from "@mui/material";
-
-import moment from "moment";
-
 
 const initialState = {
   name: "",
@@ -73,17 +72,38 @@ const AddCompany = () => {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const apiURL = "https://aumhealthresort.com/powercrm/api/company/";
+    const token = localStorage.getItem("token");
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(formData),
+    };
+
+    try {
+      const response = await fetch(apiURL, requestOptions);
+      if (response.status === 201) {
+        toast.success("Enquiry submitted successfully!");
+      } else {
+        toast.error("Failed to submit enquiry.");
+      }
+    } catch (error) {
+      toast.error("Failed to submit enquiry.");
+    }
+  };
+
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
   };
 
   const renderStepContent = (step) => {
@@ -149,7 +169,7 @@ const AddCompany = () => {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Business Type"
@@ -157,6 +177,30 @@ const AddCompany = () => {
                   value={formData.business_type}
                   onChange={handleChange}
                 />
+              </Grid> */}
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-label">Business Type</InputLabel>
+                  <Select
+                    labelId="company-label"
+                    label="Business Type"
+                    name="business_type"
+                    value={formData.business_type}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="LTD">LTD</MenuItem>
+                    <MenuItem value="PLC">PLC</MenuItem>
+                    <MenuItem value="LLP">LLP</MenuItem>
+                    <MenuItem value="LLC">LLC</MenuItem>
+                    <MenuItem value="Charity">Charity</MenuItem>
+                    <MenuItem value="Jersey Based">Jersey Based</MenuItem>
+                    <MenuItem value="Public Sector">Public Sector</MenuItem>
+                    <MenuItem value="Non LTD">Non LTD</MenuItem>
+                    <MenuItem value="Partnership">Partnership</MenuItem>
+                    <MenuItem value="Church / Community Organisation">Church / Community Organisation</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <FormControlLabel
@@ -368,7 +412,7 @@ const AddCompany = () => {
                   onChange={handleChange}
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
                   label="Contact Title"
@@ -376,6 +420,27 @@ const AddCompany = () => {
                   value={formData.contact_title}
                   onChange={handleChange}
                 />
+              </Grid> */}
+
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-label">Contact Title</InputLabel>
+                  <Select
+                    labelId="company-label"
+                    label="Contact Title"
+                    name="contact_title"
+                    value={formData.contact_title}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="Dr">Dr</MenuItem>
+                    <MenuItem value="Mr">Mr</MenuItem>
+                    <MenuItem value="Miss">Miss</MenuItem>
+                    <MenuItem value="Mrs">Mrs</MenuItem>
+                    <MenuItem value="Professor">Professor</MenuItem>
+                    <MenuItem value="Rev">Rev</MenuItem>
+                    <MenuItem value="Ms">Ms</MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -415,8 +480,8 @@ const AddCompany = () => {
 
   return (
     <Container maxWidth="lg">
-      <Box >
-        <Box >
+      <Box>
+        <Box>
           <Typography variant="h6" gutterBottom>
             Add Company
           </Typography>
@@ -440,7 +505,11 @@ const AddCompany = () => {
                   Submit
                 </Button>
               ) : (
-                <Button variant="contained" color="primary" onClick={handleNext}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                >
                   Next
                 </Button>
               )}

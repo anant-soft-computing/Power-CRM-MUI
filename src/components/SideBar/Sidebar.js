@@ -6,6 +6,7 @@ import LanguageIcon from '@mui/icons-material/Language';
 import BusinessIcon from '@mui/icons-material/Business';
 import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 const Sidebar = ({ isOpen }) => {
     const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Sidebar = ({ isOpen }) => {
             }}
         >
             <List>
-                <ListItem button key="Dashboard" onClick={() => handleNavigation('/')}>
+                <ListItem button key="Dashboard" onClick={() => handleNavigation('/Dashboard')}>
                     <ListItemIcon>
                         <DashboardIcon />
                     </ListItemIcon>
@@ -61,6 +62,13 @@ const Sidebar = ({ isOpen }) => {
                         <FormatQuoteIcon />
                     </ListItemIcon>
                     <ListItemText primary="Generate Quote" />
+                </ListItem>
+
+                <ListItem button key="Generate Quote" onClick={() => handleNavigation('/')}>
+                    <ListItemIcon>
+                        <LogoutIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="LogOut" />
                 </ListItem>
             </List>
         </Box>

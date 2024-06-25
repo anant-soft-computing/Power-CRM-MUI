@@ -268,70 +268,56 @@ const GenerateQuote = ({ site }) => {
   };
 
   return (
-    <Box >
-      <Container
-        component="main"
-        sx={{
-          marginTop: 1,
-          width: "100%",
-        }}
-      >
-        <Toolbar />
-        <Typography variant="h5" gutterBottom>
-          Generate Quotes
-        </Typography>
 
-        <Card sx={{ p: 2, m: 1, boxShadow: 3 }}>
-          <Box >
-            <Container maxWidth="lg">
-              <Box >
-                <Box >
-                  <form onSubmit={handleSubmit}>
-                    <Typography variant="h6" gutterBottom>
-                      Quote Information
-                    </Typography>
-                    <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
-                      {steps.map((label) => (
-                        <Step key={label}>
-                          <StepLabel>{label}</StepLabel>
-                        </Step>
-                      ))}
-                    </Stepper>
-                    {getStepContent(activeStep)}
-                    <Box sx={{ mt: 2 }}>
-                      <Button
-                        disabled={activeStep === 0}
-                        onClick={handleBack}
-                        sx={{ mr: 1 }}
-                      >
-                        Back
-                      </Button>
-                      {activeStep === steps.length - 1 ? (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          type="submit"
-                        >
-                          Generate Quote
-                        </Button>
-                      ) : (
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={handleNext}
-                        >
-                          Next
-                        </Button>
-                      )}
-                    </Box>
-                  </form>
-                </Box>
-              </Box>
-            </Container>
-          </Box>
-        </Card>
-      </Container>
-    </Box >
+
+
+    <Container maxWidth="lg">
+      <Box>
+        <Box>
+          <Typography variant="h6" gutterBottom>
+            Generate Quotes
+          </Typography>
+
+          <form onSubmit={handleSubmit}>
+
+            <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+            {getStepContent(activeStep)}
+            <Box sx={{ mt: 2 }}>
+              <Button
+                disabled={activeStep === 0}
+                onClick={handleBack}
+                sx={{ mr: 1 }}
+              >
+                Back
+              </Button>
+              {activeStep === steps.length - 1 ? (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Generate Quote
+                </Button>
+              ) : (
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleNext}
+                >
+                  Next
+                </Button>
+              )}
+            </Box>
+          </form>
+        </Box>
+      </Box>
+    </Container>
 
 
 

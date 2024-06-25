@@ -7,8 +7,8 @@ import Navbar from "./components/Navbar/Navbar";
 import theme from "./components/UI/Theme";
 import SiteList from "./components/Site/SiteList";
 import CompanyList from "./components/Company/CompanyList";
-import GenerateQuote from "./components/GeneralQuote/GenerateQuote";
 import CompanyDashboard from "./components/CompanyDashboard/CompanyDashboard";
+import QuoteList from "./components/GeneralQuote/QuoteList"
 import Login from "./components/LogIn/Login";
 
 function App() {
@@ -46,7 +46,7 @@ function App() {
               path="/company"
               element={<CompanyList onCompanyClick={handleCompanyClick} />}
             />
-            <Route path="/generate-quote" element={<GenerateQuote />} />
+            <Route path="/generate-quote" element={<QuoteList />} />
             <Route path="/CompanyDashboard" element={<CompanyDashboard />} />
           </Routes>
         </main>

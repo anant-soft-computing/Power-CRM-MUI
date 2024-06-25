@@ -7,7 +7,6 @@ import {
   InputLabel,
   Checkbox,
 } from "@mui/material";
-import { toast } from "react-toastify";
 import {
   TextField,
   Button,
@@ -82,7 +81,7 @@ const steps = [
   "Additional Information",
 ];
 
-const AddSite = (props) => {
+const AddSite = ({ companyData, contactData, loaData }) => {
   const [formData, setFormData] = useState(initialState);
   const [activeStep, setActiveStep] = useState(0);
   const [postcode, setPostcode] = useState("");
@@ -96,7 +95,7 @@ const AddSite = (props) => {
       ...formData,
       [name]: type === "checkbox" ? checked : value,
     });
-    if (name === 'isBillingSiteSame' && checked) {
+    if (name === "isBillingSiteSame" && checked) {
       setFormData({
         ...formData,
         billingAddressLine1: formData.siteAddressLine1,
@@ -104,7 +103,7 @@ const AddSite = (props) => {
         billingAddressLine3: formData.siteAddressLine3,
         billingAddressLine4: formData.siteAddressLine4,
         billingCountry: formData.siteCountry,
-        billingPostCode: formData.sitePostCode
+        billingPostCode: formData.sitePostCode,
       });
     }
   };
@@ -121,7 +120,9 @@ const AddSite = (props) => {
     e.preventDefault();
     const apiURL =
       "https://aumhealthresort.com/powercrm/api/sites/create/site/";
+
     const token = localStorage.getItem("token");
+
     let sendData = {
       site_name: formData.site_name,
       company: formData.company,
@@ -206,6 +207,7 @@ const AddSite = (props) => {
     ) {
       sendData = { ...sendData, ...contactsInfo };
     }
+
     const requestOptions = {
       method: "POST",
       headers: {
@@ -219,12 +221,12 @@ const AddSite = (props) => {
     try {
       const response = await fetch(apiURL, requestOptions);
       if (response.status === 201) {
-        toast.success("Enquiry submitted successfully!");
+        console.log(response);
       } else {
-        toast.error("Failed to submit enquiry.");
+        console.log("---error--->");
       }
     } catch (error) {
-      toast.error("Failed to submit enquiry.");
+      console.log("---error--->", error);
     }
   };
 
@@ -256,12 +258,11 @@ const AddSite = (props) => {
       if (response.status === 200) {
         setAddresses(data);
         setOpen(true);
-        toast.success("Enquiry submitted successfully!");
       } else {
-        toast.error("Failed to submit enquiry.");
+        console.log("---error--->");
       }
     } catch (error) {
-      toast.error("Failed to submit enquiry.");
+      console.log("---error--->", error);
     }
   };
 
@@ -273,9 +274,9 @@ const AddSite = (props) => {
       siteAddressLine2: row?.addressMatch?.address?.addressBreakdown[1] || "",
       siteAddressLine3: row?.addressMatch?.address?.addressBreakdown[2] || "",
       siteAddressLine4: row?.addressMatch?.address?.addressBreakdown[3] || "",
-      siteCountry: row?.addressMatch?.address?.country || "",
+      lead_type: row?.matchedElectricity ? "ELECTRICITY" : "GAS",
       sitePostCode: row?.addressMatch?.address?.postcode || row.postCode || "",
-      mpan_id: row?.mpanId
+      mpan_id: row?.mpanId,
     });
     setOpen(false);
   };
@@ -285,7 +286,6 @@ const AddSite = (props) => {
       case 0:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Site Information</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -306,9 +306,9 @@ const AddSite = (props) => {
                     value={formData.company}
                     onChange={handleChange}
                   >
-                    {props.CompanyData.map((CompanyData) => (
-                      <MenuItem key={CompanyData.id} value={CompanyData.id}>
-                        {CompanyData.name}
+                    {companyData.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
                       </MenuItem>
                     ))}
                   </Select>
@@ -317,7 +317,7 @@ const AddSite = (props) => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Owner Name"
+                  label="Tenant / Owner Name"
                   name="owner_name"
                   value={formData.owner_name}
                   onChange={handleChange}
@@ -326,7 +326,7 @@ const AddSite = (props) => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Gas and Electricity Supplier"
+                  label="Current Gas & Electricity Supplier Details"
                   name="current_gas_and_electricity_supplier_details"
                   value={formData.current_gas_and_electricity_supplier_details}
                   onChange={handleChange}
@@ -377,16 +377,7 @@ const AddSite = (props) => {
                       name="customer_consent"
                     />
                   }
-                  label="Customer Consent"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="MPAN ID"
-                  name="mpan_id"
-                  value={formData.mpan_id}
-                  onChange={handleChange}
+                  label="Please Confirm Customer Consent Has Been Received To Be Contacted Regarding The Current Quote"
                 />
               </Grid>
             </Grid>
@@ -395,7 +386,6 @@ const AddSite = (props) => {
       case 1:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Site Address</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -436,20 +426,14 @@ const AddSite = (props) => {
               <Grid item xs={12} sm={6}>
                 <TextField
                   fullWidth
-                  label="Country"
-                  name="siteCountry"
-                  value={formData.siteCountry}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
                   label="Post Code"
                   name="sitePostCode"
                   value={formData.sitePostCode}
                   onChange={handleChange}
                 />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField fullWidth label="Country" value="United Kingdom" />
               </Grid>
             </Grid>
           </Box>
@@ -457,7 +441,6 @@ const AddSite = (props) => {
       case 2:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Billing Information</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <FormControlLabel
@@ -478,7 +461,6 @@ const AddSite = (props) => {
                   name="billingAddressLine1"
                   value={formData.billingAddressLine1}
                   onChange={handleChange}
-                  disabled={formData.isBillingSiteSame}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -488,7 +470,6 @@ const AddSite = (props) => {
                   name="billingAddressLine2"
                   value={formData.billingAddressLine2}
                   onChange={handleChange}
-                  disabled={formData.isBillingSiteSame}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -498,7 +479,6 @@ const AddSite = (props) => {
                   name="billingAddressLine3"
                   value={formData.billingAddressLine3}
                   onChange={handleChange}
-                  disabled={formData.isBillingSiteSame}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -508,17 +488,6 @@ const AddSite = (props) => {
                   name="billingAddressLine4"
                   value={formData.billingAddressLine4}
                   onChange={handleChange}
-                  disabled={formData.isBillingSiteSame}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Billing Country"
-                  name="billingCountry"
-                  value={formData.billingCountry}
-                  onChange={handleChange}
-                  disabled={formData.isBillingSiteSame}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -528,7 +497,13 @@ const AddSite = (props) => {
                   name="billingPostCode"
                   value={formData.billingPostCode}
                   onChange={handleChange}
-                  disabled={formData.isBillingSiteSame}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Billing Country"
+                  value="United Kingdom"
                 />
               </Grid>
             </Grid>
@@ -537,7 +512,6 @@ const AddSite = (props) => {
       case 3:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Contact Information</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -605,13 +579,53 @@ const AddSite = (props) => {
                   onChange={handleChange}
                 />
               </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  fullWidth
+                  label="Agent Email"
+                  name="agent_email"
+                  value={formData.agent_email}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-label">LOA Header To Use</InputLabel>
+                  <Select
+                    label="LOA Header to Use"
+                    name="loa_header_to_use"
+                    value={formData.loa_header_to_use}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="1">Site Name</MenuItem>
+                    <MenuItem value="2">Company Name</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-label">LOA Template</InputLabel>
+                  <Select
+                    labelId="company-label"
+                    label="LOA Template"
+                    name="loa_template"
+                    value={formData.loa_template}
+                    onChange={handleChange}
+                  >
+                    {loaData.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.name}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
             </Grid>
           </Box>
         );
       case 4:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Additional Information</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -632,9 +646,9 @@ const AddSite = (props) => {
                     value={formData.support_contact}
                     onChange={handleChange}
                   >
-                    {props.ContactData.map((ContactData) => (
-                      <MenuItem key={ContactData.id} value={ContactData.id}>
-                        {ContactData.username}
+                    {contactData.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.username}
                       </MenuItem>
                     ))}
                   </Select>
@@ -696,48 +710,6 @@ const AddSite = (props) => {
                   }
                   label="Welcome Letter Send"
                 />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Agent Email"
-                  name="agent_email"
-                  value={formData.agent_email}
-                  onChange={handleChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel id="company-label">LOA Template</InputLabel>
-                  <Select
-                    label="LOA Header to Use"
-                    name="loa_header_to_use"
-                    value={formData.loa_header_to_use}
-                    onChange={handleChange}
-                  >
-                    <MenuItem value="1">Site Name</MenuItem>
-                    <MenuItem value="2">Company Name</MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-
-              <Grid item xs={12} sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel id="company-label">LOA Template</InputLabel>
-                  <Select
-                    labelId="company-label"
-                    label="LOA Template"
-                    name="loa_template"
-                    value={formData.loa_template}
-                    onChange={handleChange}
-                  >
-                    {props.loaData.map((loaData) => (
-                      <MenuItem key={loaData.id} value={loaData.id}>
-                        {loaData.name}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                </FormControl>
               </Grid>
             </Grid>
           </Box>
@@ -806,86 +778,80 @@ const AddSite = (props) => {
   return (
     <Container maxWidth="lg">
       <Box>
-        <Box>
-          <Box
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography variant="h6" gutterBottom>
+            Add Site
+          </Typography>
+          <TextField
+            sx={{ mb: 2 }}
+            label="Postcode"
+            value={postcode}
+            onChange={handlePostcodeChange}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleLookup}
+                  >
+                    Lookup
+                  </Button>
+                </InputAdornment>
+              ),
             }}
-          >
-            <Typography variant="h6" gutterBottom>
-              Add Site
-            </Typography>
-            <TextField
-              sx={{ mb: 2 }}
-              label="Postcode"
-              value={postcode}
-              onChange={handlePostcodeChange}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={handleLookup}
-                    >
-                      Lookup
-                    </Button>
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
-          <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <form onSubmit={handleSubmit}>
-            {renderStepContent(activeStep)}
-            <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
-              {activeStep !== 0 && (
-                <Button onClick={handleBack} sx={{ mr: 1 }}>
-                  Back
-                </Button>
-              )}
-              {activeStep === steps.length - 1 ? (
-                <Button variant="contained" color="primary" type="submit">
-                  Submit
-                </Button>
-              ) : (
-                <Button
-                  variant="contained"
-                  color="primary"
-                  onClick={handleNext}
-                >
-                  Next
-                </Button>
-              )}
-            </Box>
-          </form>
-          <Dialog open={open} onClose={() => setOpen(false)} fullScreen>
-            <DialogTitle>Select Address</DialogTitle>
-            <DialogContent>
-              <DataGrid
-                rows={addresses}
-                columns={columns}
-                pageSize={10}
-                rowsPerPageOptions={[10, 20, 50]}
-                onRowClick={(params) => handleAddressSelect(params.row)}
-                getRowId={(row) => row.propertyAddressId}
-              />
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={() => setOpen(false)} color="primary">
-                Cancel
-              </Button>
-            </DialogActions>
-          </Dialog>
+          />
         </Box>
+        <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <form onSubmit={handleSubmit}>
+          {renderStepContent(activeStep)}
+          <Box sx={{ display: "flex", justifyContent: "flex-end", p: 2 }}>
+            {activeStep !== 0 && (
+              <Button onClick={handleBack} sx={{ mr: 1 }}>
+                Back
+              </Button>
+            )}
+            {activeStep === steps.length - 1 ? (
+              <Button variant="contained" color="primary" type="submit">
+                Submit
+              </Button>
+            ) : (
+              <Button variant="contained" color="primary" onClick={handleNext}>
+                Next
+              </Button>
+            )}
+          </Box>
+        </form>
+        <Dialog open={open} onClose={() => setOpen(false)} fullScreen>
+          <DialogTitle>Select Address</DialogTitle>
+          <DialogContent>
+            <DataGrid
+              rows={addresses}
+              columns={columns}
+              pageSize={10}
+              rowsPerPageOptions={[10, 20, 50]}
+              onRowClick={(params) => handleAddressSelect(params.row)}
+              getRowId={(row) => row.propertyAddressId}
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpen(false)} color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Container>
   );

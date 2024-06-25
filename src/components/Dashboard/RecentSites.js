@@ -1,54 +1,22 @@
 import React, { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Button,
-} from "@mui/material";
-import {
-  DataGrid,
-} from "@mui/x-data-grid";
-import { useTheme } from "@mui/material/styles";
-import { useNavigate } from 'react-router-dom';
-
-function createData(name, owner, company, email) {
-  return { name, owner, company, email };
-}
-
-
-const rows = [
-  createData("GIDC", "Owner1", "Company1", "owner1@company1.com"),
-  createData("GSFC", "Owner2", "Company2", "owner2@company2.com"),
-];
+import { Card, CardContent, Typography, Button } from "@mui/material";
+import { DataGrid } from "@mui/x-data-grid";
+import { useNavigate } from "react-router-dom";
 
 function RecentSites() {
-
-
   const [RecentSites, setRecentSites] = useState([]);
-
-  const [errs, setErrs] = useState("");
-  const theme = useTheme();
 
   const navigate = useNavigate();
   const handleNavigation = (path) => {
     navigate(path);
   };
 
-
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetchRecentSitesData(token);
   }, []);
 
-
-  const fetchData = async (url, setter, errorMessage, showNoDataMessage = true) => {
+  const fetchData = async (url, setter, showNoDataMessage = true) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(url, {
@@ -59,12 +27,12 @@ function RecentSites() {
       if (response.status === 200) {
         const data = await response.json();
         if (data.length === 0 && showNoDataMessage) {
-          setErrs(errorMessage);
+          console.log("No data found");
         } else {
           setter(data);
         }
       } else if (response.status === 500) {
-        setErrs(errorMessage);
+        console.log("---error--->");
       } else {
         setter([]);
       }
@@ -77,7 +45,6 @@ function RecentSites() {
     fetchData(
       "https://aumhealthresort.com/powercrm/api/sites/get/site/latest/",
       setRecentSites,
-      "No Company Data found",
       true
     );
 
@@ -91,7 +58,6 @@ function RecentSites() {
       width: 250,
     },
     { field: "", headerName: "Agent Email", width: 100 },
-
   ];
 
   return (
@@ -100,20 +66,18 @@ function RecentSites() {
         <Typography variant="h5" component="div" gutterBottom>
           Recent Sites
         </Typography>
-        <TableContainer component={Paper}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <DataGrid
-                rows={RecentSites}
-                columns={columns}
-                pageSize={10}
-                rowsPerPageOptions={[10, 20, 50]}
-              />
-            </TableHead>
-
-          </Table>
-        </TableContainer>
-        <Button variant="contained" color="primary" sx={{ mt: 2 }} onClick={() => handleNavigation('/sites')}>
+        <DataGrid
+          rows={RecentSites}
+          columns={columns}
+          pageSize={10}
+          rowsPerPageOptions={[10, 20, 50]}
+        />
+        <Button
+          variant="contained"
+          color="primary"
+          sx={{ mt: 2 }}
+          onClick={() => handleNavigation("/sites")}
+        >
           Create Site
         </Button>
       </CardContent>

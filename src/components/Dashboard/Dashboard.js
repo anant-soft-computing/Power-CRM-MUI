@@ -4,8 +4,7 @@ import SiteReport from "./SiteReport";
 import QuoteReport from "./QuoteReport";
 import RecentSites from "./RecentSites";
 
-
-function Dashboard({ isOpen }) {
+function Dashboard() {
   return (
     <Box sx={{ display: "flex" }}>
       <Container
@@ -13,7 +12,7 @@ function Dashboard({ isOpen }) {
         sx={{
           flexGrow: 1,
           marginTop: 1,
-          width: "100%"
+          width: "100%",
         }}
       >
         <Toolbar />
@@ -26,7 +25,7 @@ function Dashboard({ isOpen }) {
         </Box>
         <RecentSites />
       </Container>
-    </Box >
+    </Box>
   );
 }
 

@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Grid, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
-import { toast } from "react-toastify";
+import { Grid, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import moment from "moment";
 import {
   TextField,
@@ -89,21 +88,21 @@ const AddCompany = () => {
     try {
       const response = await fetch(apiURL, requestOptions);
       if (response.status === 201) {
-        toast.success("Enquiry submitted successfully!");
+        console.log(response);
       } else {
-        toast.error("Failed to submit enquiry.");
+        console.log("--error---->");
       }
     } catch (error) {
-      toast.error("Failed to submit enquiry.");
+      console.log("--error---->");
     }
   };
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prev) => prev - 1);
   };
 
   const renderStepContent = (step) => {
@@ -111,7 +110,6 @@ const AddCompany = () => {
       case 0:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Company Information</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -198,7 +196,9 @@ const AddCompany = () => {
                     <MenuItem value="Public Sector">Public Sector</MenuItem>
                     <MenuItem value="Non LTD">Non LTD</MenuItem>
                     <MenuItem value="Partnership">Partnership</MenuItem>
-                    <MenuItem value="Church / Community Organisation">Church / Community Organisation</MenuItem>
+                    <MenuItem value="Church / Community Organisation">
+                      Church / Community Organisation
+                    </MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
@@ -220,7 +220,6 @@ const AddCompany = () => {
       case 1:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Company Address</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -274,7 +273,6 @@ const AddCompany = () => {
       case 2:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Bank Information</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -327,7 +325,6 @@ const AddCompany = () => {
       case 3:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Partner Information</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -392,7 +389,6 @@ const AddCompany = () => {
       case 4:
         return (
           <Box mb={2}>
-            <Typography variant="h6">Contact Information</Typography>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
@@ -412,16 +408,6 @@ const AddCompany = () => {
                   onChange={handleChange}
                 />
               </Grid>
-              {/* <Grid item xs={12} sm={6}>
-                <TextField
-                  fullWidth
-                  label="Contact Title"
-                  name="contact_title"
-                  value={formData.contact_title}
-                  onChange={handleChange}
-                />
-              </Grid> */}
-
               <Grid item xs={12} sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id="company-label">Contact Title</InputLabel>

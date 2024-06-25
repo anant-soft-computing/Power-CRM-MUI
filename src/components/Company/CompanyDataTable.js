@@ -1,23 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
-import {
-  DataGrid,
-} from "@mui/x-data-grid";
-import { Box, Button, Container } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import { DataGrid } from "@mui/x-data-grid";
+import { Button } from "@mui/material";
 
 const CompanyDataTable = () => {
   const navigate = useNavigate();
   const [companies, setCompanies] = useState([]);
-  const [searchText, setSearchText] = useState("");
-  const [filteredCompanies, setFilteredCompanies] = useState([]);
-  const [errs, setErrs] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     fetchCompanyData(token);
   }, []);
 
-  const fetchData = async (url, setter, errorMessage, showNoDataMessage = true) => {
+  const fetchData = async (url, setter, showNoDataMessage = true) => {
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(url, {
@@ -28,12 +23,12 @@ const CompanyDataTable = () => {
       if (response.status === 200) {
         const data = await response.json();
         if (data.length === 0 && showNoDataMessage) {
-          setErrs(errorMessage);
+          console.log("------->");
         } else {
           setter(data);
         }
       } else if (response.status === 500) {
-        setErrs(errorMessage);
+        console.log("---error---->");
       } else {
         setter([]);
       }
@@ -46,67 +41,54 @@ const CompanyDataTable = () => {
     fetchData(
       "https://aumhealthresort.com/powercrm/api/company/",
       setCompanies,
-      "No Company Data found",
       true
     );
   };
 
-  const handleNavigation = (path) => {
-    navigate(path);
+  const onCompanyClick = (companyId) => {
+    navigate(`/CompanyDashboard/${companyId}`);
   };
-
-  const handleCompanyClick = (companyId) => {
-    handleNavigation(`/companyDashboard/${companyId}`);
-  };
-
-  useEffect(() => {
-    setFilteredCompanies(
-      companies.filter((company) =>
-        company.name.toLowerCase().includes(searchText.toLowerCase())
-      )
-    );
-  }, [searchText, companies]);
 
   const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    { field: "id", headerName: "ID", width: 90 },
     {
-      field: 'name', headerName: 'Name', width: 150,
+      field: "name",
+      headerName: "Name",
+      width: 150,
       renderCell: (params) => (
         <Button
           color="primary"
-          onClick={() => handleCompanyClick(params.row.id)}
-          sx={{ textTransform: 'none' }}
+          onClick={() => onCompanyClick(params.row.id)}
+          sx={{ textTransform: "none" }}
         >
           {params.value}
         </Button>
-      )
+      ),
     },
-    { field: 'parent_company', headerName: 'Parent Company', width: 150 },
-    { field: 'number_of_employees', headerName: 'Number of Employees', width: 150 },
+    { field: "parent_company", headerName: "Parent Company", width: 150 },
     {
-      field: 'actions',
-      headerName: 'Actions',
+      field: "number_of_employees",
+      headerName: "Number of Employees",
+      width: 150,
+    },
+    {
+      field: "actions",
+      headerName: "Actions",
       width: 300,
       renderCell: () => (
-        <Box>
-          <Button variant="contained" color="primary" onClick={() => handleNavigation('/sites')} sx={{ m: 1 }}>Add Site</Button>
-          <Button variant="contained" color="secondary" onClick={() => handleNavigation('/company')}>Edit</Button>
-        </Box>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/sites")}
+          sx={{ m: 1 }}
+        >
+          Add Site
+        </Button>
       ),
     },
   ];
 
-  return (
-    <Container>
-      <Box sx={{ height: 600 }}>
-        <DataGrid
-          rows={filteredCompanies}
-          columns={columns}
-          pageSize={5}
-        />
-      </Box>
-    </Container>
-  );
+  return <DataGrid rows={companies} columns={columns} />;
 };
 
 export default CompanyDataTable;

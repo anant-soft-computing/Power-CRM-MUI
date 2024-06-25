@@ -5,19 +5,15 @@ import Sidebar from "./components/SideBar/Sidebar";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/Navbar/Navbar";
 import theme from "./components/UI/Theme";
-import SiteList from "./components/Site/SiteList";
-import CompanyList from "./components/Company/CompanyList";
-import CompanyDashboard from "./components/CompanyDashboard/CompanyDashboard";
-import QuoteList from "./components/GeneralQuote/QuoteList"
+import Site from "./components/Site/Site";
+import Company from "./components/Company/Company";
+import QuoteList from "./components/GeneralQuote/QuoteList";
 import Login from "./components/LogIn/Login";
+import CompanyDashboard from "./components/Company/Dashboard";
+import SiteDashboard from "./components/Site/Dashboard";
 
 function App() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [selectedCompany, setSelectedCompany] = useState(null);
-
-  const handleCompanyClick = (company) => {
-    setSelectedCompany(company);
-  };
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -41,13 +37,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Login />} />
             <Route path="/Dashboard" element={<Dashboard />} />
-            <Route path="/sites" element={<SiteList />} />
-            <Route
-              path="/company"
-              element={<CompanyList onCompanyClick={handleCompanyClick} />}
-            />
+            <Route path="/sites" element={<Site />} />
+            <Route path="/company" element={<Company />} />
             <Route path="/generate-quote" element={<QuoteList />} />
-            <Route path="/CompanyDashboard" element={<CompanyDashboard />} />
+            <Route
+              path="/CompanyDashboard/:id"
+              element={<CompanyDashboard />}
+            />
+            <Route path="/SiteDashboard/:id" element={<SiteDashboard />} />
           </Routes>
         </main>
       </div>

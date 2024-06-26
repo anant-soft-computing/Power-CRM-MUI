@@ -1,88 +1,83 @@
-import React, { useState, useEffect } from "react";
-import { Card, CardContent, Typography, Button } from "@mui/material";
+import React from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  CircularProgress,
+  Box,
+} from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
+import CheckIcon from "../../UI/Icons/CheckIcon";
+import CancelIcon from "../../UI/Icons/Cancel";
 
-function RecentSites() {
-  const [RecentSites, setRecentSites] = useState([]);
-
+const RecentSites = ({ siteData, isLoading }) => {
   const navigate = useNavigate();
-  const handleNavigation = (path) => {
-    navigate(path);
+
+  const renderItemAvailable = ({ value }) => {
+    return value ? <CheckIcon /> : <CancelIcon />;
   };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetchRecentSitesData(token);
-  }, []);
-
-  const fetchData = async (url, setter, showNoDataMessage = true) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.status === 200) {
-        const data = await response.json();
-        if (data.length === 0 && showNoDataMessage) {
-          console.log("No data found");
-        } else {
-          setter(data);
-        }
-      } else if (response.status === 500) {
-        console.log("---error--->");
-      } else {
-        setter([]);
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const fetchRecentSitesData = () =>
-    fetchData(
-      "https://aumhealthresort.com/powercrm/api/sites/get/site/latest/",
-      setRecentSites,
-      true
-    );
 
   const columns = [
-    { field: "site_name", headerName: "Site Name", width: 200 },
-    { field: "type_of_owner", headerName: "Company", width: 200 },
-    { field: "owner_name  ", headerName: "Owner Name", width: 200 },
+    { headerName: "Site Name", field: "site_name" },
+    { headerName: "Owner Name", field: "owner_name" },
+    { headerName: "Agent Email", field: "agent_email" },
     {
-      field: "company",
-      headerName: "Company",
-      width: 250,
+      headerName: "Bill To Sent",
+      field: "bill_to_sent",
+      renderCell: renderItemAvailable,
     },
-    { field: "", headerName: "Agent Email", width: 100 },
+    {
+      headerName: "Change Of Tenancy",
+      field: "change_of_tenancy",
+      renderCell: renderItemAvailable,
+    },
+    {
+      headerName: "Customer Consent",
+      field: "customer_consent",
+      renderCell: renderItemAvailable,
+    },
   ];
 
   return (
     <Card sx={{ mt: 3 }}>
       <CardContent>
-        <Typography variant="h5" component="div" gutterBottom>
-          Recent Sites
-        </Typography>
-        <DataGrid
-          rows={RecentSites}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10, 20, 50]}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          sx={{ mt: 2 }}
-          onClick={() => handleNavigation("/sites")}
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
         >
-          Create Site
-        </Button>
+          <Typography variant="h5" component="div" gutterBottom>
+            Recent Sites
+          </Typography>
+          <Button
+            variant="contained"
+            color="primary"
+            sx={{ mt: 2 }}
+            onClick={() => navigate("/Sites")}
+          >
+            Create Site
+          </Button>
+        </Box>
+        {isLoading ? (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress />
+          </Box>
+        ) : siteData.length > 0 ? (
+          <Box sx={{ height: 400, width: "100%", mt: 2 }}>
+            <DataGrid rows={siteData} columns={columns} />
+          </Box>
+        ) : (
+          <Typography variant="h5" component="div">
+            No Recent Sites Available !!
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );
-}
+};
 
 export default RecentSites;

@@ -42,7 +42,7 @@ const Sidebar = ({ isOpen }) => {
         <ListItem
           button
           key="Company"
-          onClick={() => handleNavigation("/company")}
+          onClick={() => handleNavigation("/Companies")}
         >
           <ListItemIcon>
             <BusinessIcon />
@@ -50,7 +50,7 @@ const Sidebar = ({ isOpen }) => {
           <ListItemText primary="Company" />
         </ListItem>
 
-        <ListItem button key="Sites" onClick={() => handleNavigation("/sites")}>
+        <ListItem button key="Sites" onClick={() => handleNavigation("/Sites")}>
           <ListItemIcon>
             <LanguageIcon />
           </ListItemIcon>
@@ -60,7 +60,7 @@ const Sidebar = ({ isOpen }) => {
         <ListItem
           button
           key="Generate Quote"
-          onClick={() => handleNavigation("/generate-quote")}
+          onClick={() => handleNavigation("/Quotes")}
         >
           <ListItemIcon>
             <FormatQuoteIcon />

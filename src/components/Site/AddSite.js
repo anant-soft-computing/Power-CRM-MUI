@@ -840,8 +840,6 @@ const AddSite = ({ companyData, contactData, loaData }) => {
             <DataGrid
               rows={addresses}
               columns={columns}
-              pageSize={10}
-              rowsPerPageOptions={[10, 20, 50]}
               onRowClick={(params) => handleAddressSelect(params.row)}
               getRowId={(row) => row.propertyAddressId}
             />

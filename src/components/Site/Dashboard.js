@@ -11,6 +11,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SupplyDetails from "./Supply Details/SupplyDetails";
+import ajaxCall from "../../helpers/ajaxCall";
 
 const columns = [
   {
@@ -48,73 +49,50 @@ const columns = [
 ];
 
 const SiteDashboard = () => {
-  const { id } = useParams();
+  const { siteId } = useParams();
   const [value, setValue] = useState(0);
   const [siteData, setSiteData] = useState({});
   const [siteQuotes, setSiteQuotes] = useState([]);
 
-  const quotes = siteQuotes.filter((item) => item.site === parseInt(id));
+  const quotes = siteQuotes.filter((item) => item.site === parseInt(siteId));
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch(
-          `https://aumhealthresort.com/powercrm/api/sites/update/site/${id}/`,
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "GET",
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setSiteData(data);
-        } else {
-          console.error(response.status);
-        }
-      } catch (error) {
-        console.error("error", error);
+  const fetchData = async (url, setData) => {
+    try {
+      const response = await ajaxCall(
+        url,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "GET",
+        },
+        8000
+      );
+      if (response?.status === 200) {
+        setData(response?.data);
+      } else {
+        console.error("Fetch error:", response);
       }
-    };
-    fetchData();
-  }, [id]);
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch(
-          `https://aumhealthresort.com/powercrm/api/supplierdatagetview/`,
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "GET",
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setSiteQuotes(data);
-        } else {
-          console.error(response.status);
-        }
-      } catch (error) {
-        console.error("error", error);
-      }
-    };
-    fetchData();
-  }, [id]);
+    fetchData(`sites/update/site/${siteId}/`, setSiteData);
+  }, [siteId]);
+
+  useEffect(() => {
+    fetchData("supplierdatagetview", setSiteQuotes);
+  }, []);
 
   return (
     <Box>
@@ -140,7 +118,13 @@ const SiteDashboard = () => {
               <Tab label="Quotes" />
             </Tabs>
             <Box sx={{ mt: 2 }}>
-              {value === 0 && <DataGrid rows={quotes} columns={columns} />}
+              {value === 0 && quotes.length > 0 ? (
+                <DataGrid rows={quotes} columns={columns} />
+              ) : (
+                <Typography variant="h5" component="div">
+                  No Quotes Available !!
+                </Typography>
+              )}
               {value === 1 && (
                 <SupplyDetails
                   leadType={siteData.lead_type}

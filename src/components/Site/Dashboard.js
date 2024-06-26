@@ -121,7 +121,13 @@ const SiteDashboard = () => {
               {value === 0 && quotes.length > 0 ? (
                 <DataGrid rows={quotes} columns={columns} />
               ) : (
-                <Typography variant="h5" component="div">
+                <Typography
+                  color="error"
+                  sx={{ mt: 2 }}
+                  align="center"
+                  variant="h6"
+                  component="div"
+                >
                   No Quotes Available !!
                 </Typography>
               )}

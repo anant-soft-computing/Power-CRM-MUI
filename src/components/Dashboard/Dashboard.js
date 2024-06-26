@@ -48,12 +48,10 @@ const Dashboard = () => {
     fetchData("company/", setCompanyData);
   }, []);
   return (
-    <Container>
-      <Typography variant="h5" mt={10}>
-        Dashboard
-      </Typography>
+    <Container maxWidth="xl" sx={{ my: 10 }}>
+      <Typography variant="h5">Dashboard</Typography>
       <Box sx={{ display: "flex", mt: 3 }}>
-        <Card sx={{ mr: 3, width: 380 }}>
+        <Card sx={{ mr: 3, width: 380, boxShadow: 5 }}>
           <CardContent>
             <Typography variant="h6">Site</Typography>
             <Box
@@ -69,7 +67,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card sx={{ mr: 3, width: 380 }}>
+        <Card sx={{ mr: 3, width: 380, boxShadow: 5 }}>
           <CardContent>
             <Typography variant="h6">Company</Typography>
             <Box
@@ -85,7 +83,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
 
-        <Card sx={{ mr: 3, width: 380 }}>
+        <Card sx={{ mr: 3, width: 380, boxShadow: 5 }}>
           <CardContent>
             <Typography variant="h6">Quote</Typography>
             <Box
@@ -102,7 +100,7 @@ const Dashboard = () => {
         </Card>
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", mt: 5 }}>
-        <SiteReport />
+        <SiteReport siteData={siteData} />
         <QuoteReport />
       </Box>
       <RecentSites siteData={siteData} isLoading={isLoading} />

@@ -7,6 +7,8 @@ import {
   Container,
   Button,
   CircularProgress,
+  Box,
+  CardContent,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import AddCompany from "./AddCompany";
@@ -91,23 +93,36 @@ const Company = () => {
     },
   ];
   return (
-    <Container component="main" sx={{ mt: 10 }}>
-      <Typography variant="h5" gutterBottom>
-        Companies
-      </Typography>
-      <Card sx={{ p: 2, m: 1, boxShadow: 3 }}>
-        <AddCompany refreshTableMode={refreshTableMode} />
-      </Card>
-      <Card sx={{ p: 2, m: 1, boxShadow: 3 }}>
-        {isLoading ? (
-          <CircularProgress />
-        ) : companyData.length > 0 ? (
-          <DataGrid rows={companyData} columns={columns} />
-        ) : (
-          <Typography variant="h5" component="div">
-            No Companies Available !!
-          </Typography>
-        )}
+    <Container maxWidth="xl" sx={{ my: 10 }}>
+      <Typography variant="h5">Company</Typography>
+      <Box sx={{ display: "flex", mt: 3 }}>
+        <Card sx={{ boxShadow: 5 }}>
+          <AddCompany refreshTableMode={refreshTableMode} />
+        </Card>
+      </Box>
+
+      <Card sx={{ mt: 3, boxShadow: 5 }}>
+        <CardContent>
+          {isLoading ? (
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <CircularProgress />
+            </Box>
+          ) : companyData.length > 0 ? (
+            <Box sx={{ height: 400, width: "100%" }}>
+              <DataGrid rows={companyData} columns={columns} />
+            </Box>
+          ) : (
+            <Typography
+              color="error"
+              sx={{ mt: 2 }}
+              align="center"
+              variant="h6"
+              component="div"
+            >
+              No Company Available !!
+            </Typography>
+          )}
+        </CardContent>
       </Card>
     </Container>
   );

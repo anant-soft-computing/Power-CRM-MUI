@@ -41,7 +41,7 @@ const RecentSites = ({ siteData, isLoading }) => {
   ];
 
   return (
-    <Card sx={{ mt: 3 }}>
+    <Card sx={{ mt: 3, boxShadow: 5 }}>
       <CardContent>
         <Box
           sx={{
@@ -71,7 +71,13 @@ const RecentSites = ({ siteData, isLoading }) => {
             <DataGrid rows={siteData} columns={columns} />
           </Box>
         ) : (
-          <Typography variant="h5" component="div">
+          <Typography
+            color="error"
+            sx={{ mt: 2 }}
+            align="center"
+            variant="h6"
+            component="div"
+          >
             No Recent Sites Available !!
           </Typography>
         )}

@@ -6,32 +6,49 @@ import LanguageIcon from "@mui/icons-material/Language";
 import BusinessIcon from "@mui/icons-material/Business";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { useDispatch } from "react-redux";
+import { authAction } from "../../store/authStore";
+import { deleteFromLocalStorage } from "../../helpers/helper";
 
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
-  const handleNavigation = (path) => {
-    navigate(path);
+  const logout = () => {
+    dispatch(
+      authAction.setAuthStatus({
+        userName: "",
+        loggedIn: false,
+        accessToken: null,
+        refreshToken: null,
+        userId: null,
+        user_type: null,
+        timeOfLogin: null,
+        logInOperation: -1,
+      })
+    );
+    navigate("/");
+    deleteFromLocalStorage("loginInfo");
   };
 
   return (
     <Box
       sx={{
-        width: isOpen ? 210 : 0,
-        flexShrink: 0,
+        width: isOpen ? 250 : 0,
         position: "fixed",
         height: "100%",
         backgroundColor: "#f1f1f1",
-        paddingTop: "64px",
         transition: "width 0.3s",
         overflowX: "hidden",
+        paddingTop: "66px",
+        marginLeft: "-5px",
       }}
     >
       <List>
         <ListItem
           button
           key="Dashboard"
-          onClick={() => handleNavigation("/Dashboard")}
+          onClick={() => navigate("/Dashboard")}
         >
           <ListItemIcon>
             <DashboardIcon />
@@ -42,7 +59,7 @@ const Sidebar = ({ isOpen }) => {
         <ListItem
           button
           key="Company"
-          onClick={() => handleNavigation("/Companies")}
+          onClick={() => navigate("/Companies")}
         >
           <ListItemIcon>
             <BusinessIcon />
@@ -50,7 +67,7 @@ const Sidebar = ({ isOpen }) => {
           <ListItemText primary="Company" />
         </ListItem>
 
-        <ListItem button key="Sites" onClick={() => handleNavigation("/Sites")}>
+        <ListItem button key="Sites" onClick={() => navigate("/Sites")}>
           <ListItemIcon>
             <LanguageIcon />
           </ListItemIcon>
@@ -60,7 +77,7 @@ const Sidebar = ({ isOpen }) => {
         <ListItem
           button
           key="Generate Quote"
-          onClick={() => handleNavigation("/Quotes")}
+          onClick={() => navigate("/Quotes")}
         >
           <ListItemIcon>
             <FormatQuoteIcon />
@@ -68,11 +85,7 @@ const Sidebar = ({ isOpen }) => {
           <ListItemText primary="Generate Quote" />
         </ListItem>
 
-        <ListItem
-          button
-          key="Generate Quote"
-          onClick={() => handleNavigation("/")}
-        >
+        <ListItem button key="LogOut" onClick={logout}>
           <ListItemIcon>
             <LogoutIcon />
           </ListItemIcon>

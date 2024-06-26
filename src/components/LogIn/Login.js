@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Grid,
@@ -107,23 +107,13 @@ const Login = () => {
   };
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="sm" sx={{ my: 25 }}>
       <Grid maxWidth="sm">
-        <Grid item xs={12}>
-          <Box display="flex" justifyContent="center" py={4}>
-            <Link to="/" style={{ textDecoration: "none", color: "inherit" }}>
-              <Typography variant="h4">Power CRM</Typography>
-            </Link>
-          </Box>
-          <Card
-            sx={{
-              border: "1px solid #ccc",
-              boxShadow: 3,
-              borderRadius: 2,
-              mt: 4,
-              p: 2,
-            }}
-          >
+        <Grid item xs={6}>
+          <Typography variant="h4" align="center">
+            Power CRM
+          </Typography>
+          <Card sx={{ boxShadow: 5, mt: 3 }}>
             <CardContent>
               <Box textAlign="center" py={2}>
                 <Typography variant="h5">Login to Your Account</Typography>

@@ -3,7 +3,7 @@ import { Card, CardContent, Typography } from "@mui/material";
 
 const QuoteReport = () => {
   return (
-    <Card sx={{ width: "48%" }}>
+    <Card sx={{ width: "48%", boxShadow: 5 }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Quote Report

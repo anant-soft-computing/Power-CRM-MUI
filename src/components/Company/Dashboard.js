@@ -137,7 +137,13 @@ const CompanyDashboard = () => {
                 {value === 0 && companySites.length > 0 ? (
                   <DataGrid rows={companySites} columns={columns} />
                 ) : (
-                  <Typography variant="h5" component="div">
+                  <Typography
+                    color="error"
+                    sx={{ mt: 2 }}
+                    align="center"
+                    variant="h6"
+                    component="div"
+                  >
                     No Sites Available !!
                   </Typography>
                 )}
@@ -146,13 +152,23 @@ const CompanyDashboard = () => {
           </Card>
         </Container>
       </Box>
-      <Dialog open={showQuote} onClose={() => setShowQuote(false)} maxWidth>
+      <Dialog
+        open={showQuote}
+        onClose={() => setShowQuote(false)}
+        maxWidth="xl"
+      >
         <DialogTitle>Quotes</DialogTitle>
         <DialogContent>
           {quotes.length > 0 ? (
             <DataGrid rows={quotes} columns={quotesColumns} />
           ) : (
-            <Typography variant="h5" component="div">
+            <Typography
+              color="error"
+              sx={{ mt: 2 }}
+              align="center"
+              variant="h6"
+              component="div"
+            >
               No Quotes Available !!
             </Typography>
           )}

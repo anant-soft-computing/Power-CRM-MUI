@@ -39,13 +39,14 @@ const CurrentSupplyGas = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiURL = "https://aumhealthresort.com/powercrm/api/company/";
-    const token = localStorage.getItem("token");
     const requestOptions = {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+        }`,
       },
       body: JSON.stringify(formData),
     };

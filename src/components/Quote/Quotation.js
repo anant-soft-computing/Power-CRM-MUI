@@ -22,7 +22,6 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
   useEffect(() => {
     const fetchData = async () => {
       if (siteId !== "") {
-        const token = localStorage.getItem("token");
         try {
           const response = await fetch(
             `https://aumhealthresort.com/powercrm/api/udpcore/quotations/`,
@@ -30,7 +29,9 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
               headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
+                Authorization: `Bearer ${
+                  JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+                }`,
               },
               method: "POST",
               body: JSON.stringify({
@@ -59,7 +60,6 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
   const createRates = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
       for (const item of selectedRows) {
         const standingCharge = parseFloat(item?.StandingCharge);
         const uplift = parseFloat(item?.Uplift);
@@ -81,7 +81,9 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+              }`,
             },
             method: "POST",
             body: JSON.stringify(bodyData),

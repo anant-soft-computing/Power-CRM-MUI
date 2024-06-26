@@ -1,4 +1,12 @@
-import { Grid, TextField, Box, Switch, FormControlLabel, Button, Typography } from "@mui/material";
+import {
+  Grid,
+  TextField,
+  Box,
+  Switch,
+  FormControlLabel,
+  Button,
+  Typography,
+} from "@mui/material";
 import moment from "moment";
 import React, { useState } from "react";
 
@@ -43,13 +51,14 @@ const CurrentSupplyElectricity = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const apiURL = "https://aumhealthresort.com/powercrm/api/company/";
-    const token = localStorage.getItem("token");
     const requestOptions = {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${
+          JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+        }`,
       },
       body: JSON.stringify(formData),
     };
@@ -220,7 +229,6 @@ const CurrentSupplyElectricity = () => {
                   label="Customer"
                 />
               </Grid>
-
             </Grid>
           </Grid>
         </Grid>
@@ -330,21 +338,13 @@ const CurrentSupplyElectricity = () => {
               <Grid item xs={12}>
                 <Grid container direction="row" alignItems="center" spacing={2}>
                   <Grid item xs={12} sm={4}>
-                    <Typography>
-                      Total Annual Usage (£) : 0.00
-                    </Typography>
-
+                    <Typography>Total Annual Usage (£) : 0.00</Typography>
                   </Grid>
                   <Grid item xs={12} sm={4}>
-                    <Typography>
-                      Total Commission (£) : 0.00
-                    </Typography>
-
+                    <Typography>Total Commission (£) : 0.00</Typography>
                   </Grid>
                   <Grid item xs={12} sm={4}>
-                    <Typography>
-                      Annual Commission (£) : 0.00
-                    </Typography>
+                    <Typography>Annual Commission (£) : 0.00</Typography>
                   </Grid>
                 </Grid>
               </Grid>
@@ -353,11 +353,7 @@ const CurrentSupplyElectricity = () => {
         )}
 
         <Box mt={2}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-          >
+          <Button variant="contained" color="primary" type="submit">
             Submit
           </Button>
         </Box>

@@ -15,7 +15,6 @@ const SupplyDetail = ({ leadType, MpanID }) => {
 
   useEffect(() => {
     (async () => {
-      const token = localStorage.getItem("token");
       try {
         const response = await fetch(
           "https://aumhealthresort.com/powercrm/api/lookup/Property/SearchByPropertyAddressId/",
@@ -23,7 +22,9 @@ const SupplyDetail = ({ leadType, MpanID }) => {
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+              }`,
             },
             method: "POST",
             body: JSON.stringify({

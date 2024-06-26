@@ -11,7 +11,8 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Card,
+  Container,
+  Typography,
 } from "@mui/material";
 import moment from "moment";
 import Quotation from "./Quotation";
@@ -53,15 +54,13 @@ const GenerateQuote = () => {
   const [quoteData, setQuoteData] = useState(initialQuoteState);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    fetchSiteData(token);
+    fetchSiteData();
   }, []);
 
   useEffect(() => {
     if (!siteId) return;
 
     const fetchSiteDetails = async () => {
-      const token = localStorage.getItem("token");
       try {
         const response = await fetch(
           `https://aumhealthresort.com/powercrm/api/sites/extra-details/${siteId}/`,
@@ -69,7 +68,9 @@ const GenerateQuote = () => {
             headers: {
               Accept: "application/json",
               "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+              }`,
             },
           }
         );
@@ -117,13 +118,15 @@ const GenerateQuote = () => {
     fetchSiteDetails();
   }, [siteId]);
 
-  const fetchSiteData = async (token) => {
+  const fetchSiteData = async () => {
     try {
       const response = await fetch(
         "https://aumhealthresort.com/powercrm/api/sites/get/site/",
         {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
           },
         }
       );
@@ -142,7 +145,6 @@ const GenerateQuote = () => {
   const handleOnSubmit = async (e) => {
     e.preventDefault();
     try {
-      const token = localStorage.getItem("token");
       const sendData = {
         contract_detail: {
           payment_method: quoteData.payment_method,
@@ -171,7 +173,9 @@ const GenerateQuote = () => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
           },
           body: JSON.stringify(sendData),
         }
@@ -429,36 +433,40 @@ const GenerateQuote = () => {
 
   return (
     <>
-      <Card sx={{ p: 2, m: 1, boxShadow: 3 }}>
-        <form onSubmit={handleOnSubmit}>
-          <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          {getStepContent(activeStep)}
-          <Box sx={{ mt: 2 }}>
-            <Button
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-            >
+      <Container maxWidth="xl">
+        <Typography variant="h6" padding={1} margin={1}>
+          Generate Quote
+        </Typography>
+        <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        {getStepContent(activeStep)}
+        <Box sx={{ display: "flex", justifyContent: "flex-end", m: 2 }}>
+          {activeStep !== 0 && (
+            <Button onClick={handleBack} sx={{ mr: 1 }}>
               Back
             </Button>
-            {activeStep === steps.length - 1 ? (
-              <Button variant="contained" color="primary" type="submit">
-                Generate Quote
-              </Button>
-            ) : (
-              <Button variant="contained" color="primary" onClick={handleNext}>
-                Next
-              </Button>
-            )}
-          </Box>
-        </form>
-      </Card>
+          )}
+          {activeStep === steps.length - 1 ? (
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={handleOnSubmit}
+            >
+              Submit
+            </Button>
+          ) : (
+            <Button variant="contained" color="primary" onClick={handleNext}>
+              Next
+            </Button>
+          )}
+        </Box>
+      </Container>
       {showQuotation && (
         <Quotation
           siteId={siteId}

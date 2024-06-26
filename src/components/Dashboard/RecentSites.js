@@ -20,23 +20,60 @@ const RecentSites = ({ siteData, isLoading }) => {
   };
 
   const columns = [
-    { headerName: "Site Name", field: "site_name" },
-    { headerName: "Owner Name", field: "owner_name" },
-    { headerName: "Agent Email", field: "agent_email" },
     {
-      headerName: "Bill To Sent",
-      field: "bill_to_sent",
-      renderCell: renderItemAvailable,
+      headerName: "Site Name",
+      field: "site_name",
+      width: 200,
+      renderCell: (params) => (
+        <Button
+          color="primary"
+          onClick={() => navigate(`/Site/${params.row.id}`)}
+          sx={{ textTransform: "none" }}
+        >
+          {params.value}
+        </Button>
+      ),
     },
     {
-      headerName: "Change Of Tenancy",
+      headerName: "Supplier Details",
+      field: "current_gas_and_electricity_supplier_details",
+      width: 250,
+    },
+    {
+      headerName: "Tenant",
+      field: "tenant",
+      renderCell: renderItemAvailable,
+      width: 100,
+    },
+    {
+      headerName: "Vacant",
+      field: "vacant",
+      renderCell: renderItemAvailable,
+      width: 100,
+    },
+    {
+      headerName: "Change of Tenancy",
       field: "change_of_tenancy",
       renderCell: renderItemAvailable,
+      width: 150,
     },
     {
       headerName: "Customer Consent",
       field: "customer_consent",
       renderCell: renderItemAvailable,
+      width: 150,
+    },
+    {
+      headerName: "Bill To Sent",
+      field: "bill_to_sent",
+      renderCell: renderItemAvailable,
+      width: 150,
+    },
+    {
+      headerName: "Lead Type",
+      field: "lead_type",
+      renderCell: renderItemAvailable,
+      width: 200,
     },
   ];
 

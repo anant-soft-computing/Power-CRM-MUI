@@ -10,19 +10,22 @@ import {
   Select,
   MenuItem,
   CardContent,
-  CircularProgress,
 } from "@mui/material";
 import GenerateQuote from "./GenerateQuote";
 import ajaxCall from "../../helpers/ajaxCall";
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
-  { headerName: "Supplier", field: "supplier" },
-  { headerName: "Term", field: "term" },
-  { headerName: "Day Rate (pence/kWh)", field: "day_rate" },
-  { headerName: "Night Rate (pence/kWh)", field: "night_rate" },
-  { headerName: "Standing Charge (pence)", field: "standing_charge" },
-  { headerName: "Up Lift", field: "up_lift" },
+  { headerName: "Supplier", field: "supplier", width: 180 },
+  { headerName: "Term", field: "term", width: 150 },
+  { headerName: "Day Rate (pence/kWh)", field: "day_rate", width: 180 },
+  { headerName: "Night Rate (pence/kWh)", field: "night_rate", width: 180 },
+  {
+    headerName: "Standing Charge (pence)",
+    field: "standing_charge",
+    width: 180,
+  },
+  { headerName: "Up Lift", field: "up_lift", width: 150 },
 ];
 
 const Quote = () => {
@@ -69,7 +72,7 @@ const Quote = () => {
   const handleSiteChange = (e) => {
     setSite(e.target.value);
   };
-  
+
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Typography variant="h5">Quotes</Typography>

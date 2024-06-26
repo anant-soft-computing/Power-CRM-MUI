@@ -1,49 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { DataGrid } from "@mui/x-data-grid";
-import { Button, Container } from "@mui/material";
+import { Button, CircularProgress, Container, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ajaxCall from "../../helpers/ajaxCall";
 
 const SiteDataTable = () => {
   const navigate = useNavigate();
-  const [sites, setSites] = useState([]);
+  const [siteData, setSiteData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    fetchSitesData();
-  }, []);
-
-  const fetchData = async (url, setter, showNoDataMessage = true) => {
-    try {
-      const token = localStorage.getItem("token");
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      if (response.ok) {
-        const data = await response.json();
-        if (data.length === 0 && showNoDataMessage) {
-          console.log("No data found");
+    setIsLoading(true);
+    (async () => {
+      try {
+        const response = await ajaxCall(
+          "sites/get/site/",
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+              }`,
+            },
+            method: "GET",
+          },
+          8000
+        );
+        if (response?.status === 200) {
+          setSiteData(response?.data);
+          setIsLoading(false);
         } else {
-          setter(data);
+          console.error("error");
         }
-      } else {
-        console.error(`Error fetching data: ${response.status}`);
-        setter([]);
+      } catch (error) {
+        console.error("error", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
-  
-
-  const fetchSitesData = () => {
-    const url = "https://aumhealthresort.com/powercrm/api/sites/get/site/";
-    fetchData(url, setSites);
-  };
-
-  const onSiteClick = (companyId) => {
-    navigate(`/SiteDashboard/${companyId}`);
-  };
+    })();
+  }, []);
 
   const columns = [
     {
@@ -53,7 +47,7 @@ const SiteDataTable = () => {
       renderCell: (params) => (
         <Button
           color="primary"
-          onClick={() => onSiteClick(params.row.id)}
+          onClick={() => navigate(`/Site/${params.row.id}`)}
           sx={{ textTransform: "none" }}
         >
           {params.value}
@@ -84,12 +78,15 @@ const SiteDataTable = () => {
 
   return (
     <Container>
-      <DataGrid
-        rows={sites}
-        columns={columns}
-        pageSize={10}
-        rowsPerPageOptions={[10, 20, 50]}
-      />
+      {isLoading ? (
+        <CircularProgress />
+      ) : siteData.length > 0 ? (
+        <DataGrid rows={siteData} columns={columns} />
+      ) : (
+        <Typography variant="h5" component="div">
+          No Sites Available !!
+        </Typography>
+      )}
     </Container>
   );
 };

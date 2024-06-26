@@ -6,8 +6,10 @@ import {
   InputLabel,
   MenuItem,
   Select,
+  Typography,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import ajaxCall from "../../helpers/ajaxCall";
 
 const columns = [
   { headerName: "Supplier", field: "supplier" },
@@ -23,67 +25,45 @@ const QuoteDataTable = () => {
   const [siteData, setSiteData] = useState([]);
   const [quoteData, setQuoteData] = useState([]);
 
-  useEffect(() => {
-    const fetchSiteData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch(
-          "https://aumhealthresort.com/powercrm/api/sites/get/site/",
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setSiteData(data);
-        } else {
-          console.error("Error fetching site data:", response.status);
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
+  const filteredQuoteData = quoteData.filter((item) => item.site === site);
 
-    fetchSiteData();
+  const fetchData = async (url, setData) => {
+    try {
+      const response = await ajaxCall(
+        url,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "GET",
+        },
+        8000
+      );
+      if (response?.status === 200) {
+        setData(response?.data);
+      } else {
+        console.error("Fetch error:", response);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(`sites/get/site/`, setSiteData);
   }, []);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch(
-          "https://aumhealthresort.com/powercrm/api/supplierdatagetview/",
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "GET",
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setQuoteData(data);
-        } else {
-          console.error("Error fetching quote data:", response.status);
-        }
-      } catch (error) {
-        console.error("Fetch error:", error);
-      }
-    };
-
-    fetchData();
+    fetchData("supplierdatagetview/", setQuoteData);
   }, []);
 
   const handleSiteChange = (e) => {
     setSite(e.target.value);
   };
-
-  const filteredQuoteData = quoteData.filter((item) => item.site === site);
 
   return (
     <Card sx={{ p: 2, m: 1, boxShadow: 3 }}>
@@ -108,12 +88,13 @@ const QuoteDataTable = () => {
         </Grid>
       </Grid>
       <Card>
-        <DataGrid
-          rows={filteredQuoteData}
-          columns={columns}
-          pageSize={10}
-          rowsPerPageOptions={[10, 20, 50]}
-        />
+        {filteredQuoteData.length > 0 ? (
+          <DataGrid rows={filteredQuoteData} columns={columns} />
+        ) : (
+          <Typography variant="h5" component="div">
+            No Quotes Data Available !!
+          </Typography>
+        )}
       </Card>
     </Card>
   );

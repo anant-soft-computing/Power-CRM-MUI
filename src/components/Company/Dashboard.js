@@ -15,23 +15,12 @@ import {
   DialogActions,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import ajaxCall from "../../helpers/ajaxCall";
 
 const quotesColumns = [
-  {
-    headerName: "Supplier",
-    field: "supplier",
-    filter: true,
-  },
-  {
-    headerName: "Term",
-    field: "term",
-    filter: true,
-  },
-  {
-    headerName: "Day Rate (pence/kWh)",
-    field: "day_rate",
-    filter: true,
-  },
+  { headerName: "Supplier", field: "supplier", filter: true },
+  { headerName: "Term", field: "term", filter: true },
+  { headerName: "Day Rate (pence/kWh)", field: "day_rate", filter: true },
   {
     headerName: "Night Rate (pence/kWh)",
     field: "night_rate",
@@ -44,18 +33,14 @@ const quotesColumns = [
     filter: true,
     width: 210,
   },
-  {
-    headerName: "Up Lift",
-    field: "up_lift",
-    filter: true,
-  },
+  { headerName: "Up Lift", field: "up_lift", filter: true },
 ];
 
 const CompanyDashboard = () => {
-  const { id } = useParams();
+  const { companyId } = useParams();
   const [value, setValue] = useState(0);
   const [siteId, setSiteId] = useState(0);
-  const [siteData, setSiteData] = useState([]);
+  const [companySites, setCompanySites] = useState([]);
   const [siteQuotes, setSiteQuotes] = useState([]);
   const [showQuote, setShowQuote] = useState(false);
 
@@ -65,62 +50,39 @@ const CompanyDashboard = () => {
     setValue(newValue);
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch(
-          `https://aumhealthresort.com/powercrm/api/sites/get/site/?company=${id}`,
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "GET",
-          }
-        );
-
-        if (response.ok) {
-          const data = await response.json();
-          setSiteData(data);
-        } else {
-          console.error(response.status);
-        }
-      } catch (error) {
-        console.error("error", error);
+  const fetchData = async (url, setData) => {
+    try {
+      const response = await ajaxCall(
+        url,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "GET",
+        },
+        8000
+      );
+      if (response?.status === 200) {
+        setData(response?.data);
+      } else {
+        console.error("Fetch error:", response);
       }
-    };
-    fetchData();
-  }, [id]);
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem("token");
-      try {
-        const response = await fetch(
-          `https://aumhealthresort.com/powercrm/api/supplierdatagetview/`,
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${token}`,
-            },
-            method: "GET",
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          setSiteQuotes(data);
-        } else {
-          console.error(response.status);
-        }
-      } catch (error) {
-        console.error("error", error);
-      }
-    };
-    fetchData();
-  }, [id]);
+    fetchData(`sites/get/site/?company=${companyId}`, setCompanySites);
+  }, [companyId]);
+
+  useEffect(() => {
+    fetchData("supplierdatagetview", setSiteQuotes);
+  }, []);
 
   const handleViewQuotes = (data) => {
     setSiteId(data);
@@ -157,13 +119,7 @@ const CompanyDashboard = () => {
   return (
     <>
       <Box>
-        <Container
-          component="main"
-          sx={{
-            marginTop: 1,
-            width: "100%",
-          }}
-        >
+        <Container component="main" sx={{ marginTop: 1, width: "100%" }}>
           <Toolbar />
           <Typography variant="h5" gutterBottom>
             Company Dashboard
@@ -178,7 +134,13 @@ const CompanyDashboard = () => {
                 <Tab label="Site" />
               </Tabs>
               <Box sx={{ mt: 2 }}>
-                {value === 0 && <DataGrid rows={siteData} columns={columns} />}
+                {value === 0 && companySites.length > 0 ? (
+                  <DataGrid rows={companySites} columns={columns} />
+                ) : (
+                  <Typography variant="h5" component="div">
+                    No Sites Available !!
+                  </Typography>
+                )}
               </Box>
             </Box>
           </Card>
@@ -187,7 +149,13 @@ const CompanyDashboard = () => {
       <Dialog open={showQuote} onClose={() => setShowQuote(false)} maxWidth>
         <DialogTitle>Quotes</DialogTitle>
         <DialogContent>
-          <DataGrid rows={quotes} columns={quotesColumns} />
+          {quotes.length > 0 ? (
+            <DataGrid rows={quotes} columns={quotesColumns} />
+          ) : (
+            <Typography variant="h5" component="div">
+              No Quotes Available !!
+            </Typography>
+          )}
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setShowQuote(false)} color="primary">

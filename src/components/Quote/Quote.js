@@ -14,6 +14,7 @@ import {
 import GenerateQuote from "./GenerateQuote";
 import ajaxCall from "../../helpers/ajaxCall";
 import { DataGrid } from "@mui/x-data-grid";
+import "../../css/custom.css";
 
 const columns = [
   { headerName: "Supplier", field: "supplier", width: 180 },
@@ -106,7 +107,15 @@ const Quote = () => {
         <CardContent>
           {filteredQuoteData.length > 0 ? (
             <Box sx={{ height: 400, width: "100%" }}>
-              <DataGrid rows={filteredQuoteData} columns={columns} />
+              <DataGrid
+                rows={filteredQuoteData}
+                columns={columns}
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0
+                    ? "evenRow"
+                    : "oddRow"
+                }
+              />
             </Box>
           ) : (
             <Typography

@@ -12,6 +12,8 @@ import AddSite from "./AddSite";
 import ajaxCall from "../../helpers/ajaxCall";
 import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
+import CheckIcon from "../../UI/Icons/CheckIcon";
+import CancelIcon from "../../UI/Icons/Cancel";
 
 const Site = () => {
   const navigate = useNavigate();
@@ -51,10 +53,29 @@ const Site = () => {
     })();
   }, []);
 
+  const renderItemAvailable = ({ value }) => {
+    return value ? <CheckIcon /> : <CancelIcon />;
+  };
+
   const columns = [
     {
-      field: "site_name",
+      headerName: "Actions",
+      field: "actions",
+      width: 320,
+      renderCell: () => (
+        <>
+          <Button variant="contained" color="primary" sx={{ m: 1 }}>
+            Add Follow Ups
+          </Button>
+          <Button variant="contained" color="primary">
+            Add Notes
+          </Button>
+        </>
+      ),
+    },
+    {
       headerName: "Site Name",
+      field: "site_name",
       width: 200,
       renderCell: (params) => (
         <Button
@@ -66,26 +87,71 @@ const Site = () => {
         </Button>
       ),
     },
-    { field: "owner_name", headerName: "Owner Name", width: 200 },
     {
-      field: "company.name",
       headerName: "Company",
+      field: "company.name",
       width: 200,
       renderCell: (params) => params.row.company.name,
     },
     {
-      field: "current_gas_and_electricity_supplier_details",
       headerName: "Supplier Details",
+      field: "current_gas_and_electricity_supplier_details",
       width: 250,
     },
-    { field: "tenant", headerName: "Tenant", width: 100 },
-    { field: "vacant", headerName: "Vacant", width: 100 },
-    { field: "change_of_tenancy", headerName: "Change of Tenancy", width: 150 },
-    { field: "customer_consent", headerName: "Customer Consent", width: 150 },
-    { field: "notes", headerName: "Notes", width: 300 },
-    { field: "lead_type", headerName: "Lead Type", width: 200 },
-    { field: "bill_to_sent", headerName: "Bill To Sent", width: 150 },
-    { field: "email", headerName: "Email", width: 200 },
+    {
+      headerName: "Phone No",
+      field: "contacts.telephone_number",
+      renderCell: (params) => params.row.contacts.telephone_number,
+      width: 130,
+    },
+    {
+      headerName: "Email",
+      field: "contacts.email",
+      renderCell: (params) => params.row.contacts.email,
+      width: 250,
+    },
+    {
+      headerName: "Tenant",
+      field: "tenant",
+      renderCell: renderItemAvailable,
+      width: 100,
+    },
+    {
+      headerName: "Vacant",
+      field: "vacant",
+      renderCell: renderItemAvailable,
+      width: 100,
+    },
+    {
+      headerName: "Change of Tenancy",
+      field: "change_of_tenancy",
+      renderCell: renderItemAvailable,
+      width: 150,
+    },
+    {
+      headerName: "Customer Consent",
+      field: "customer_consent",
+      renderCell: renderItemAvailable,
+      width: 150,
+    },
+    {
+      headerName: "Bill To Sent",
+      field: "bill_to_sent",
+      renderCell: renderItemAvailable,
+      width: 150,
+    },
+    {
+      headerName: "Lead Type",
+      field: "lead_type",
+      renderCell: renderItemAvailable,
+      width: 200,
+    },
+    {
+      headerName: "Email",
+      field: "contacts.email",
+      renderCell: (params) => params.row.contacts.email,
+      width: 250,
+    },
   ];
 
   useEffect(() => {

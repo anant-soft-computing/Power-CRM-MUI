@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Card } from "@mui/material";
+import { Box, Button, Card } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 
 const columns = [
@@ -100,8 +100,8 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
   };
 
   return (
-    <Card>
-      <div style={{ height: 400, width: "100%" }}>
+    <Card sx={{ m: 5, boxShadow: 5 }}>
+      <Box sx={{ height: 400, width: "100%" }}>
         <DataGrid
           rows={ratesData}
           columns={columns}
@@ -114,10 +114,12 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
           }}
           selectedRows={selectedRows.map((row) => row?.id)}
         />
-      </div>
-      <Button variant="contained" color="primary" onClick={createRates}>
-        Save Quotation
-      </Button>
+      </Box>
+      <Box display="flex" justifyContent="flex-end" p={2}>
+        <Button variant="contained" color="primary" onClick={createRates}>
+          Save Quotation
+        </Button>
+      </Box>
     </Card>
   );
 };

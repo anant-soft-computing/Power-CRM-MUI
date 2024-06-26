@@ -57,38 +57,75 @@ const Company = () => {
 
   const columns = [
     {
-      field: "name",
       headerName: "Name",
-      width: 150,
+      field: "name",
+      width: 250,
       renderCell: (params) => (
         <Button
           color="primary"
           onClick={() => navigate(`/Company/${params.row.id}`)}
-          sx={{ textTransform: "none" }}
         >
           {params.value}
         </Button>
       ),
     },
-    { field: "parent_company", headerName: "Parent Company", width: 150 },
+    { headerName: "Parent Company", field: "parent_company", width: 200 },
     {
-      field: "number_of_employees",
-      headerName: "Number of Employees",
+      headerName: "Postcode",
+      field: "postcode",
+      width: 120,
+    },
+    {
+      headerName: "Reference",
+      field: "reference",
+      width: 200,
+    },
+    {
+      headerName: "Registration No",
+      field: "registration_no",
       width: 150,
     },
     {
-      field: "actions",
+      headerName: "Phone No",
+      field: "contacts.telephone_number",
+      renderCell: (params) => params.row.contacts.telephone_number,
+      width: 130,
+    },
+    {
+      headerName: "Email",
+      field: "contacts.email",
+      renderCell: (params) => params.row.contacts.email,
+      width: 250,
+    },
+    {
+      headerName: "Time of The Months",
+      field: "time_at_address_months",
+    },
+    {
+      headerName: "Time of The Years",
+      field: "time_at_address_years",
+    },
+    {
       headerName: "Actions",
-      width: 300,
+      field: "actions",
+      width: 440,
       renderCell: () => (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate("/Sites")}
-          sx={{ m: 1 }}
-        >
-          Add Site
-        </Button>
+        <>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate("/Sites")}
+            sx={{ m: 1 }}
+          >
+            Add Site
+          </Button>
+          <Button variant="contained" color="primary" sx={{ m: 1 }}>
+            Add Follow Ups
+          </Button>
+          <Button variant="contained" color="primary">
+            Add Notes
+          </Button>
+        </>
       ),
     },
   ];

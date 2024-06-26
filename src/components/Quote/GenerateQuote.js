@@ -359,6 +359,7 @@ const GenerateQuote = () => {
               <TextField
                 fullWidth
                 label="Unit Rate Uplift"
+                type="number"
                 name="unit_rate_uplift"
                 value={quoteData.unit_rate_uplift}
                 onChange={handleChange}

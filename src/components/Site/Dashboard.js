@@ -1,17 +1,10 @@
-import {
-  Box,
-  Card,
-  Container,
-  Tab,
-  Tabs,
-  Toolbar,
-  Typography,
-} from "@mui/material";
+import { Box, Card, Container, Tab, Tabs, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SupplyDetails from "./Supply Details/SupplyDetails";
 import ajaxCall from "../../helpers/ajaxCall";
+import "../../css/custom.css";
 
 const columns = [
   {
@@ -95,53 +88,54 @@ const SiteDashboard = () => {
   }, []);
 
   return (
-    <Box>
-      <Container
-        component="main"
-        sx={{
-          marginTop: 1,
-          width: "100%",
-        }}
-      >
-        <Toolbar />
-        <Typography variant="h5" gutterBottom>
-          Site Dashboard
-        </Typography>
-        <Card sx={{ p: 2, m: 1, boxShadow: 3 }}>
-          <Box>
-            <Tabs
-              value={value}
-              onChange={handleChange}
-              aria-label="company dashboard tabs"
-            >
-              <Tab label="Site" />
-              <Tab label="Quotes" />
-            </Tabs>
-            <Box sx={{ mt: 2 }}>
-              {value === 0 && quotes.length > 0 ? (
-                <DataGrid rows={quotes} columns={columns} />
-              ) : (
-                <Typography
-                  color="error"
-                  sx={{ mt: 2 }}
-                  align="center"
-                  variant="h6"
-                  component="div"
-                >
-                  No Quotes Available !!
-                </Typography>
-              )}
-              {value === 1 && (
-                <SupplyDetails
-                  leadType={siteData.lead_type}
-                  MpanID={siteData.mpan_id}
-                />
-              )}
-            </Box>
+    <Container maxWidth="xl" sx={{ my: 10 }}>
+      <Typography variant="h5">Site Dashboard</Typography>
+      <Card sx={{ p: 2, m: 2, boxShadow: 5 }}>
+        <Box>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="company dashboard tabs"
+          >
+            <Tab label="Site" />
+            <Tab label="Quotes" />
+          </Tabs>
+          <Box sx={{ mt: 2 }}>
+            {value === 0 && (
+              <>
+                {quotes.length > 0 ? (
+                  <DataGrid
+                    rows={quotes}
+                    columns={columns}
+                    getRowClassName={(params) =>
+                      params.indexRelativeToCurrentPage % 2 === 0
+                        ? "evenRow"
+                        : "oddRow"
+                    }
+                  />
+                ) : (
+                  <Typography
+                    color="error"
+                    sx={{ mt: 2 }}
+                    align="center"
+                    variant="h6"
+                    component="div"
+                  >
+                    No Quotes Available !!
+                  </Typography>
+                )}
+              </>
+            )}
+            {value === 1 && (
+              <SupplyDetails
+                leadType={siteData.lead_type}
+                MpanID={siteData.mpan_id}
+              />
+            )}
           </Box>
-        </Card>
-      </Container>
-    </Box>
+        </Box>
+      </Card>
+    </Container>
   );
 };
 

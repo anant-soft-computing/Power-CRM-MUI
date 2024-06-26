@@ -25,6 +25,7 @@ import {
   Container,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import "../../css/custom.css";
 
 const initialState = {
   site_name: "",
@@ -836,6 +837,11 @@ const AddSite = ({ companyData, contactData, loaData }) => {
             columns={columns}
             onRowClick={(params) => handleAddressSelect(params.row)}
             getRowId={(row) => row.propertyAddressId}
+            getRowClassName={(params) =>
+              params.indexRelativeToCurrentPage % 2 === 0
+                ? "evenRow"
+                : "oddRow"
+            }
           />
         </DialogContent>
         <DialogActions>

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import {
   Typography,
   Box,
-  Toolbar,
   Card,
   Container,
   Tabs,
@@ -16,6 +15,7 @@ import {
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import ajaxCall from "../../helpers/ajaxCall";
+import "../../css/custom.css";
 
 const quotesColumns = [
   { headerName: "Supplier", field: "supplier", filter: true },
@@ -118,40 +118,41 @@ const CompanyDashboard = () => {
 
   return (
     <>
-      <Box>
-        <Container component="main" sx={{ marginTop: 1, width: "100%" }}>
-          <Toolbar />
-          <Typography variant="h5" gutterBottom>
-            Company Dashboard
-          </Typography>
-          <Card sx={{ p: 2, m: 1, boxShadow: 3 }}>
-            <Box>
-              <Tabs
-                value={value}
-                onChange={handleChange}
-                aria-label="company dashboard tabs"
+      <Container maxWidth="xl" sx={{ my: 10 }}>
+        <Typography variant="h5">Company Dashboard</Typography>
+        <Card sx={{ p: 2, m: 2, boxShadow: 5 }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            aria-label="company dashboard tabs"
+          >
+            <Tab label="Site" />
+          </Tabs>
+          <Box sx={{ mt: 2 }}>
+            {value === 0 && companySites.length > 0 ? (
+              <DataGrid
+                rows={companySites}
+                columns={columns}
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0
+                    ? "evenRow"
+                    : "oddRow"
+                }
+              />
+            ) : (
+              <Typography
+                color="error"
+                sx={{ mt: 2 }}
+                align="center"
+                variant="h6"
+                component="div"
               >
-                <Tab label="Site" />
-              </Tabs>
-              <Box sx={{ mt: 2 }}>
-                {value === 0 && companySites.length > 0 ? (
-                  <DataGrid rows={companySites} columns={columns} />
-                ) : (
-                  <Typography
-                    color="error"
-                    sx={{ mt: 2 }}
-                    align="center"
-                    variant="h6"
-                    component="div"
-                  >
-                    No Sites Available !!
-                  </Typography>
-                )}
-              </Box>
-            </Box>
-          </Card>
-        </Container>
-      </Box>
+                No Sites Available !!
+              </Typography>
+            )}
+          </Box>
+        </Card>
+      </Container>
       <Dialog
         open={showQuote}
         onClose={() => setShowQuote(false)}
@@ -160,7 +161,15 @@ const CompanyDashboard = () => {
         <DialogTitle>Quotes</DialogTitle>
         <DialogContent>
           {quotes.length > 0 ? (
-            <DataGrid rows={quotes} columns={quotesColumns} />
+            <DataGrid
+              rows={quotes}
+              columns={quotesColumns}
+              getRowClassName={(params) =>
+                params.indexRelativeToCurrentPage % 2 === 0
+                  ? "evenRow"
+                  : "oddRow"
+              }
+            />
           ) : (
             <Typography
               color="error"

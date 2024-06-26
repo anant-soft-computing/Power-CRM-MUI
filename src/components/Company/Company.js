@@ -13,6 +13,7 @@ import {
 import { DataGrid } from "@mui/x-data-grid";
 import AddCompany from "./AddCompany";
 import ajaxCall from "../../helpers/ajaxCall";
+import "../../css/custom.css";
 
 const Company = () => {
   const navigate = useNavigate();
@@ -146,7 +147,15 @@ const Company = () => {
             </Box>
           ) : companyData.length > 0 ? (
             <Box sx={{ height: 400, width: "100%" }}>
-              <DataGrid rows={companyData} columns={columns} />
+              <DataGrid
+                rows={companyData}
+                columns={columns}
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0
+                    ? "evenRow"
+                    : "oddRow"
+                }
+              />
             </Box>
           ) : (
             <Typography

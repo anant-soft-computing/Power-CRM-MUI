@@ -1,8 +1,17 @@
-import { Grid, TextField, Box, Switch, FormControlLabel, Button } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Grid,
+  TextField,
+  Box,
+  Switch,
+  FormControlLabel,
+  Button,
+} from "@mui/material";
+import React, { useEffect, useReducer, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import ajaxCall from "../../../../helpers/ajaxCall";
+import { toast } from "react-toastify";
 
-
-const initialState = {
+const initialMDE = {
   e_mpan_topline: "",
   e_mpan_bottomline: "",
   e_meter_type: "",
@@ -16,46 +25,131 @@ const initialState = {
   e_green_deal: false,
 };
 
-const MeterDetailElectricity = () => {
-  const [formData, setFormData] = useState(initialState);
+const reducerMDE = (state, action) => {
+  if (action?.all) {
+    return action.data;
+  }
+  if (action.type === "reset") {
+    return action.payload || initialMDE;
+  }
+  return { ...state, [action.type]: action.value };
+};
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "checkbox" ? checked : value,
+const initialSubmit = {
+  isError: false,
+  errMsg: null,
+  isSubmitting: false,
+};
+
+const MeterDetailElectricity = ({ EleDetails }) => {
+  const { siteId } = useParams();
+  const navigate = useNavigate();
+  const [meterElectricityData, dispatchMeterElectricityData] = useReducer(
+    reducerMDE,
+    initialMDE
+  );
+  const [formStatus, setFormStatus] = useState(initialSubmit);
+
+  const resetReducerForm = () => {
+    dispatchMeterElectricityData({
+      type: "reset",
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const apiURL = "https://aumhealthresort.com/powercrm/api/company/";
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-        }`,
-      },
-      body: JSON.stringify(formData),
-    };
+  useEffect(() => {
+    (async () => {
+      if (siteId) {
+        try {
+          const response = await ajaxCall(
+            `supply/meter-detail/${siteId}/`,
+            {
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${
+                  JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+                }`,
+              },
+              method: "GET",
+            },
+            8000
+          );
+          const { pc, mtc, llf } = EleDetails;
+          const mpanTopLine = `${pc}${mtc}${llf}`;
 
+          dispatchMeterElectricityData({
+            type: "reset",
+            payload: {
+              ...response.data,
+              e_mpan_topline: mpanTopLine,
+              e_mpan_bottomline: EleDetails?.mpan,
+              e_meter_type: EleDetails?.meters[0]?.meterType || "",
+              e_smart_meter: EleDetails?.meters[0]?.isSmart,
+            },
+          });
+        } catch (error) {
+          console.error("Error fetching note data:", error);
+        }
+      }
+    })();
+  }, [EleDetails, siteId]);
+
+  const doMDE = async (e) => {
+    e.preventDefault();
+    setFormStatus({
+      isError: false,
+      errMsg: null,
+      isSubmitting: true,
+    });
+    let sendData = {
+      e_mpan_topline: meterElectricityData.e_mpan_topline,
+      e_mpan_bottomline: meterElectricityData.e_mpan_bottomline,
+      e_meter_type: meterElectricityData.e_meter_type,
+      e_serial_number: meterElectricityData.e_serial_number,
+      e_capacity: meterElectricityData.e_capacity,
+      e_voltage: meterElectricityData.e_voltage,
+      e_measurement_class: meterElectricityData.e_measurement_class,
+      e_smart_meter: meterElectricityData.e_smart_meter,
+      e_related_meter: meterElectricityData.e_related_meter,
+      e_ley_meter: meterElectricityData.e_ley_meter,
+      e_green_deal: meterElectricityData.e_green_deal,
+    };
     try {
-      const response = await fetch(apiURL, requestOptions);
-      if (response.status === 201) {
-        console.log(response);
-      } else {
-        console.log("--error---->");
+      const response = await ajaxCall(
+        `supply/meter-detail/${siteId}/`,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "PATCH",
+          body: JSON.stringify(sendData),
+        },
+        8000
+      );
+      if ([200, 201].includes(response.status)) {
+        navigate("/sites");
+        resetReducerForm();
+        toast.success("Meter Details For Electricity Edited Successfully");
+      } else if ([400, 404, 401].includes(response.status)) {
+        toast.error("Some Problem Occurred. Please try again.");
       }
     } catch (error) {
-      console.log("--error---->");
+      toast.error("Some Problem Occurred. Please try again.");
+    } finally {
+      setFormStatus({
+        ...formStatus,
+        isSubmitting: false,
+      });
     }
   };
+
   return (
     <Box mb={2}>
-      <form onSubmit={handleSubmit}>
+      <form>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
@@ -63,8 +157,13 @@ const MeterDetailElectricity = () => {
               label="MPAN Top Line"
               name="e_mpan_topline"
               type="text"
-              value={formData.e_mpan_topline}
-              onChange={handleChange}
+              value={meterElectricityData.e_mpan_topline}
+              onChange={(e) =>
+                dispatchMeterElectricityData({
+                  type: "e_mpan_topline",
+                  value: e.target.value,
+                })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -73,8 +172,13 @@ const MeterDetailElectricity = () => {
               label="MPAN Bottom Line"
               name="e_mpan_bottomline"
               type="text"
-              value={formData.e_mpan_bottomline}
-              onChange={handleChange}
+              value={meterElectricityData.e_mpan_bottomline}
+              onChange={(e) =>
+                dispatchMeterElectricityData({
+                  type: "e_mpan_bottomline",
+                  value: e.target.value,
+                })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -83,8 +187,13 @@ const MeterDetailElectricity = () => {
               label="Meter Type"
               name="e_meter_type"
               type="text"
-              value={formData.e_meter_type}
-              onChange={handleChange}
+              value={meterElectricityData.e_meter_type}
+              onChange={(e) =>
+                dispatchMeterElectricityData({
+                  type: "e_meter_type",
+                  value: e.target.value,
+                })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -93,8 +202,13 @@ const MeterDetailElectricity = () => {
               label="Serial Number"
               type="text"
               name="e_serial_number"
-              value={formData.e_serial_number}
-              onChange={handleChange}
+              value={meterElectricityData.e_serial_number}
+              onChange={(e) =>
+                dispatchMeterElectricityData({
+                  type: "e_serial_number",
+                  value: e.target.value,
+                })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -103,8 +217,13 @@ const MeterDetailElectricity = () => {
               type="text"
               label="Capacity (KVA)"
               name="e_capacity"
-              value={formData.e_capacity}
-              onChange={handleChange}
+              value={meterElectricityData.e_capacity}
+              onChange={(e) =>
+                dispatchMeterElectricityData({
+                  type: "e_capacity",
+                  value: e.target.value,
+                })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -113,8 +232,13 @@ const MeterDetailElectricity = () => {
               label="Voltage"
               type="number"
               name="e_voltage"
-              value={formData.e_voltage}
-              onChange={handleChange}
+              value={meterElectricityData.e_voltage}
+              onChange={(e) =>
+                dispatchMeterElectricityData({
+                  type: "e_voltage",
+                  value: e.target.value,
+                })
+              }
             />
           </Grid>
           <Grid item xs={12} sm={6}>
@@ -123,20 +247,28 @@ const MeterDetailElectricity = () => {
               label="Measurement Class"
               type="text"
               name="e_measurement_class"
-              value={formData.e_measurement_class}
-              onChange={handleChange}
+              value={meterElectricityData.e_measurement_class}
+              onChange={(e) =>
+                dispatchMeterElectricityData({
+                  type: "e_measurement_class",
+                  value: e.target.value,
+                })
+              }
             />
           </Grid>
-
           <Grid item xs={12}>
-
             <Grid container direction="row" alignItems="center" spacing={2}>
               <Grid item xs={12} sm={6}>
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={formData.e_smart_meter}
-                      onChange={handleChange}
+                      checked={meterElectricityData.e_smart_meter}
+                      onChange={(e) =>
+                        dispatchMeterElectricityData({
+                          type: "e_smart_meter",
+                          value: e.target.checked,
+                        })
+                      }
                       name="e_smart_meter"
                     />
                   }
@@ -147,8 +279,13 @@ const MeterDetailElectricity = () => {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={formData.e_related_meter}
-                      onChange={handleChange}
+                      checked={meterElectricityData.e_related_meter}
+                      onChange={(e) =>
+                        dispatchMeterElectricityData({
+                          type: "e_related_meter",
+                          value: e.target.checked,
+                        })
+                      }
                       name="e_related_meter"
                     />
                   }
@@ -159,8 +296,13 @@ const MeterDetailElectricity = () => {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={formData.e_ley_meter}
-                      onChange={handleChange}
+                      checked={meterElectricityData.e_ley_meter}
+                      onChange={(e) =>
+                        dispatchMeterElectricityData({
+                          type: "e_ley_meter",
+                          value: e.target.checked,
+                        })
+                      }
                       name="e_ley_meter"
                     />
                   }
@@ -171,15 +313,19 @@ const MeterDetailElectricity = () => {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={formData.e_green_deal}
-                      onChange={handleChange}
+                      checked={meterElectricityData.e_green_deal}
+                      onChange={(e) =>
+                        dispatchMeterElectricityData({
+                          type: "e_green_deal",
+                          value: e.target.checked,
+                        })
+                      }
                       name="e_green_deal"
                     />
                   }
                   label="Green Deal"
                 />
               </Grid>
-
             </Grid>
           </Grid>
         </Grid>
@@ -188,13 +334,14 @@ const MeterDetailElectricity = () => {
             variant="contained"
             color="primary"
             type="submit"
+            onClick={doMDE}
           >
             Submit
           </Button>
         </Box>
       </form>
     </Box>
-  )
-}
+  );
+};
 
-export default MeterDetailElectricity
+export default MeterDetailElectricity;

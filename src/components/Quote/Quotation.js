@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Card } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
+import "../../css/custom.css";
 
 const columns = [
   { field: "Supplier", headerName: "Supplier", width: 150 },
@@ -113,6 +114,9 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
             setSelectedRows(selectedRows);
           }}
           selectedRows={selectedRows.map((row) => row?.id)}
+          getRowClassName={(params) =>
+            params.indexRelativeToCurrentPage % 2 === 0 ? "evenRow" : "oddRow"
+          }
         />
       </Box>
       <Box display="flex" justifyContent="flex-end" p={2}>

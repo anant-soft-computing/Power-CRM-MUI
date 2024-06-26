@@ -7,6 +7,7 @@ import {
   Button,
   CircularProgress,
   CardContent,
+  Tooltip,
 } from "@mui/material";
 import AddSite from "./AddSite";
 import ajaxCall from "../../helpers/ajaxCall";
@@ -14,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 import { DataGrid } from "@mui/x-data-grid";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
+import "../../css/custom.css";
 
 const Site = () => {
   const navigate = useNavigate();
@@ -78,13 +80,32 @@ const Site = () => {
       field: "site_name",
       width: 200,
       renderCell: (params) => (
-        <Button
-          color="primary"
-          onClick={() => navigate(`/Site/${params.row.id}`)}
-          sx={{ textTransform: "none" }}
+        <Tooltip
+          title={
+            <Box>
+              {params.row.lead_type && (
+                <div>
+                  <strong>Lead Type:</strong> {params.row.lead_type}
+                </div>
+              )}
+              {params.row.current_gas_and_electricity_supplier_details && (
+                <div>
+                  <strong>Supplier Details:</strong>{" "}
+                  {params.row.current_gas_and_electricity_supplier_details}
+                </div>
+              )}
+            </Box>
+          }
+          arrow
         >
-          {params.value}
-        </Button>
+          <Button
+            color="primary"
+            onClick={() => navigate(`/Site/${params.row.id}`)}
+            sx={{ textTransform: "none" }}
+          >
+            {params.value}
+          </Button>
+        </Tooltip>
       ),
     },
     {
@@ -226,7 +247,15 @@ const Site = () => {
             </Box>
           ) : siteData.length > 0 ? (
             <Box sx={{ height: 400, width: "100%" }}>
-              <DataGrid rows={siteData} columns={columns} />
+              <DataGrid
+                rows={siteData}
+                columns={columns}
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0
+                    ? "evenRow"
+                    : "oddRow"
+                }
+              />
             </Box>
           ) : (
             <Typography

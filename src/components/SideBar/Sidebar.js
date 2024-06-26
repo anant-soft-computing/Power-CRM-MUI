@@ -17,11 +17,11 @@ const Sidebar = ({ isOpen }) => {
   return (
     <Box
       sx={{
-        width: isOpen ? 230 : 0,
+        width: isOpen ? 210 : 0,
         flexShrink: 0,
         position: "fixed",
         height: "100%",
-        backgroundColor: "#ffffff",
+        backgroundColor: "#f1f1f1",
         paddingTop: "64px",
         transition: "width 0.3s",
         overflowX: "hidden",

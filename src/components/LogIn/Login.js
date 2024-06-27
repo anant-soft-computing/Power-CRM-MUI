@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
+import logo from "../../img/logo.png";
 import ajaxCall from "../../helpers/ajaxCall";
 import { setToLocalStorage } from "../../helpers/helper";
 import { authAction } from "../../store/authStore";
@@ -110,8 +111,14 @@ const Login = () => {
     <Container maxWidth="sm" sx={{ my: 25 }}>
       <Grid maxWidth="sm">
         <Grid item xs={6}>
-          <Typography variant="h4" align="center">
-            Power CRM
+          <Typography
+            variant="h4"
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <img src={logo} alt="Power CRM" />
+            <span>Power CRM</span>
           </Typography>
           <Card sx={{ boxShadow: 5, mt: 3 }}>
             <CardContent>

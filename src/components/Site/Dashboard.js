@@ -1,5 +1,5 @@
 import { Box, Card, Container, Tab, Tabs, Typography } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import SupplyDetails from "./Supply Details/SupplyDetails";
@@ -107,11 +107,19 @@ const SiteDashboard = () => {
                   <DataGrid
                     rows={quotes}
                     columns={columns}
+                    disableColumnFilter
+                    disableDensitySelector
                     getRowClassName={(params) =>
                       params.indexRelativeToCurrentPage % 2 === 0
                         ? "evenRow"
                         : "oddRow"
                     }
+                    slots={{ toolbar: GridToolbar }}
+                    slotProps={{
+                      toolbar: {
+                        showQuickFilter: true,
+                      },
+                    }}
                   />
                 ) : (
                   <Typography

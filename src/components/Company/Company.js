@@ -10,7 +10,7 @@ import {
   Box,
   CardContent,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import AddCompany from "./AddCompany";
 import ajaxCall from "../../helpers/ajaxCall";
 import "../../css/custom.css";
@@ -150,11 +150,19 @@ const Company = () => {
               <DataGrid
                 rows={companyData}
                 columns={columns}
+                disableColumnFilter
+                disableDensitySelector
                 getRowClassName={(params) =>
                   params.indexRelativeToCurrentPage % 2 === 0
                     ? "evenRow"
                     : "oddRow"
                 }
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                  },
+                }}
               />
             </Box>
           ) : (

@@ -8,7 +8,7 @@ import {
   Box,
   Tooltip,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
@@ -31,15 +31,15 @@ const RecentSites = ({ siteData, isLoading }) => {
           title={
             <Box>
               {params.row.lead_type && (
-                <div>
-                  <strong>Lead Type:</strong> {params.row.lead_type}
-                </div>
+                <Typography variant="body2">
+                  Lead Type : {params.row.lead_type}
+                </Typography>
               )}
               {params.row.current_gas_and_electricity_supplier_details && (
-                <div>
-                  <strong>Supplier Details:</strong>{" "}
+                <Typography variant="body2">
+                  Supplier Details :{" "}
                   {params.row.current_gas_and_electricity_supplier_details}
-                </div>
+                </Typography>
               )}
             </Box>
           }
@@ -129,11 +129,19 @@ const RecentSites = ({ siteData, isLoading }) => {
             <DataGrid
               rows={siteData}
               columns={columns}
+              disableColumnFilter
+              disableDensitySelector
               getRowClassName={(params) =>
                 params.indexRelativeToCurrentPage % 2 === 0
                   ? "evenRow"
                   : "oddRow"
               }
+              slots={{ toolbar: GridToolbar }}
+              slotProps={{
+                toolbar: {
+                  showQuickFilter: true,
+                },
+              }}
             />
           </Box>
         ) : (

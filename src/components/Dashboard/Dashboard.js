@@ -4,7 +4,6 @@ import AccountTreeRoundedIcon from "@mui/icons-material/AccountTreeRounded";
 import ApartmentRoundedIcon from "@mui/icons-material/ApartmentRounded";
 import FormatQuoteRoundedIcon from "@mui/icons-material/FormatQuoteRounded";
 import SiteReport from "./SiteReport";
-import QuoteReport from "./QuoteReport";
 import RecentSites from "./RecentSites";
 import ajaxCall from "../../helpers/ajaxCall";
 
@@ -51,7 +50,7 @@ const Dashboard = () => {
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Typography variant="h5">Dashboard</Typography>
       <Box sx={{ display: "flex", mt: 3 }}>
-        <Card sx={{ mr: 3, width: 380, boxShadow: 5 }}>
+        <Card sx={{ mr: 3, width: 380, boxShadow: 5, borderRadius: 3 }}>
           <CardContent>
             <Typography variant="h6">Site</Typography>
             <Box
@@ -60,14 +59,14 @@ const Dashboard = () => {
               alignItems="center"
             >
               <Typography>
-                <AccountTreeRoundedIcon fontSize="large" />
+                <AccountTreeRoundedIcon fontSize="large" color="primary" />
               </Typography>
               <Typography variant="h5">{siteData?.length}</Typography>
             </Box>
           </CardContent>
         </Card>
 
-        <Card sx={{ mr: 3, width: 380, boxShadow: 5 }}>
+        <Card sx={{ mr: 3, width: 380, boxShadow: 5, borderRadius: 3 }}>
           <CardContent>
             <Typography variant="h6">Company</Typography>
             <Box
@@ -76,14 +75,14 @@ const Dashboard = () => {
               alignItems="center"
             >
               <Typography>
-                <ApartmentRoundedIcon fontSize="large" />
+                <ApartmentRoundedIcon fontSize="large" color="primary" />
               </Typography>
               <Typography variant="h5">{companyData?.length}</Typography>
             </Box>
           </CardContent>
         </Card>
 
-        <Card sx={{ mr: 3, width: 380, boxShadow: 5 }}>
+        <Card sx={{ mr: 3, width: 380, boxShadow: 5, borderRadius: 3 }}>
           <CardContent>
             <Typography variant="h6">Quote</Typography>
             <Box
@@ -92,7 +91,7 @@ const Dashboard = () => {
               alignItems="center"
             >
               <Typography>
-                <FormatQuoteRoundedIcon fontSize="large" />
+                <FormatQuoteRoundedIcon fontSize="large" color="primary" />
               </Typography>
               <Typography variant="h5">{quoteData?.length}</Typography>
             </Box>
@@ -101,7 +100,6 @@ const Dashboard = () => {
       </Box>
       <Box sx={{ display: "flex", justifyContent: "space-between", mt: 5 }}>
         <SiteReport siteData={siteData} />
-        <QuoteReport />
       </Box>
       <RecentSites siteData={siteData} isLoading={isLoading} />
     </Container>

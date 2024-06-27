@@ -15,12 +15,12 @@ const SiteChart = ({ siteData }) => {
         label: "Site Data",
         data: siteData?.map(({ id }) => id),
         fill: true,
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
+        backgroundColor: "#07bc0c8a",
       },
     ],
   };
   return (
-    <Card sx={{ width: "48%", boxShadow: 5 }}>
+    <Card sx={{ width: "48%", boxShadow: 5, borderRadius: 3 }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Site Report

@@ -134,12 +134,12 @@ const Company = () => {
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Typography variant="h5">Company</Typography>
       <Box sx={{ display: "flex", mt: 3 }}>
-        <Card sx={{ boxShadow: 5 }}>
+        <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
           <AddCompany refreshTableMode={refreshTableMode} />
         </Card>
       </Box>
 
-      <Card sx={{ mt: 3, boxShadow: 5 }}>
+      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <CardContent>
           {isLoading ? (
             <Box display="flex" justifyContent="center" alignItems="center">

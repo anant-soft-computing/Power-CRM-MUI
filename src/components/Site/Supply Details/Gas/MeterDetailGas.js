@@ -29,11 +29,7 @@ const reducerMDG = (state, action) => {
   return { ...state, [action.type]: action.value };
 };
 
-const initialSubmit = {
-  isError: false,
-  errMsg: null,
-  isSubmitting: false,
-};
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const MeterDetailGas = () => {
   const { siteId } = useParams();
@@ -45,9 +41,7 @@ const MeterDetailGas = () => {
   const [formStatus, setFormStatus] = useState(initialSubmit);
 
   const resetReducerForm = () => {
-    dispatchMeterGasData({
-      type: "reset",
-    });
+    dispatchMeterGasData({ type: "reset" });
   };
 
   useEffect(() => {
@@ -78,11 +72,7 @@ const MeterDetailGas = () => {
 
   const doMDG = async (e) => {
     e.preventDefault();
-    setFormStatus({
-      isError: false,
-      errMsg: null,
-      isSubmitting: true,
-    });
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
     let sendData = {
       g_mpr: meterGasData.g_mpr,
       g_serial_number: meterGasData.g_serial_number,
@@ -116,10 +106,7 @@ const MeterDetailGas = () => {
     } catch (error) {
       toast.error("Some Problem Occurred. Please try again.");
     } finally {
-      setFormStatus({
-        ...formStatus,
-        isSubmitting: false,
-      });
+      setFormStatus({ ...formStatus, isSubmitting: false });
     }
   };
 

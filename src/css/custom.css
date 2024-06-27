@@ -1,9 +1,13 @@
 .evenRow {
-  background-color: #f5f5f5;
+  background-color: white;
 }
 
 .oddRow {
-  background-color: #ffffff;
+  background-color: #4791db42;
+}
+
+.MuiDataGrid-toolbarContainer {
+  background-color: #4791db42;
 }
 
 @media print {

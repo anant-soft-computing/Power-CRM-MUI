@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   Typography,
   Box,
@@ -38,6 +38,7 @@ const quotesColumns = [
 
 const CompanyDashboard = () => {
   const { companyId } = useParams();
+  const navigate = useNavigate();
   const [value, setValue] = useState(0);
   const [siteId, setSiteId] = useState(0);
   const [companySites, setCompanySites] = useState([]);
@@ -120,14 +121,29 @@ const CompanyDashboard = () => {
     <>
       <Container maxWidth="xl" sx={{ my: 10 }}>
         <Typography variant="h5">Company Dashboard</Typography>
-        <Card sx={{ p: 2, m: 2, boxShadow: 5 }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="company dashboard tabs"
+        <Card sx={{ p: 2, m: 2, boxShadow: 5, borderRadius: 3 }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            <Tab label="Site" />
-          </Tabs>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="company dashboard tabs"
+            >
+              <Tab label="Site" />
+            </Tabs>
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() => navigate("/Sites")}
+            >
+              Add Site
+            </Button>
+          </Box>
           <Box sx={{ mt: 2 }}>
             {value === 0 && companySites.length > 0 ? (
               <DataGrid

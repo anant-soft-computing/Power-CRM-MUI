@@ -5,7 +5,6 @@ import { useTheme } from "@mui/system";
 
 const Navbar = ({ toggleSidebar }) => {
   const theme = useTheme();
-
   return (
     <AppBar
       position="fixed"

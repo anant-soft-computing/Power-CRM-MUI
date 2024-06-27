@@ -87,11 +87,7 @@ const steps = [
   "Additional Information",
 ];
 
-const initialSubmit = {
-  isError: false,
-  errMsg: null,
-  isSubmitting: false,
-};
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const AddSite = ({ companyData, contactData, loaData }) => {
   const [open, setOpen] = useState(false);
@@ -160,21 +156,35 @@ const AddSite = ({ companyData, contactData, loaData }) => {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setFormData({
+    let newFormData = {
       ...formData,
       [name]: type === "checkbox" ? checked : value,
-    });
-    if (name === "isBillingSiteSame" && checked) {
-      setFormData({
-        ...formData,
-        billingAddressLine1: formData.siteAddressLine1,
-        billingAddressLine2: formData.siteAddressLine2,
-        billingAddressLine3: formData.siteAddressLine3,
-        billingAddressLine4: formData.siteAddressLine4,
-        billingCountry: formData.siteCountry,
-        billingPostCode: formData.sitePostCode,
-      });
+    };
+
+    if (name === "isBillingSiteSame") {
+      if (checked) {
+        newFormData = {
+          ...newFormData,
+          billingAddressLine1: formData.siteAddressLine1,
+          billingAddressLine2: formData.siteAddressLine2,
+          billingAddressLine3: formData.siteAddressLine3,
+          billingAddressLine4: formData.siteAddressLine4,
+          billingCountry: formData.siteCountry,
+          billingPostCode: formData.sitePostCode,
+        };
+      } else {
+        newFormData = {
+          ...newFormData,
+          billingAddressLine1: "",
+          billingAddressLine2: "",
+          billingAddressLine3: "",
+          billingAddressLine4: "",
+          billingCountry: "United Kingdom",
+          billingPostCode: "",
+        };
+      }
     }
+    setFormData(newFormData);
   };
 
   const handleNext = () => {

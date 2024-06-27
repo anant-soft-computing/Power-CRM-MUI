@@ -25,10 +25,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  const initialValues = {
-    userName: "",
-    password: "",
-  };
+  const initialValues = { userName: "", password: "" };
 
   const validationSchema = Yup.object({
     userName: Yup.string().required("Username is required"),
@@ -38,12 +35,10 @@ const Login = () => {
   const handleLogin = async (values, { setSubmitting }) => {
     setIsLoading(true);
     const { userName, password } = values;
-
     const data = {
       username: userName,
       password: password,
     };
-
     try {
       const response = await ajaxCall(
         "login/",

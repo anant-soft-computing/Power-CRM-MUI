@@ -81,11 +81,7 @@ const companyReducer = (state, action) => {
   return { ...state, [action.type]: action.value };
 };
 
-const initialSubmit = {
-  isError: false,
-  errMsg: null,
-  isSubmitting: false,
-};
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const AddCompany = ({ refreshTableMode }) => {
   const [companyData, dispatchCompany] = useReducer(

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import GenerateQuote from "./GenerateQuote";
 import ajaxCall from "../../helpers/ajaxCall";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../../css/custom.css";
 
 const columns = [
@@ -110,11 +110,19 @@ const Quote = () => {
               <DataGrid
                 rows={filteredQuoteData}
                 columns={columns}
+                disableColumnFilter
+                disableDensitySelector
                 getRowClassName={(params) =>
                   params.indexRelativeToCurrentPage % 2 === 0
                     ? "evenRow"
                     : "oddRow"
                 }
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                  },
+                }}
               />
             </Box>
           ) : (

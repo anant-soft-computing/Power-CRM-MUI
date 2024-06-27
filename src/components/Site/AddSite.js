@@ -6,6 +6,7 @@ import {
   FormControl,
   InputLabel,
   Checkbox,
+  CircularProgress,
 } from "@mui/material";
 import {
   TextField,
@@ -24,10 +25,14 @@ import {
   InputAdornment,
   Container,
 } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../../css/custom.css";
+import { toast } from "react-toastify";
+import ajaxCall from "../../helpers/ajaxCall";
+import CheckIcon from "../../UI/Icons/CheckIcon";
+import CancelIcon from "../../UI/Icons/Cancel";
 
-const initialState = {
+const initialSiteData = {
   site_name: "",
   company: "",
   owner_name: "",
@@ -82,13 +87,76 @@ const steps = [
   "Additional Information",
 ];
 
+const initialSubmit = {
+  isError: false,
+  errMsg: null,
+  isSubmitting: false,
+};
+
 const AddSite = ({ companyData, contactData, loaData }) => {
-  const [formData, setFormData] = useState(initialState);
-  const [activeStep, setActiveStep] = useState(0);
+  const [open, setOpen] = useState(false);
   const [postcode, setPostcode] = useState("");
   const [addresses, setAddresses] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = React.useState(null);
+  const [activeStep, setActiveStep] = useState(0);
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [formData, setFormData] = useState(initialSiteData);
+  const [formStatus, setFormStatus] = useState(initialSubmit);
+
+  const validateForm = () => {
+    const {
+      site_name,
+      company,
+      siteAddressLine1,
+      siteAddressLine2,
+      siteAddressLine3,
+      siteAddressLine4,
+      sitePostCode,
+      billingAddressLine1,
+      billingAddressLine2,
+      billingAddressLine3,
+      billingAddressLine4,
+      billingPostCode,
+    } = formData;
+
+    if (!site_name) {
+      setFormError("Site Name is Required");
+      return false;
+    }
+    if (!company) {
+      setFormError("Company Name is Required");
+      return false;
+    }
+    if (
+      !(
+        siteAddressLine1 ||
+        siteAddressLine2 ||
+        siteAddressLine3 ||
+        siteAddressLine4 ||
+        sitePostCode
+      )
+    ) {
+      setFormError("Site Address is Required");
+      return false;
+    }
+    if (
+      !(
+        billingAddressLine1 ||
+        billingAddressLine2 ||
+        billingAddressLine3 ||
+        billingAddressLine4 ||
+        billingPostCode
+      )
+    ) {
+      setFormError("Billing Address is Required");
+      return false;
+    }
+    setFormStatus({ isError: true, errMsg: null, isSubmitting: false });
+    return true;
+  };
+
+  const setFormError = (errMsg) => {
+    setFormStatus({ isError: true, errMsg, isSubmitting: false });
+  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -110,18 +178,17 @@ const AddSite = ({ companyData, contactData, loaData }) => {
   };
 
   const handleNext = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    setActiveStep((prev) => prev + 1);
   };
 
   const handleBack = () => {
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    setActiveStep((prev) => prev - 1);
   };
 
-  const handleSubmit = async (e) => {
+  const createSite = async (e) => {
     e.preventDefault();
-    const apiURL =
-      "https://aumhealthresort.com/powercrm/api/sites/create/site/";
-
+    if (!validateForm()) return;
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
     let sendData = {
       site_name: formData.site_name,
       company: formData.company,
@@ -206,66 +273,71 @@ const AddSite = ({ companyData, contactData, loaData }) => {
     ) {
       sendData = { ...sendData, ...contactsInfo };
     }
-
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-        }`,
-
-      },
-      body: JSON.stringify(sendData),
-    };
-
     try {
-      const response = await fetch(apiURL, requestOptions);
-      if (response.status === 201) {
-        console.log(response);
-      } else {
-        console.log("---error--->");
+      const response = await ajaxCall(
+        "sites/create/site/",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "POST",
+          body: JSON.stringify(sendData),
+        },
+        8000
+      );
+      if ([200, 201].includes(response.status)) {
+        toast.success("Site Created Successfully");
+      } else if ([400, 404].includes(response.status)) {
+        toast.error("Some Problem Occurred. Please try again.");
       }
     } catch (error) {
-      console.log("---error--->", error);
+      toast.error("Some Problem Occurred. Please try again.");
+    } finally {
+      setFormStatus({
+        ...formStatus,
+        isSubmitting: false,
+      });
     }
   };
 
-  const handlePostcodeChange = (e) => {
-    setPostcode(e.target.value);
-  };
-
-  const handleLookup = async (e) => {
+  const searchByPostCode = async (e) => {
     e.preventDefault();
-    const apiURL =
-      "https://aumhealthresort.com/powercrm/api/lookup/Property/SearchByPostcode/";
-    const requestOptions = {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${
-          JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-        }`,
-      },
-      body: JSON.stringify({
-        query: postcode,
-        isQueryTicket: true,
-      }),
-    };
-
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
     try {
-      const response = await fetch(apiURL, requestOptions);
-      const data = await response.json();
-      if (response.status === 200) {
-        setAddresses(data);
+      const response = await ajaxCall(
+        "lookup/Property/SearchByPostcode/",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "POST",
+          body: JSON.stringify({
+            query: postcode,
+            isQueryTicket: true,
+          }),
+        },
+        8000
+      );
+      if ([200, 201].includes(response.status)) {
         setOpen(true);
+        setAddresses(response.data);
+        toast.success("Search Successful");
+        setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
       } else {
-        console.log("---error--->");
+        toast.error("Some Problem Occurred. Please try again.");
       }
     } catch (error) {
-      console.log("---error--->", error);
+      toast.error("Some Problem Occurred. Please try again.");
+    } finally {
+      setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
     }
   };
 
@@ -757,13 +829,15 @@ const AddSite = ({ companyData, contactData, loaData }) => {
       field: "matchedElectricity",
       headerName: "Electricity",
       width: 200,
-      renderCell: (params) => (params.row?.matchedElectricity ? "Yes" : "No"),
+      renderCell: (params) =>
+        params.row?.matchedElectricity ? <CheckIcon /> : <CancelIcon />,
     },
     {
       field: "matchedGas",
       headerName: "Gas",
       width: 200,
-      renderCell: (params) => (params.row?.matchedGas ? "Yes" : "No"),
+      renderCell: (params) =>
+        params.row?.matchedGas ? <CheckIcon /> : <CancelIcon />,
     },
     { headerName: "PostCode", field: "postCode", filter: true },
   ];
@@ -784,17 +858,23 @@ const AddSite = ({ companyData, contactData, loaData }) => {
           sx={{ m: 2 }}
           label="Postcode"
           value={postcode}
-          onChange={handlePostcodeChange}
+          onChange={(e) => setPostcode(e.target.value)}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
-                <Button
-                  variant="contained"
-                  color="primary"
-                    onClick={handleLookup}
-                >
-                  Lookup
-                </Button>
+                {formStatus.isSubmitting ? (
+                  <CircularProgress />
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={formStatus.isSubmitting}
+                    onClick={searchByPostCode}
+                  >
+                    Look Up
+                  </Button>
+                )}
               </InputAdornment>
             ),
           }}
@@ -808,6 +888,17 @@ const AddSite = ({ companyData, contactData, loaData }) => {
         ))}
       </Stepper>
       {renderStepContent(activeStep)}
+      {formStatus.isError && (
+        <Typography
+          color="error"
+          sx={{ mt: 2 }}
+          align="center"
+          variant="h6"
+          component="div"
+        >
+          {formStatus.errMsg}
+        </Typography>
+      )}
       <Box sx={{ display: "flex", justifyContent: "flex-end", m: 2 }}>
         {activeStep !== 0 && (
           <Button onClick={handleBack} sx={{ mr: 1 }}>
@@ -815,14 +906,19 @@ const AddSite = ({ companyData, contactData, loaData }) => {
           </Button>
         )}
         {activeStep === steps.length - 1 ? (
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            onClick={handleSubmit}
-          >
-            Submit
-          </Button>
+          formStatus.isSubmitting ? (
+            <CircularProgress />
+          ) : (
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              disabled={formStatus.isSubmitting}
+              onClick={createSite}
+            >
+              Submit
+            </Button>
+          )
         ) : (
           <Button variant="contained" color="primary" onClick={handleNext}>
             Next
@@ -835,13 +931,19 @@ const AddSite = ({ companyData, contactData, loaData }) => {
           <DataGrid
             rows={addresses}
             columns={columns}
+            disableColumnFilter
+            disableDensitySelector
             onRowClick={(params) => handleAddressSelect(params.row)}
             getRowId={(row) => row.propertyAddressId}
             getRowClassName={(params) =>
-              params.indexRelativeToCurrentPage % 2 === 0
-                ? "evenRow"
-                : "oddRow"
+              params.indexRelativeToCurrentPage % 2 === 0 ? "evenRow" : "oddRow"
             }
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+              },
+            }}
           />
         </DialogContent>
         <DialogActions>

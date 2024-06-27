@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import Quotation from "./Quotation";
+import ajaxCall from "../../helpers/ajaxCall";
 
 const initialQuoteState = {
   e_mpan_topline: "",
@@ -45,6 +46,22 @@ const steps = [
   "Additional Details",
 ];
 
+const paymentMethods = [
+  { value: "MONTHLY DIRECT DEBIT", label: "Monthly Direct Debit" },
+  { value: "QUARTERLY DIRECT DEBIT", label: "Quarterly Direct Debit" },
+  { value: "CASH CHEQUE", label: "Cash / Cheque" },
+  { value: "VARIALBE DIRECT DEBIT", label: "Variable Direct Debit" },
+  { value: "BACS", label: "BACS" },
+  { value: "PREPAYEMENT", label: "PrePayment" },
+  { value: "UNSPECIFIED", label: "Unspecified" },
+];
+
+const unitRateUplifts = [
+  { value: "MAXIMUM", label: "Maximum" },
+  { value: "MINIMUM", label: "Minimum" },
+  { value: "INVARIABLE", label: "Invariable" },
+];
+
 const GenerateQuote = () => {
   const [siteId, setSiteId] = useState("");
   const [siteData, setSiteData] = useState([]);
@@ -54,12 +71,35 @@ const GenerateQuote = () => {
   const [quoteData, setQuoteData] = useState(initialQuoteState);
 
   useEffect(() => {
-    fetchSiteData();
+    (async () => {
+      try {
+        const response = await ajaxCall(
+          "sites/get/site/",
+          {
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${
+                JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+              }`,
+            },
+            method: "GET",
+          },
+          8000
+        );
+        if (response?.status === 200) {
+          setSiteData(response?.data);
+        } else {
+          console.error("error");
+        }
+      } catch (error) {
+        console.error("error", error);
+      }
+    })();
   }, []);
 
   useEffect(() => {
     if (!siteId) return;
-
     const fetchSiteDetails = async () => {
       try {
         const response = await fetch(
@@ -74,14 +114,11 @@ const GenerateQuote = () => {
             },
           }
         );
-
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
-
         const data = await response.json();
         setLeadType(data?.lead_type);
-
         const newData = {
           postcode: data?.basic_detail?.postcode || "",
           e_mpan_topline: data?.basic_detail?.e_mpan_topline || "",
@@ -114,33 +151,8 @@ const GenerateQuote = () => {
         console.error("Error fetching site details:", error);
       }
     };
-
     fetchSiteDetails();
   }, [siteId]);
-
-  const fetchSiteData = async () => {
-    try {
-      const response = await fetch(
-        "https://aumhealthresort.com/powercrm/api/sites/get/site/",
-        {
-          headers: {
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-            }`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setSiteData(data);
-      } else {
-        console.error("Error fetching site data:", response.status);
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
-    }
-  };
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
@@ -165,7 +177,6 @@ const GenerateQuote = () => {
           annual_usage: quoteData.annual_usage,
         },
       };
-
       const response = await fetch(
         `https://aumhealthresort.com/powercrm/api/sites/extra-details/${siteId}/`,
         {
@@ -180,7 +191,6 @@ const GenerateQuote = () => {
           body: JSON.stringify(sendData),
         }
       );
-
       if (response.ok) {
         setShowQuotation(true);
       } else {
@@ -323,13 +333,22 @@ const GenerateQuote = () => {
         return (
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Payment Method"
-                name="payment_method"
-                value={quoteData.payment_method}
-                onChange={handleChange}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="site-label">Payment Method</InputLabel>
+                <Select
+                  labelId="payment-method-label"
+                  label="Payment Method"
+                  name="payment_method"
+                  value={quoteData.payment_method}
+                  onChange={handleChange}
+                >
+                  {paymentMethods.map((item) => (
+                    <MenuItem key={item.id} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -356,14 +375,24 @@ const GenerateQuote = () => {
         return (
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Unit Rate Uplift"
-                type="number"
-                name="unit_rate_uplift"
-                value={quoteData.unit_rate_uplift}
-                onChange={handleChange}
-              />
+              <FormControl fullWidth>
+                <InputLabel id="unit-rate-uplift-label">
+                  Unit Rate Uplift
+                </InputLabel>
+                <Select
+                  labelId="unit-rate-uplift-label"
+                  label="Unit Rate Uplift"
+                  name="unit_rate_uplift"
+                  value={quoteData.unit_rate_uplift}
+                  onChange={handleChange}
+                >
+                  {unitRateUplifts.map((item) => (
+                    <MenuItem key={item.id} value={item.value}>
+                      {item.label}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             </Grid>
             <Grid item xs={12} sm={6}>
               <TextField

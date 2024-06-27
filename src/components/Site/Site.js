@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Typography,
   Box,
@@ -12,7 +12,7 @@ import {
 import AddSite from "./AddSite";
 import ajaxCall from "../../helpers/ajaxCall";
 import { useNavigate } from "react-router-dom";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
 import "../../css/custom.css";
@@ -21,39 +21,45 @@ const Site = () => {
   const navigate = useNavigate();
   const [siteData, setSiteData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [CompanyData, setCompanyData] = useState([]);
-  const [ContactData, setContactData] = useState([]);
-  const [loaData, setloaData] = useState([]);
+  const [companyData, setCompanyData] = useState([]);
+  const [contactData, setContactData] = useState([]);
+  const [loaData, setLoaData] = useState([]);
+
+  const fetchData = useCallback(async (endpoint, setData) => {
+    try {
+      const response = await ajaxCall(
+        endpoint,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "GET",
+        },
+        8000
+      );
+      if (response?.status === 200) {
+        setData(response?.data);
+      } else {
+        console.error("error");
+      }
+    } catch (error) {
+      console.error("error", error);
+    }
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
-    (async () => {
-      try {
-        const response = await ajaxCall(
-          "sites/get/site/",
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-              }`,
-            },
-            method: "GET",
-          },
-          8000
-        );
-        if (response?.status === 200) {
-          setSiteData(response?.data);
-          setIsLoading(false);
-        } else {
-          console.error("error");
-        }
-      } catch (error) {
-        console.error("error", error);
-      }
-    })();
-  }, []);
+    fetchData("sites/get/site/", setSiteData).finally(() =>
+      setIsLoading(false)
+    );
+    fetchData("company/", setCompanyData);
+    fetchData("sites/get/support_contact/", setContactData);
+    fetchData("sites/get/loa_template/", setLoaData);
+  }, [fetchData]);
 
   const renderItemAvailable = ({ value }) => {
     return value ? <CheckIcon /> : <CancelIcon />;
@@ -84,15 +90,15 @@ const Site = () => {
           title={
             <Box>
               {params.row.lead_type && (
-                <div>
-                  <strong>Lead Type:</strong> {params.row.lead_type}
-                </div>
+                <Typography variant="body2">
+                  Lead Type : {params.row.lead_type}
+                </Typography>
               )}
               {params.row.current_gas_and_electricity_supplier_details && (
-                <div>
-                  <strong>Supplier Details:</strong>{" "}
+                <Typography variant="body2">
+                  Supplier Details :{" "}
                   {params.row.current_gas_and_electricity_supplier_details}
-                </div>
+                </Typography>
               )}
             </Box>
           }
@@ -167,65 +173,7 @@ const Site = () => {
       renderCell: renderItemAvailable,
       width: 200,
     },
-    {
-      headerName: "Email",
-      field: "contacts.email",
-      renderCell: (params) => params.row.contacts.email,
-      width: 250,
-    },
   ];
-
-  useEffect(() => {
-    fetchCompanies();
-    fetchSupportContact();
-    fetchLoaData();
-  }, []);
-
-  const fetchData = async (url, setter, showNoDataMessage = true) => {
-    try {
-      const response = await fetch(url, {
-        headers: {
-          Authorization: `Bearer ${
-            JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-          }`,
-        },
-      });
-      if (response.status === 200) {
-        const data = await response.json();
-        if (data.length === 0 && showNoDataMessage) {
-          console.log("--------->");
-        } else {
-          setter(data);
-        }
-      } else if (response.status === 500) {
-        console.log("----error----->");
-      } else {
-        setter([]);
-      }
-    } catch (error) {
-      console.log("error", error);
-    }
-  };
-
-  const fetchCompanies = () =>
-    fetchData(
-      "https://aumhealthresort.com/powercrm/api/company/",
-      setCompanyData,
-      true
-    );
-  const fetchSupportContact = () =>
-    fetchData(
-      "https://aumhealthresort.com/powercrm/api/sites/get/support_contact/",
-      setContactData,
-      true
-    );
-
-  const fetchLoaData = () =>
-    fetchData(
-      "https://aumhealthresort.com/powercrm/api/sites/get/loa_template/",
-      setloaData,
-      true
-    );
 
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
@@ -233,8 +181,8 @@ const Site = () => {
       <Box sx={{ display: "flex", mt: 3 }}>
         <Card sx={{ boxShadow: 5 }}>
           <AddSite
-            companyData={CompanyData}
-            contactData={ContactData}
+            companyData={companyData}
+            contactData={contactData}
             loaData={loaData}
           />
         </Card>
@@ -250,11 +198,19 @@ const Site = () => {
               <DataGrid
                 rows={siteData}
                 columns={columns}
+                disableColumnFilter
+                disableDensitySelector
                 getRowClassName={(params) =>
                   params.indexRelativeToCurrentPage % 2 === 0
                     ? "evenRow"
                     : "oddRow"
                 }
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                  },
+                }}
               />
             </Box>
           ) : (

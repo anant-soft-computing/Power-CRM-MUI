@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Button, Card } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../../css/custom.css";
 
 const columns = [
@@ -106,6 +106,8 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
         <DataGrid
           rows={ratesData}
           columns={columns}
+          disableColumnFilter
+          disableDensitySelector
           checkboxSelection
           onRowSelectionModelChange={(newSelection) => {
             const selectedRows = newSelection.map((itemId) =>
@@ -117,6 +119,12 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
           getRowClassName={(params) =>
             params.indexRelativeToCurrentPage % 2 === 0 ? "evenRow" : "oddRow"
           }
+          slots={{ toolbar: GridToolbar }}
+          slotProps={{
+            toolbar: {
+              showQuickFilter: true,
+            },
+          }}
         />
       </Box>
       <Box display="flex" justifyContent="flex-end" p={2}>

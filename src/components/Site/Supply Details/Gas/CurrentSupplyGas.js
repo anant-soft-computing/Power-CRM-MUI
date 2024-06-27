@@ -45,11 +45,7 @@ const reducerCSG = (state, action) => {
   return { ...state, [action.type]: action.value };
 };
 
-const initialSubmit = {
-  isError: false,
-  errMsg: null,
-  isSubmitting: false,
-};
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const CurrentSupplyGas = () => {
   const { siteId } = useParams();
@@ -63,9 +59,7 @@ const CurrentSupplyGas = () => {
   };
 
   const resetReducerForm = () => {
-    dispatchCSGasData({
-      type: "reset",
-    });
+    dispatchCSGasData({ type: "reset" });
   };
 
   useEffect(() => {
@@ -120,11 +114,7 @@ const CurrentSupplyGas = () => {
 
   const doCSGas = async (e) => {
     e.preventDefault();
-    setFormStatus({
-      isError: false,
-      errMsg: null,
-      isSubmitting: true,
-    });
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
     let sendData = {
       g_supplier: CSGasData.g_supplier,
       g_product: CSGasData.g_product,
@@ -185,10 +175,7 @@ const CurrentSupplyGas = () => {
     } catch (error) {
       toast.error("Some Problem Occurred. Please try again.");
     } finally {
-      setFormStatus({
-        ...formStatus,
-        isSubmitting: false,
-      });
+      setFormStatus({ ...formStatus, isSubmitting: false });
     }
   };
 

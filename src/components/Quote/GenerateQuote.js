@@ -13,10 +13,12 @@ import {
   MenuItem,
   Container,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 import moment from "moment";
 import Quotation from "./Quotation";
 import ajaxCall from "../../helpers/ajaxCall";
+import { toast } from "react-toastify";
 
 const initialQuoteState = {
   e_mpan_topline: "",
@@ -62,12 +64,15 @@ const unitRateUplifts = [
   { value: "INVARIABLE", label: "Invariable" },
 ];
 
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
+
 const GenerateQuote = () => {
   const [siteId, setSiteId] = useState("");
   const [siteData, setSiteData] = useState([]);
   const [leadType, setLeadType] = useState("ELECTRICITY");
   const [activeStep, setActiveStep] = useState(0);
   const [showQuotation, setShowQuotation] = useState(false);
+  const [formStatus, setFormStatus] = useState(initialSubmit);
   const [quoteData, setQuoteData] = useState(initialQuoteState);
 
   useEffect(() => {
@@ -156,31 +161,33 @@ const GenerateQuote = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
+
+    const sendData = {
+      contract_detail: {
+        payment_method: quoteData.payment_method,
+        renewal_date: quoteData.renewal_date,
+        unit_rate_uplift: quoteData.unit_rate_uplift,
+        invariable_uplift: quoteData.invariable_uplift,
+      },
+      additional_detail: {
+        credit_score: quoteData.credit_score,
+        custom_end_date: quoteData.custom_end_date,
+        measurement_class: quoteData.measurement_class,
+      },
+      usage_detail: {
+        annual_day_usage: quoteData.annual_day_usage,
+        day_rate: quoteData.day_rate,
+        feed_in_tariff: quoteData.feed_in_tariff,
+        stading_charge: quoteData.stading_charge,
+        annual_usage: quoteData.annual_usage,
+      },
+    };
+
     try {
-      const sendData = {
-        contract_detail: {
-          payment_method: quoteData.payment_method,
-          renewal_date: quoteData.renewal_date,
-          unit_rate_uplift: quoteData.unit_rate_uplift,
-          invariable_uplift: quoteData.invariable_uplift,
-        },
-        additional_detail: {
-          credit_score: quoteData.credit_score,
-          custom_end_date: quoteData.custom_end_date,
-          measurement_class: quoteData.measurement_class,
-        },
-        usage_detail: {
-          annual_day_usage: quoteData.annual_day_usage,
-          day_rate: quoteData.day_rate,
-          feed_in_tariff: quoteData.feed_in_tariff,
-          standing_charge: quoteData.standing_charge,
-          annual_usage: quoteData.annual_usage,
-        },
-      };
-      const response = await fetch(
-        `https://aumhealthresort.com/powercrm/api/sites/extra-details/${siteId}/`,
+      const response = await ajaxCall(
+        `sites/extra-details/${siteId}/`,
         {
-          method: "PATCH",
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -188,16 +195,21 @@ const GenerateQuote = () => {
               JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
             }`,
           },
+          method: "PATCH",
           body: JSON.stringify(sendData),
-        }
+        },
+        8000
       );
-      if (response.ok) {
+
+      if (response.status === 200) {
         setShowQuotation(true);
       } else {
-        console.log("Error:", response.statusText);
+        toast.error("Some problem occurred. Please try again.");
       }
     } catch (error) {
-      console.error("Error:", error);
+      toast.error("Some problem occurred. Please try again.");
+    } finally {
+      setFormStatus({ isError: false, errMsg: null, isSubmitting: false });
     }
   };
 
@@ -482,14 +494,19 @@ const GenerateQuote = () => {
             </Button>
           )}
           {activeStep === steps.length - 1 ? (
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              onClick={handleOnSubmit}
-            >
-              Submit
-            </Button>
+            formStatus.isSubmitting ? (
+              <CircularProgress />
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={formStatus.isSubmitting}
+                onClick={handleOnSubmit}
+              >
+                Submit
+              </Button>
+            )
           ) : (
             <Button variant="contained" color="primary" onClick={handleNext}>
               Next

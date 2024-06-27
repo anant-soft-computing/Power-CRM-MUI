@@ -52,11 +52,7 @@ const reducerNSE = (state, action) => {
   return { ...state, [action.type]: action.value };
 };
 
-const initialSubmit = {
-  isError: false,
-  errMsg: null,
-  isSubmitting: false,
-};
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const NewSupplyElectricity = () => {
   const { siteId } = useParams();
@@ -73,9 +69,7 @@ const NewSupplyElectricity = () => {
   };
 
   const resetReducerForm = () => {
-    dispatchNSElectricityData({
-      type: "reset",
-    });
+    dispatchNSElectricityData({ type: "reset" });
   };
 
   useEffect(() => {
@@ -141,11 +135,7 @@ const NewSupplyElectricity = () => {
 
   const doNSElectricity = async function (e) {
     e.preventDefault();
-    setFormStatus({
-      isError: false,
-      errMsg: null,
-      isSubmitting: true,
-    });
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
     let sendData = {
       e_supplier: NSElectricityData.e_supplier,
       e_product: NSElectricityData.e_product,
@@ -219,10 +209,7 @@ const NewSupplyElectricity = () => {
     } catch (error) {
       toast.error("Some Problem Occurred. Please try again.");
     } finally {
-      setFormStatus({
-        ...formStatus,
-        isSubmitting: false,
-      });
+      setFormStatus({ ...formStatus, isSubmitting: false });
     }
   };
 

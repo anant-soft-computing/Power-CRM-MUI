@@ -99,7 +99,7 @@ const RecentSites = ({ siteData, isLoading }) => {
   ];
 
   return (
-    <Card sx={{ mt: 3, boxShadow: 5 }}>
+    <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
       <CardContent>
         <Box
           sx={{
@@ -124,7 +124,7 @@ const RecentSites = ({ siteData, isLoading }) => {
           <Box display="flex" justifyContent="center" alignItems="center">
             <CircularProgress />
           </Box>
-        ) : siteData.length > 0 ? (
+        ) : siteData?.length > 0 ? (
           <Box sx={{ height: 400, width: "100%", mt: 2 }}>
             <DataGrid
               rows={siteData}

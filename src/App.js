@@ -30,11 +30,17 @@ function App() {
       <div style={{ display: "flex" }}>
         {!hide && <Sidebar isOpen={isSidebarOpen} />}
         <div
-          style={{
-            flexGrow: 1,
-            transition: "width 0.2s ease",
-            marginLeft: isSidebarOpen ? 240 : 0,
-          }}
+          style={
+            !hide
+              ? {
+                  flexGrow: 1,
+                  transition: "margin-left 0.2s ease",
+                  width: isSidebarOpen ? "calc(100% - 240px)" : "100%",
+                  marginLeft: isSidebarOpen ? "240px" : "0",
+                  backgroundColor: "#4791db42",
+                }
+              : { flexGrow: 1 }
+          }
         >
           <Routes>
             <Route path="/" element={<Login />} />

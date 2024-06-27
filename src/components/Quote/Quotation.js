@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { Box, Button, Card } from "@mui/material";
+import { Box, Button, Card, CircularProgress, Typography } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../../css/custom.css";
+import ajaxCall from "../../helpers/ajaxCall";
+import { toast } from "react-toastify";
+
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const columns = [
   { field: "Supplier", headerName: "Supplier", width: 150 },
@@ -19,13 +23,27 @@ const columns = [
 const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
   const [ratesData, setRatesData] = useState([]);
   const [selectedRows, setSelectedRows] = useState([]);
+  const [formStatus, setFormStatus] = useState(initialSubmit);
+
+  const setFormError = (errMsg) => {
+    setFormStatus({ isError: true, errMsg, isSubmitting: false });
+  };
+
+  const validateForm = () => {
+    if (selectedRows.length === 0) {
+      setFormError("Please select at least one Rate before saving. ");
+      return false;
+    }
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: false });
+    return true;
+  };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (siteId !== "") {
+    if (siteId !== "") {
+      (async () => {
         try {
-          const response = await fetch(
-            `https://aumhealthresort.com/powercrm/api/udpcore/quotations/`,
+          const response = await ajaxCall(
+            "udpcore/quotations/",
             {
               headers: {
                 Accept: "application/json",
@@ -38,28 +56,28 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
               body: JSON.stringify({
                 site_id: siteId,
               }),
-            }
+            },
+            8000
           );
-          const data = await response.json();
-          const dataWithUplift = data?.GetElectricRatesResult?.Rates.map(
-            (rate, index) => ({
-              id: index + 1,
-              ...rate,
-              modifiedStandingCharge: rate.StandingCharge + upLiftRate,
-            })
-          );
-          setRatesData(dataWithUplift);
+          if (response.status === 200) {
+            const dataWithUplift =
+              response?.data?.GetElectricRatesResult?.Rates.map((rate) => ({
+                ...rate,
+                modifiedStandingCharge: rate.StandingCharge + upLiftRate,
+              }));
+            setRatesData(dataWithUplift);
+          }
         } catch (error) {
-          console.error(error);
+          toast.error("Some Problem Occurred. Please try again.");
         }
-      }
-    };
-
-    fetchData();
+      })();
+    }
   }, [siteId, upLiftRate]);
 
   const createRates = async (e) => {
     e.preventDefault();
+    if (!validateForm()) return;
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
     try {
       for (const item of selectedRows) {
         const standingCharge = parseFloat(item?.StandingCharge);
@@ -76,8 +94,8 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
           site: siteId,
         };
 
-        const response = await fetch(
-          "https://aumhealthresort.com/powercrm/api/createsupplierdata/",
+        const response = await ajaxCall(
+          "createsupplierdata/",
           {
             headers: {
               Accept: "application/json",
@@ -88,49 +106,71 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
             },
             method: "POST",
             body: JSON.stringify(bodyData),
-          }
+          },
+          8000
         );
-        if (!response.ok) {
-          console.log(response);
+        if (response.status !== 201) {
+          toast.error("Some Problem Occurred. Please try again.");
+          return;
         }
-        setShowQuotation(false);
       }
+      toast.success("Quotation Added Successfully.");
+      setShowQuotation(false);
     } catch (error) {
-      console.error(error);
+      toast.error("Some Problem Occurred. Please try again.");
+    } finally {
+      setFormStatus({ ...formStatus, isSubmitting: false });
     }
   };
 
   return (
     <Card sx={{ m: 5, boxShadow: 5 }}>
-      <Box sx={{ height: 400, width: "100%" }}>
-        <DataGrid
-          rows={ratesData}
-          columns={columns}
-          disableColumnFilter
-          disableDensitySelector
-          checkboxSelection
-          onRowSelectionModelChange={(newSelection) => {
-            const selectedRows = newSelection.map((itemId) =>
-              ratesData.find((row) => row?.id === itemId)
-            );
-            setSelectedRows(selectedRows);
-          }}
-          selectedRows={selectedRows.map((row) => row?.id)}
-          getRowClassName={(params) =>
-            params.indexRelativeToCurrentPage % 2 === 0 ? "evenRow" : "oddRow"
-          }
-          slots={{ toolbar: GridToolbar }}
-          slotProps={{
-            toolbar: {
-              showQuickFilter: true,
-            },
-          }}
-        />
-      </Box>
+      {ratesData.length > 0 ? (
+        <Box sx={{ height: 400, width: "100%" }}>
+          <DataGrid
+            rows={ratesData}
+            columns={columns}
+            disableColumnFilter
+            disableDensitySelector
+            checkboxSelection
+            onRowSelectionModelChange={(newSelection) => {
+              const selectedRows = newSelection.map((itemId) =>
+                ratesData.find((row) => row.QuoteRateReference === itemId)
+              );
+              setSelectedRows(selectedRows);
+            }}
+            selectedRows={selectedRows.map((row) => row.QuoteRateReference)}
+            getRowClassName={(params) =>
+              params.indexRelativeToCurrentPage % 2 === 0 ? "evenRow" : "oddRow"
+            }
+            getRowId={(row) => row.QuoteRateReference}
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+              },
+            }}
+          />
+        </Box>
+      ) : (
+        <Typography
+          color="error"
+          sx={{ mt: 2 }}
+          align="center"
+          variant="h6"
+          component="div"
+        >
+          No Rates Available For Above Details !!
+        </Typography>
+      )}
       <Box display="flex" justifyContent="flex-end" p={2}>
-        <Button variant="contained" color="primary" onClick={createRates}>
-          Save Quotation
-        </Button>
+        {formStatus.isSubmitting ? (
+          <CircularProgress />
+        ) : (
+          <Button variant="contained" color="primary" onClick={createRates}>
+            Save Quotation
+          </Button>
+        )}
       </Box>
     </Card>
   );

@@ -35,11 +35,7 @@ const reducerMDE = (state, action) => {
   return { ...state, [action.type]: action.value };
 };
 
-const initialSubmit = {
-  isError: false,
-  errMsg: null,
-  isSubmitting: false,
-};
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const MeterDetailElectricity = ({ EleDetails }) => {
   const { siteId } = useParams();
@@ -51,9 +47,7 @@ const MeterDetailElectricity = ({ EleDetails }) => {
   const [formStatus, setFormStatus] = useState(initialSubmit);
 
   const resetReducerForm = () => {
-    dispatchMeterElectricityData({
-      type: "reset",
-    });
+    dispatchMeterElectricityData({ type: "reset" });
   };
 
   useEffect(() => {
@@ -96,11 +90,7 @@ const MeterDetailElectricity = ({ EleDetails }) => {
 
   const doMDE = async (e) => {
     e.preventDefault();
-    setFormStatus({
-      isError: false,
-      errMsg: null,
-      isSubmitting: true,
-    });
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
     let sendData = {
       e_mpan_topline: meterElectricityData.e_mpan_topline,
       e_mpan_bottomline: meterElectricityData.e_mpan_bottomline,
@@ -140,10 +130,7 @@ const MeterDetailElectricity = ({ EleDetails }) => {
     } catch (error) {
       toast.error("Some Problem Occurred. Please try again.");
     } finally {
-      setFormStatus({
-        ...formStatus,
-        isSubmitting: false,
-      });
+      setFormStatus({ ...formStatus, isSubmitting: false });
     }
   };
 

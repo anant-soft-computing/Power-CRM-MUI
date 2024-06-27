@@ -61,9 +61,8 @@ const SiteDashboard = () => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-            }`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+              }`,
           },
           method: "GET",
         },
@@ -90,7 +89,7 @@ const SiteDashboard = () => {
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Typography variant="h5">Site Dashboard</Typography>
-      <Card sx={{ p: 2, m: 2, boxShadow: 5 }}>
+      <Card sx={{ p: 2, m: 2, boxShadow: 5, borderRadius: 3 }}>
         <Box>
           <Tabs
             value={value}

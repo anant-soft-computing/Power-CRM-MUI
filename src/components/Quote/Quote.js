@@ -77,13 +77,13 @@ const Quote = () => {
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Typography variant="h5">Quotes</Typography>
-      <Box sx={{ display: "flex", mt: 3 }}>
-        <Card sx={{ boxShadow: 5 }}>
+      <Box sx={{ mt: 3 }}>
+        <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
           <GenerateQuote />
         </Card>
       </Box>
 
-      <Card sx={{ mt: 3, boxShadow: 5 }}>
+      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <Grid container m={2}>
           <Grid item xs={3} sm={3}>
             <FormControl fullWidth>

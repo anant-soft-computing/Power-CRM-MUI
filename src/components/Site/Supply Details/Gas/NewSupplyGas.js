@@ -46,11 +46,7 @@ const reducerNSG = (state, action) => {
   return { ...state, [action.type]: action.value };
 };
 
-const initialSubmit = {
-  isError: false,
-  errMsg: null,
-  isSubmitting: false,
-};
+const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const NewSupplyGas = () => {
   const { siteId } = useParams();
@@ -64,9 +60,7 @@ const NewSupplyGas = () => {
   };
 
   const resetReducerForm = () => {
-    dispatchNSGasData({
-      type: "reset",
-    });
+    dispatchNSGasData({ type: "reset" });
   };
 
   useEffect(() => {
@@ -188,10 +182,7 @@ const NewSupplyGas = () => {
     } catch (error) {
       toast.error("Some Problem Occurred. Please try again.");
     } finally {
-      setFormStatus({
-        ...formStatus,
-        isSubmitting: false,
-      });
+      setFormStatus({ ...formStatus, isSubmitting: false });
     }
   };
 

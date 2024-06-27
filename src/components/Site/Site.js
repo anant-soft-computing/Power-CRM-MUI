@@ -33,9 +33,8 @@ const Site = () => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-            }`,
+            Authorization: `Bearer ${JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+              }`,
           },
           method: "GET",
         },
@@ -69,14 +68,21 @@ const Site = () => {
     {
       headerName: "Actions",
       field: "actions",
-      width: 320,
+      width: 500,
       renderCell: () => (
         <>
           <Button variant="contained" color="primary" sx={{ m: 1 }}>
             Add Follow Ups
           </Button>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" sx={{ m: 1 }}>
             Add Notes
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate("/Quotes")}
+          >
+            Generate Quote
           </Button>
         </>
       ),
@@ -179,7 +185,7 @@ const Site = () => {
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Typography variant="h5">Sites</Typography>
       <Box sx={{ display: "flex", mt: 3 }}>
-        <Card sx={{ boxShadow: 5 }}>
+        <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
           <AddSite
             companyData={companyData}
             contactData={contactData}
@@ -187,7 +193,7 @@ const Site = () => {
           />
         </Card>
       </Box>
-      <Card sx={{ mt: 3, boxShadow: 5 }}>
+      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <CardContent>
           {isLoading ? (
             <Box display="flex" justifyContent="center" alignItems="center">

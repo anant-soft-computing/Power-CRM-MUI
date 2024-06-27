@@ -20,10 +20,15 @@ import "../../css/custom.css";
 const Site = () => {
   const navigate = useNavigate();
   const [siteData, setSiteData] = useState([]);
+  const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [loaData, setLoaData] = useState([]);
   const [companyData, setCompanyData] = useState([]);
   const [contactData, setContactData] = useState([]);
-  const [loaData, setLoaData] = useState([]);
+
+  const refreshTableMode = () => {
+    setRefreshTable((prev) => prev + 1);
+  };
 
   const fetchData = useCallback(async (endpoint, setData) => {
     try {
@@ -58,7 +63,7 @@ const Site = () => {
     fetchData("company/", setCompanyData);
     fetchData("sites/get/support_contact/", setContactData);
     fetchData("sites/get/loa_template/", setLoaData);
-  }, [fetchData]);
+  }, [fetchData, refreshTable]);
 
   const renderItemAvailable = ({ value }) => {
     return value ? <CheckIcon /> : <CancelIcon />;
@@ -187,9 +192,10 @@ const Site = () => {
       <Box sx={{ display: "flex", mt: 3 }}>
         <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
           <AddSite
+            loaData={loaData}
             companyData={companyData}
             contactData={contactData}
-            loaData={loaData}
+            refreshTableMode={refreshTableMode}
           />
         </Card>
       </Box>

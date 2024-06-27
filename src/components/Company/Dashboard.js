@@ -12,6 +12,7 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  CircularProgress,
 } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import ajaxCall from "../../helpers/ajaxCall";
@@ -41,6 +42,7 @@ const CompanyDashboard = () => {
   const navigate = useNavigate();
   const [value, setValue] = useState(0);
   const [siteId, setSiteId] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
   const [companySites, setCompanySites] = useState([]);
   const [siteQuotes, setSiteQuotes] = useState([]);
   const [showQuote, setShowQuote] = useState(false);
@@ -78,7 +80,10 @@ const CompanyDashboard = () => {
   };
 
   useEffect(() => {
-    fetchData(`sites/get/site/?company=${companyId}`, setCompanySites);
+    setIsLoading(true);
+    fetchData(`sites/get/site/?company=${companyId}`, setCompanySites).finally(
+      () => setIsLoading(false)
+    );
   }, [companyId]);
 
   useEffect(() => {
@@ -144,37 +149,43 @@ const CompanyDashboard = () => {
               Add Site
             </Button>
           </Box>
-          <Box sx={{ mt: 2 }}>
-            {value === 0 && companySites.length > 0 ? (
-              <DataGrid
-                rows={companySites}
-                columns={columns}
-                disableColumnFilter
-                disableDensitySelector
-                getRowClassName={(params) =>
-                  params.indexRelativeToCurrentPage % 2 === 0
-                    ? "evenRow"
-                    : "oddRow"
-                }
-                slots={{ toolbar: GridToolbar }}
-                slotProps={{
-                  toolbar: {
-                    showQuickFilter: true,
-                  },
-                }}
-              />
-            ) : (
-              <Typography
-                color="error"
-                sx={{ mt: 2 }}
-                align="center"
-                variant="h6"
-                component="div"
-              >
-                No Sites Available !!
-              </Typography>
-            )}
-          </Box>
+          {isLoading ? (
+            <Box display="flex" justifyContent="center" alignItems="center">
+              <CircularProgress />
+            </Box>
+          ) : (
+            <Box sx={{ mt: 2 }}>
+              {value === 0 && companySites.length > 0 ? (
+                <DataGrid
+                  rows={companySites}
+                  columns={columns}
+                  disableColumnFilter
+                  disableDensitySelector
+                  getRowClassName={(params) =>
+                    params.indexRelativeToCurrentPage % 2 === 0
+                      ? "evenRow"
+                      : "oddRow"
+                  }
+                  slots={{ toolbar: GridToolbar }}
+                  slotProps={{
+                    toolbar: {
+                      showQuickFilter: true,
+                    },
+                  }}
+                />
+              ) : (
+                <Typography
+                  color="error"
+                  sx={{ mt: 2 }}
+                  align="center"
+                  variant="h6"
+                  component="div"
+                >
+                  No Sites Available !!
+                </Typography>
+              )}
+            </Box>
+          )}
         </Card>
       </Container>
       <Dialog

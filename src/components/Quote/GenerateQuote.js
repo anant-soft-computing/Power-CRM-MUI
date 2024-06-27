@@ -67,6 +67,7 @@ const unitRateUplifts = [
 const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const GenerateQuote = () => {
+  const [site, setSite] = useState("");
   const [siteId, setSiteId] = useState("");
   const [siteData, setSiteData] = useState([]);
   const [leadType, setLeadType] = useState("ELECTRICITY");
@@ -161,6 +162,7 @@ const GenerateQuote = () => {
 
   const handleOnSubmit = async (e) => {
     e.preventDefault();
+    setSite(siteId);
     setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
 
     const sendData = {
@@ -516,7 +518,7 @@ const GenerateQuote = () => {
       </Container>
       {showQuotation && (
         <Quotation
-          siteId={siteId}
+          siteId={site}
           upLiftRate={quoteData.invariable_uplift}
           setShowQuotation={setShowQuotation}
         />

@@ -89,7 +89,7 @@ const steps = [
 
 const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
-const AddSite = ({ companyData, contactData, loaData }) => {
+const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
   const [open, setOpen] = useState(false);
   const [postcode, setPostcode] = useState("");
   const [addresses, setAddresses] = useState([]);
@@ -185,6 +185,12 @@ const AddSite = ({ companyData, contactData, loaData }) => {
       }
     }
     setFormData(newFormData);
+  };
+
+  const handleClose = () => {
+    setActiveStep(0);
+    setFormData(initialSiteData);
+    refreshTableMode();
   };
 
   const handleNext = () => {
@@ -300,6 +306,7 @@ const AddSite = ({ companyData, contactData, loaData }) => {
         8000
       );
       if ([200, 201].includes(response.status)) {
+        handleClose();
         toast.success("Site Created Successfully");
       } else if ([400, 404].includes(response.status)) {
         toast.error("Some Problem Occurred. Please try again.");

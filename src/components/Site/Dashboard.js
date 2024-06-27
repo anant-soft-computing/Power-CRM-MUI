@@ -1,4 +1,12 @@
-import { Box, Card, Container, Tab, Tabs, Typography } from "@mui/material";
+import {
+  Box,
+  Card,
+  CircularProgress,
+  Container,
+  Tab,
+  Tabs,
+  Typography,
+} from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -45,6 +53,7 @@ const SiteDashboard = () => {
   const { siteId } = useParams();
   const [value, setValue] = useState(0);
   const [siteData, setSiteData] = useState({});
+  const [isLoading, setIsLoading] = useState(true);
   const [siteQuotes, setSiteQuotes] = useState([]);
 
   const quotes = siteQuotes.filter((item) => item.site === parseInt(siteId));
@@ -61,8 +70,9 @@ const SiteDashboard = () => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-              }`,
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
           },
           method: "GET",
         },
@@ -83,7 +93,10 @@ const SiteDashboard = () => {
   }, [siteId]);
 
   useEffect(() => {
-    fetchData("supplierdatagetview", setSiteQuotes);
+    setIsLoading(true);
+    fetchData("supplierdatagetview", setSiteQuotes).finally(() =>
+      setIsLoading(false)
+    );
   }, []);
 
   return (
@@ -96,42 +109,49 @@ const SiteDashboard = () => {
             onChange={handleChange}
             aria-label="company dashboard tabs"
           >
-            <Tab label="Site" />
             <Tab label="Quotes" />
+            <Tab label="Supply Details" />
           </Tabs>
+
           <Box sx={{ mt: 2 }}>
-            {value === 0 && (
-              <>
-                {quotes.length > 0 ? (
-                  <DataGrid
-                    rows={quotes}
-                    columns={columns}
-                    disableColumnFilter
-                    disableDensitySelector
-                    getRowClassName={(params) =>
-                      params.indexRelativeToCurrentPage % 2 === 0
-                        ? "evenRow"
-                        : "oddRow"
-                    }
-                    slots={{ toolbar: GridToolbar }}
-                    slotProps={{
-                      toolbar: {
-                        showQuickFilter: true,
-                      },
-                    }}
-                  />
-                ) : (
-                  <Typography
-                    color="error"
-                    sx={{ mt: 2 }}
-                    align="center"
-                    variant="h6"
-                    component="div"
-                  >
-                    No Quotes Available !!
-                  </Typography>
-                )}
-              </>
+            {isLoading ? (
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <CircularProgress />
+              </Box>
+            ) : (
+              value === 0 && (
+                <>
+                  {quotes.length > 0 ? (
+                    <DataGrid
+                      rows={quotes}
+                      columns={columns}
+                      disableColumnFilter
+                      disableDensitySelector
+                      getRowClassName={(params) =>
+                        params.indexRelativeToCurrentPage % 2 === 0
+                          ? "evenRow"
+                          : "oddRow"
+                      }
+                      slots={{ toolbar: GridToolbar }}
+                      slotProps={{
+                        toolbar: {
+                          showQuickFilter: true,
+                        },
+                      }}
+                    />
+                  ) : (
+                    <Typography
+                      color="error"
+                      sx={{ mt: 2 }}
+                      align="center"
+                      variant="h6"
+                      component="div"
+                    >
+                      No Quotes Available !!
+                    </Typography>
+                  )}
+                </>
+              )
             )}
             {value === 1 && (
               <SupplyDetails

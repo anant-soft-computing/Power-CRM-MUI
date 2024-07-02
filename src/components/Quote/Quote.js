@@ -15,6 +15,7 @@ import GenerateQuote from "./GenerateQuote";
 import ajaxCall from "../../helpers/ajaxCall";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../../css/custom.css";
+import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 
 const columns = [
   { headerName: "Supplier", field: "supplier", width: 180 },
@@ -76,7 +77,7 @@ const Quote = () => {
 
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Typography variant="h5">Quotes</Typography>
+      <Breadcrumb title="Quotes" main="Dashboard" />
       <Box sx={{ mt: 3 }}>
         <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
           <GenerateQuote />
@@ -125,6 +126,16 @@ const Quote = () => {
                 }}
               />
             </Box>
+          ) : site === "" ? (
+            <Typography
+              color="error"
+              sx={{ mt: 2 }}
+              align="center"
+              variant="h6"
+              component="div"
+            >
+              Please Select Site For Quotes
+            </Typography>
           ) : (
             <Typography
               color="error"

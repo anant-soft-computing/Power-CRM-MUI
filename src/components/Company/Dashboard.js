@@ -16,7 +16,10 @@ import {
 } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import ajaxCall from "../../helpers/ajaxCall";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import "../../css/custom.css";
+import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 
 const quotesColumns = [
   { headerName: "Supplier", field: "supplier", filter: true },
@@ -43,6 +46,7 @@ const CompanyDashboard = () => {
   const [value, setValue] = useState(0);
   const [siteId, setSiteId] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [companyData, setCompanyData] = useState({});
   const [companySites, setCompanySites] = useState([]);
   const [siteQuotes, setSiteQuotes] = useState([]);
   const [showQuote, setShowQuote] = useState(false);
@@ -81,6 +85,7 @@ const CompanyDashboard = () => {
 
   useEffect(() => {
     setIsLoading(true);
+    fetchData(`company/${companyId}/`, setCompanyData);
     fetchData(`sites/get/site/?company=${companyId}`, setCompanySites).finally(
       () => setIsLoading(false)
     );
@@ -108,7 +113,7 @@ const CompanyDashboard = () => {
     {
       field: "View Quote",
       headerName: "View Quote",
-      width: 150,
+      width: 190,
       renderCell: (params) => (
         <Button
           variant="contained"
@@ -116,6 +121,7 @@ const CompanyDashboard = () => {
           onClick={() => handleViewQuotes(params.row.id)}
           sx={{ m: 1 }}
         >
+          <RemoveRedEyeIcon sx={{ mr: 1 }} />
           View Quote
         </Button>
       ),
@@ -125,7 +131,12 @@ const CompanyDashboard = () => {
   return (
     <>
       <Container maxWidth="xl" sx={{ my: 10 }}>
-        <Typography variant="h5">Company Dashboard</Typography>
+        <Breadcrumb
+          title={companyData?.name}
+          middle="Company"
+          middleUrl="Companies"
+          main="Dashboard"
+        />
         <Card sx={{ p: 2, m: 2, boxShadow: 5, borderRadius: 3 }}>
           <Box
             sx={{
@@ -146,6 +157,7 @@ const CompanyDashboard = () => {
               color="primary"
               onClick={() => navigate("/Sites")}
             >
+              <AddIcon sx={{ mr: 1 }} />
               Add Site
             </Button>
           </Box>

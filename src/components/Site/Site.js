@@ -15,7 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
+import FollowTheSignsIcon from "@mui/icons-material/FollowTheSigns";
+import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
+import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import "../../css/custom.css";
+import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 
 const Site = () => {
   const navigate = useNavigate();
@@ -38,8 +42,9 @@ const Site = () => {
           headers: {
             Accept: "application/json",
             "Content-Type": "application/json",
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-              }`,
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
           },
           method: "GET",
         },
@@ -73,22 +78,27 @@ const Site = () => {
     {
       headerName: "Actions",
       field: "actions",
-      width: 500,
+      width: 140,
       renderCell: () => (
         <>
-          <Button variant="contained" color="primary" sx={{ m: 1 }}>
-            Add Follow Ups
-          </Button>
-          <Button variant="contained" color="primary" sx={{ m: 1 }}>
-            Add Notes
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate("/Quotes")}
-          >
-            Generate Quote
-          </Button>
+          <Tooltip title="Add Follow Ups" arrow>
+            <FollowTheSignsIcon
+              sx={{ m: 1 }}
+              color="primary"
+              fontSize="medium"
+            />
+          </Tooltip>
+          <Tooltip title="Add Notes" arrow>
+            <SpeakerNotesIcon sx={{ m: 1 }} color="primary" fontSize="medium" />
+          </Tooltip>
+          <Tooltip title="Add Quote" arrow>
+            <FormatQuoteIcon
+              sx={{ m: 1 }}
+              color="primary"
+              fontSize="medium"
+              onClick={() => navigate("/Quotes")}
+            />
+          </Tooltip>
         </>
       ),
     },
@@ -188,7 +198,7 @@ const Site = () => {
 
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Typography variant="h5">Sites</Typography>
+      <Breadcrumb title="Sites" main="Dashboard" />
       <Box sx={{ display: "flex", mt: 3 }}>
         <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
           <AddSite

@@ -9,11 +9,16 @@ import {
   CircularProgress,
   Box,
   CardContent,
+  Tooltip,
 } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import AddCompany from "./AddCompany";
 import ajaxCall from "../../helpers/ajaxCall";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import FollowTheSignsIcon from "@mui/icons-material/FollowTheSigns";
+import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import "../../css/custom.css";
+import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 
 const Company = () => {
   const navigate = useNavigate();
@@ -57,6 +62,33 @@ const Company = () => {
   }, [refreshTable]);
 
   const columns = [
+    {
+      headerName: "Actions",
+      field: "actions",
+      width: 140,
+      renderCell: () => (
+        <>
+          <Tooltip title="Add Site" arrow>
+            <AccountTreeIcon
+              sx={{ m: 1 }}
+              color="primary"
+              fontSize="medium"
+              onClick={() => navigate("/Sites")}
+            />
+          </Tooltip>
+          <Tooltip title="Add Follow Ups" arrow>
+            <FollowTheSignsIcon
+              sx={{ m: 1 }}
+              color="primary"
+              fontSize="medium"
+            />
+          </Tooltip>
+          <Tooltip title="Add Notes" arrow>
+            <SpeakerNotesIcon sx={{ m: 1 }} color="primary" fontSize="medium" />
+          </Tooltip>
+        </>
+      ),
+    },
     {
       headerName: "Name",
       field: "name",
@@ -106,33 +138,10 @@ const Company = () => {
       headerName: "Time of The Years",
       field: "time_at_address_years",
     },
-    {
-      headerName: "Actions",
-      field: "actions",
-      width: 440,
-      renderCell: () => (
-        <>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => navigate("/Sites")}
-            sx={{ m: 1 }}
-          >
-            Add Site
-          </Button>
-          <Button variant="contained" color="primary" sx={{ m: 1 }}>
-            Add Follow Ups
-          </Button>
-          <Button variant="contained" color="primary">
-            Add Notes
-          </Button>
-        </>
-      ),
-    },
   ];
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Typography variant="h5">Company</Typography>
+      <Breadcrumb title="Company" main="Dashboard" />
       <Box sx={{ display: "flex", mt: 3 }}>
         <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
           <AddCompany refreshTableMode={refreshTableMode} />

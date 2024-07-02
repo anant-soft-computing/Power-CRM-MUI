@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   Box,
   Card,
@@ -8,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import React, { useEffect, useState } from "react";
+import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 import { useParams } from "react-router-dom";
 import SupplyDetails from "./Supply Details/SupplyDetails";
 import ajaxCall from "../../helpers/ajaxCall";
@@ -101,7 +102,12 @@ const SiteDashboard = () => {
 
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Typography variant="h5">Site Dashboard</Typography>
+      <Breadcrumb
+        title={siteData?.site_name}
+        middle="Site"
+        middleUrl="Sites"
+        main="Dashboard"
+      />
       <Card sx={{ p: 2, m: 2, boxShadow: 5, borderRadius: 3 }}>
         <Box>
           <Tabs
@@ -147,7 +153,7 @@ const SiteDashboard = () => {
                       variant="h6"
                       component="div"
                     >
-                      No Quotes Available !!
+                      {`No Quotes Available For This ${siteData.site_name} Site !!`}
                     </Typography>
                   )}
                 </>

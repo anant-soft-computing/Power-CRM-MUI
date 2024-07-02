@@ -15,7 +15,7 @@ const SiteChart = ({ siteData }) => {
         label: "Site Data",
         data: siteData?.map(({ id }) => id),
         fill: true,
-        backgroundColor: "#07bc0c8a",
+        backgroundColor: "#1976d2",
       },
     ],
   };

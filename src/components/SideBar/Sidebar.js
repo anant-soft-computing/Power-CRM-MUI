@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
-import LanguageIcon from "@mui/icons-material/Language";
+import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import BusinessIcon from "@mui/icons-material/Business";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import LogoutIcon from "@mui/icons-material/Logout";
@@ -31,6 +31,30 @@ const Sidebar = ({ isOpen }) => {
     deleteFromLocalStorage("loginInfo");
   };
 
+  const navItems = [
+    {
+      text: "Dashboard",
+      icon: <DashboardIcon color="primary" />,
+      path: "/Dashboard",
+    },
+    {
+      text: "Company",
+      icon: <BusinessIcon color="primary" />,
+      path: "/Companies",
+    },
+    {
+      text: "Sites",
+      icon: <AccountTreeIcon color="primary" />,
+      path: "/Sites",
+    },
+    {
+      text: "Generate Quote",
+      icon: <FormatQuoteIcon color="primary" />,
+      path: "/Quotes",
+    },
+    { text: "LogOut", icon: <LogoutIcon color="primary" />, action: logout },
+  ];
+
   return (
     <Box
       sx={{
@@ -45,52 +69,16 @@ const Sidebar = ({ isOpen }) => {
       }}
     >
       <List>
-        <ListItem
-          button
-          key="Dashboard"
-          onClick={() => navigate("/Dashboard")}
-        >
-          <ListItemIcon>
-            <DashboardIcon />
-          </ListItemIcon>
-          <ListItemText primary="Dashboard" />
-        </ListItem>
-
-        <ListItem
-          button
-          key="Company"
-          onClick={() => navigate("/Companies")}
-        >
-          <ListItemIcon>
-            <BusinessIcon />
-          </ListItemIcon>
-          <ListItemText primary="Company" />
-        </ListItem>
-
-        <ListItem button key="Sites" onClick={() => navigate("/Sites")}>
-          <ListItemIcon>
-            <LanguageIcon />
-          </ListItemIcon>
-          <ListItemText primary="Sites" />
-        </ListItem>
-
-        <ListItem
-          button
-          key="Generate Quote"
-          onClick={() => navigate("/Quotes")}
-        >
-          <ListItemIcon>
-            <FormatQuoteIcon />
-          </ListItemIcon>
-          <ListItemText primary="Generate Quote" />
-        </ListItem>
-
-        <ListItem button key="LogOut" onClick={logout}>
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
-          <ListItemText primary="LogOut" />
-        </ListItem>
+        {navItems.map(({ text, path, action, icon }) => (
+          <ListItem
+            button
+            key={text}
+            onClick={() => (path ? navigate(path) : action())}
+          >
+            <ListItemIcon>{icon}</ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
       </List>
     </Box>
   );

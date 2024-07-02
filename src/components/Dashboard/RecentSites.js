@@ -12,6 +12,7 @@ import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { useNavigate } from "react-router-dom";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
+import AddIcon from "@mui/icons-material/Add";
 import "../../css/custom.css";
 
 const RecentSites = ({ siteData, isLoading }) => {
@@ -117,7 +118,7 @@ const RecentSites = ({ siteData, isLoading }) => {
             sx={{ mt: 2 }}
             onClick={() => navigate("/Sites")}
           >
-            Create Site
+            <AddIcon sx={{ mr: 1 }} /> Create Site
           </Button>
         </Box>
         {isLoading ? (

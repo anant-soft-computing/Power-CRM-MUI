@@ -36,7 +36,7 @@ const initialCompanyData = {
   addressline1_company: "",
   addressline2_company: "",
   addressline3_company: "",
-  postcode: 0,
+  postcode: "",
   country_of_company: "",
 
   account_name: "",
@@ -180,240 +180,251 @@ const AddCompany = ({ refreshTableMode }) => {
     switch (step) {
       case 0:
         return (
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Parent Company"
-                name="parent_company"
-                value={companyData.parent_company}
-                onChange={(e) =>
-                  dispatchCompany({
-                    type: "parent_company",
-                    value: e.target.value,
-                  })
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Name"
-                name="name"
-                value={companyData.name}
-                onChange={(e) =>
-                  dispatchCompany({
-                    type: "name",
-                    value: e.target.value,
-                  })
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="company-label">Company Type</InputLabel>
-                <Select
-                  labelId="company-label"
-                  label="Company Type"
-                  name="business_type"
-                  value={companyData.business_type}
-                  onChange={(e) => {
+          <>
+            <Grid container spacing={2}>
+              <Grid item sm={4}>
+                <TextField
+                  fullWidth
+                  label="Parent Company"
+                  name="parent_company"
+                  value={companyData.parent_company}
+                  onChange={(e) =>
                     dispatchCompany({
-                      type: "business_type",
+                      type: "parent_company",
                       value: e.target.value,
-                    });
-                  }}
-                >
-                  <MenuItem value="LTD">LTD</MenuItem>
-                  <MenuItem value="PLC">PLC</MenuItem>
-                  <MenuItem value="LLP">LLP</MenuItem>
-                  <MenuItem value="LLC">LLC</MenuItem>
-                  <MenuItem value="Charity">Charity</MenuItem>
-                  <MenuItem value="Jersey Based">Jersey Based</MenuItem>
-                  <MenuItem value="Public Sector">Public Sector</MenuItem>
-                  <MenuItem value="Non LTD">Non LTD</MenuItem>
-                  <MenuItem value="Partnership">Partnership</MenuItem>
-                  <MenuItem value="Church / Community Organisation">
-                    Church / Community Organisation
-                  </MenuItem>
-                </Select>
-              </FormControl>
+                    })
+                  }
+                />
+              </Grid>
+              <Grid item sm={4}>
+                <TextField
+                  fullWidth
+                  label="Name"
+                  name="name"
+                  value={companyData.name}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "name",
+                      value: e.target.value,
+                    })
+                  }
+                />
+              </Grid>
+              <Grid item sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-label">Company Type</InputLabel>
+                  <Select
+                    labelId="company-label"
+                    label="Company Type"
+                    name="business_type"
+                    value={companyData.business_type}
+                    onChange={(e) => {
+                      dispatchCompany({
+                        type: "business_type",
+                        value: e.target.value,
+                      });
+                    }}
+                  >
+                    <MenuItem value="LTD">LTD</MenuItem>
+                    <MenuItem value="PLC">PLC</MenuItem>
+                    <MenuItem value="LLP">LLP</MenuItem>
+                    <MenuItem value="LLC">LLC</MenuItem>
+                    <MenuItem value="Charity">Charity</MenuItem>
+                    <MenuItem value="Jersey Based">Jersey Based</MenuItem>
+                    <MenuItem value="Public Sector">Public Sector</MenuItem>
+                    <MenuItem value="Non LTD">Non LTD</MenuItem>
+                    <MenuItem value="Partnership">Partnership</MenuItem>
+                    <MenuItem value="Church / Community Organisation">
+                      Church / Community Organisation
+                    </MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4}>
+                <TextField fullWidth type="text" label="Company Number" />
+              </Grid>
+              <Grid item sm={4}>
+                <TextField
+                  fullWidth
+                  type="date"
+                  label="Company Incorporated Date"
+                />
+              </Grid>
+              <Grid item sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="customer-status-label">
+                    Customer Status
+                  </InputLabel>
+                  <Select
+                    labelId="customer-status-label"
+                    label="Customer Status"
+                  >
+                    <MenuItem value="Lead">Lead</MenuItem>
+                    <MenuItem value="FSO">FSO</MenuItem>
+                    <MenuItem value="Renewal">Renewal</MenuItem>
+                    <MenuItem value="Live">Live</MenuItem>
+                    <MenuItem value="Sold not live">Sold not live</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4}>
+                <TextField fullWidth type="text" label="Customer Value" />
+              </Grid>
+              <Grid item sm={4}>
+                <TextField
+                  fullWidth
+                  type="date"
+                  label="Director Date of Birth"
+                />
+              </Grid>
+              <Grid item sm={4}>
+                <TextField fullWidth type="text" label="Credit Score" />
+              </Grid>
+              <Grid item sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-sector-label">
+                    Company Sector
+                  </InputLabel>
+                  <Select labelId="company-sector-label" label="Company Sector">
+                    <MenuItem value="Care Home">Care Home</MenuItem>
+                    <MenuItem value="Charity">Charity</MenuItem>
+                    <MenuItem value="Commercial">Commercial</MenuItem>
+                    <MenuItem value="Offices">Offices</MenuItem>
+                    <MenuItem value="Construction">Construction</MenuItem>
+                    <MenuItem value="Convenience Store">
+                      Convenience Store
+                    </MenuItem>
+                    <MenuItem value="Distribution">Distribution</MenuItem>
+                    <MenuItem value="Education and Local Authorities">
+                      Education and Local Authorities
+                    </MenuItem>
+                    <MenuItem value="Environmental">Environmental</MenuItem>
+                    <MenuItem value="Farming and Agriculture">
+                      Farming and Agriculture
+                    </MenuItem>
+                    <MenuItem value="Florist">Florist</MenuItem>
+                    <MenuItem value="Food">Food</MenuItem>
+                    <MenuItem value="Garage">Garage</MenuItem>
+                    <MenuItem value="Healthcare">Healthcare</MenuItem>
+                    <MenuItem value="Hair Salon/Barber">
+                      Hair Salon/Barber
+                    </MenuItem>
+                    <MenuItem value="Hotels/Leisure">Hotels/Leisure</MenuItem>
+                    <MenuItem value="Hospitality">Hospitality</MenuItem>
+                    <MenuItem value="Laundrette">Laundrette</MenuItem>
+                    <MenuItem value="Manufacturing">Manufacturing</MenuItem>
+                    <MenuItem value="Newsagent">Newsagent</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                    <MenuItem value="Place of Worship">
+                      Place of Worship
+                    </MenuItem>
+                    <MenuItem value="Professional Services">
+                      Professional Services
+                    </MenuItem>
+                    <MenuItem value="Property Agents">Property Agents</MenuItem>
+                    <MenuItem value="Pub/Club">Pub/Club</MenuItem>
+                    <MenuItem value="Retail">Retail</MenuItem>
+                    <MenuItem value="Service Station">Service Station</MenuItem>
+                    <MenuItem value="Sports and Leisure">
+                      Sports and Leisure
+                    </MenuItem>
+                    <MenuItem value="Tanning Salon">Tanning Salon</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4}>
+                <TextField fullWidth type="text" label="SIC Score" />
+              </Grid>
+              <Grid item sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="turnover-label">Turnover</InputLabel>
+                  <Select labelId="turnover-label" label="Turnover">
+                    <MenuItem value="Unclassified">Unclassified</MenuItem>
+                    <MenuItem value="1 to <90k">1 to {"<"}90k</MenuItem>
+                    <MenuItem value="90k to <400k">90k to {"<"}400k</MenuItem>
+                    <MenuItem value="400k to <1m">400k to {"<"}1m</MenuItem>
+                    <MenuItem value="1m to <2.5m">1m to {"<"}2.5m</MenuItem>
+                    <MenuItem value="2.5m to <5m">2.5m to {"<"}5m</MenuItem>
+                    <MenuItem value="5m to <10m">5m to {"<"}10m</MenuItem>
+                    <MenuItem value="10m to <40m">10m to {"<"}40m</MenuItem>
+                    <MenuItem value="40m+">40m+</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="net-worth-label">Net Worth</InputLabel>
+                  <Select labelId="net-worth-label" label="Net Worth">
+                    <MenuItem value="Unclassified">Unclassified</MenuItem>
+                    <MenuItem value="1 to <90k">1 to {"<"}90k</MenuItem>
+                    <MenuItem value="90k to <400k">90k to {"<"}400k</MenuItem>
+                    <MenuItem value="400k to <1m">400k to {"<"}1m</MenuItem>
+                    <MenuItem value="1m to <2.5m">1m to {"<"}2.5m</MenuItem>
+                    <MenuItem value="2.5m to <5m">2.5m to {"<"}5m</MenuItem>
+                    <MenuItem value="5m to <10m">5m to {"<"}10m</MenuItem>
+                    <MenuItem value="10m to <40m">10m to {"<"}40m</MenuItem>
+                    <MenuItem value="40m+">40m+</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="building-use-label">Building Use</InputLabel>
+                  <Select labelId="building-use-label" label="Building Use">
+                    <MenuItem value="Agriculture">Agriculture</MenuItem>
+                    <MenuItem value="Educational">Educational</MenuItem>
+                    <MenuItem value="Government/Local Authority">
+                      Government/Local Authority
+                    </MenuItem>
+                    <MenuItem value="Industrial">Industrial</MenuItem>
+                    <MenuItem value="Military">Military</MenuItem>
+                    <MenuItem value="Other">Other</MenuItem>
+                    <MenuItem value="Parking">Parking</MenuItem>
+                    <MenuItem value="Power Station/Plants">
+                      Power Station/Plants
+                    </MenuItem>
+                    <MenuItem value="Religious">Religious</MenuItem>
+                    <MenuItem value="Residential">Residential</MenuItem>
+                    <MenuItem value="Retail">Retail</MenuItem>
+                    <MenuItem value="Transport">Transport</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4}>
+                <TextField
+                  fullWidth
+                  label="Number of Employees"
+                  type="number"
+                  name="number_of_employees"
+                  value={companyData.number_of_employees}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "number_of_employees",
+                      value: e.target.value,
+                    })
+                  }
+                />
+              </Grid>
+              <Grid item sm={4}>
+                <TextField fullWidth label="Website URL" type="text" />
+              </Grid>
+              <Grid item sm={4}>
+                <FormControl fullWidth>
+                  <InputLabel id="vat-label">VAT Declaration</InputLabel>
+                  <Select labelId="vat-label" label="VAT Declaration">
+                    <MenuItem value="Yes">Yes</MenuItem>
+                    <MenuItem value="No">No</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={4}>
+                <TextField fullWidth label="VAT %" type="text" />
+              </Grid>
+              <Grid item sm={4}>
+                <TextField fullWidth label="VAT Number" type="text" />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth type="text" label="Company Number" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                type="date"
-                label="Company Incorporated Date"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="customer-status-label">
-                  Customer Status
-                </InputLabel>
-                <Select labelId="customer-status-label" label="Customer Status">
-                  <MenuItem value="Lead">Lead</MenuItem>
-                  <MenuItem value="FSO">FSO</MenuItem>
-                  <MenuItem value="Renewal">Renewal</MenuItem>
-                  <MenuItem value="Live">Live</MenuItem>
-                  <MenuItem value="Sold not live">Sold not live</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth type="text" label="Customer Value" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth type="date" label="Director Date of Birth" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth type="text" label="Credit Score" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="company-sector-label">
-                  Company Sector
-                </InputLabel>
-                <Select labelId="company-sector-label" label="Company Sector">
-                  <MenuItem value="Care Home">Care Home</MenuItem>
-                  <MenuItem value="Charity">Charity</MenuItem>
-                  <MenuItem value="Commercial">Commercial</MenuItem>
-                  <MenuItem value="Offices">Offices</MenuItem>
-                  <MenuItem value="Construction">Construction</MenuItem>
-                  <MenuItem value="Convenience Store">
-                    Convenience Store
-                  </MenuItem>
-                  <MenuItem value="Distribution">Distribution</MenuItem>
-                  <MenuItem value="Education and Local Authorities">
-                    Education and Local Authorities
-                  </MenuItem>
-                  <MenuItem value="Environmental">Environmental</MenuItem>
-                  <MenuItem value="Farming and Agriculture">
-                    Farming and Agriculture
-                  </MenuItem>
-                  <MenuItem value="Florist">Florist</MenuItem>
-                  <MenuItem value="Food">Food</MenuItem>
-                  <MenuItem value="Garage">Garage</MenuItem>
-                  <MenuItem value="Healthcare">Healthcare</MenuItem>
-                  <MenuItem value="Hair Salon/Barber">
-                    Hair Salon/Barber
-                  </MenuItem>
-                  <MenuItem value="Hotels/Leisure">Hotels/Leisure</MenuItem>
-                  <MenuItem value="Hospitality">Hospitality</MenuItem>
-                  <MenuItem value="Laundrette">Laundrette</MenuItem>
-                  <MenuItem value="Manufacturing">Manufacturing</MenuItem>
-                  <MenuItem value="Newsagent">Newsagent</MenuItem>
-                  <MenuItem value="Other">Other</MenuItem>
-                  <MenuItem value="Place of Worship">Place of Worship</MenuItem>
-                  <MenuItem value="Professional Services">
-                    Professional Services
-                  </MenuItem>
-                  <MenuItem value="Property Agents">Property Agents</MenuItem>
-                  <MenuItem value="Pub/Club">Pub/Club</MenuItem>
-                  <MenuItem value="Retail">Retail</MenuItem>
-                  <MenuItem value="Service Station">Service Station</MenuItem>
-                  <MenuItem value="Sports and Leisure">
-                    Sports and Leisure
-                  </MenuItem>
-                  <MenuItem value="Tanning Salon">Tanning Salon</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth type="text" label="SIC Score" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="turnover-label">Turnover</InputLabel>
-                <Select labelId="turnover-label" label="Turnover">
-                  <MenuItem value="Unclassified">Unclassified</MenuItem>
-                  <MenuItem value="1 to <90k">1 to {"<"}90k</MenuItem>
-                  <MenuItem value="90k to <400k">90k to {"<"}400k</MenuItem>
-                  <MenuItem value="400k to <1m">400k to {"<"}1m</MenuItem>
-                  <MenuItem value="1m to <2.5m">1m to {"<"}2.5m</MenuItem>
-                  <MenuItem value="2.5m to <5m">2.5m to {"<"}5m</MenuItem>
-                  <MenuItem value="5m to <10m">5m to {"<"}10m</MenuItem>
-                  <MenuItem value="10m to <40m">10m to {"<"}40m</MenuItem>
-                  <MenuItem value="40m+">40m+</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="net-worth-label">Net Worth</InputLabel>
-                <Select labelId="net-worth-label" label="Net Worth">
-                  <MenuItem value="Unclassified">Unclassified</MenuItem>
-                  <MenuItem value="1 to <90k">1 to {"<"}90k</MenuItem>
-                  <MenuItem value="90k to <400k">90k to {"<"}400k</MenuItem>
-                  <MenuItem value="400k to <1m">400k to {"<"}1m</MenuItem>
-                  <MenuItem value="1m to <2.5m">1m to {"<"}2.5m</MenuItem>
-                  <MenuItem value="2.5m to <5m">2.5m to {"<"}5m</MenuItem>
-                  <MenuItem value="5m to <10m">5m to {"<"}10m</MenuItem>
-                  <MenuItem value="10m to <40m">10m to {"<"}40m</MenuItem>
-                  <MenuItem value="40m+">40m+</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="building-use-label">Building Use</InputLabel>
-                <Select labelId="building-use-label" label="Building Use">
-                  <MenuItem value="Agriculture">Agriculture</MenuItem>
-                  <MenuItem value="Educational">Educational</MenuItem>
-                  <MenuItem value="Government/Local Authority">
-                    Government/Local Authority
-                  </MenuItem>
-                  <MenuItem value="Industrial">Industrial</MenuItem>
-                  <MenuItem value="Military">Military</MenuItem>
-                  <MenuItem value="Other">Other</MenuItem>
-                  <MenuItem value="Parking">Parking</MenuItem>
-                  <MenuItem value="Power Station/Plants">
-                    Power Station/Plants
-                  </MenuItem>
-                  <MenuItem value="Religious">Religious</MenuItem>
-                  <MenuItem value="Residential">Residential</MenuItem>
-                  <MenuItem value="Retail">Retail</MenuItem>
-                  <MenuItem value="Transport">Transport</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Number of Employees"
-                type="number"
-                name="number_of_employees"
-                value={companyData.number_of_employees}
-                onChange={(e) =>
-                  dispatchCompany({
-                    type: "number_of_employees",
-                    value: e.target.value,
-                  })
-                }
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="Website URL" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="vat-label">VAT Declaration</InputLabel>
-                <Select labelId="vat-label" label="VAT Declaration">
-                  <MenuItem value="Yes">Yes</MenuItem>
-                  <MenuItem value="No">No</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="VAT %" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField fullWidth label="VAT Number" type="text" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={4} mt={2}>
               <FormControlLabel
                 control={
                   <Switch
@@ -430,12 +441,12 @@ const AddCompany = ({ refreshTableMode }) => {
                 label="Is Macro Business"
               />
             </Grid>
-          </Grid>
+          </>
         );
       case 1:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Address Line 1"
@@ -449,7 +460,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Address Line 2"
@@ -463,7 +474,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Address Line 3"
@@ -477,11 +488,11 @@ const AddCompany = ({ refreshTableMode }) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Postcode"
-                type="number"
+                type="text"
                 name="postcode"
                 value={companyData.postcode}
                 onChange={(e) =>
@@ -492,10 +503,11 @@ const AddCompany = ({ refreshTableMode }) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="country-label">Country</InputLabel>
                 <Select labelId="country-label" label="Country">
+                  <MenuItem value="United Kingdom">United Kingdom</MenuItem>
                   <MenuItem value="England">England</MenuItem>
                   <MenuItem value="Scotland">Scotland</MenuItem>
                   <MenuItem value="Ireland">Ireland</MenuItem>
@@ -518,7 +530,7 @@ const AddCompany = ({ refreshTableMode }) => {
       case 2:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="payment-type-label">Payment Type</InputLabel>
                 <Select labelId="payment-type-label" label="Payment Type">
@@ -538,17 +550,17 @@ const AddCompany = ({ refreshTableMode }) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 type="date"
                 label="Direct Debit Start Date"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField fullWidth label="Account Holder" />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Account Name"
@@ -562,10 +574,10 @@ const AddCompany = ({ refreshTableMode }) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField fullWidth label="Sort Code" />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Bank Name"
@@ -579,7 +591,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 }
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField fullWidth label="Bank Postcode" />
             </Grid>
           </Grid>
@@ -587,10 +599,10 @@ const AddCompany = ({ refreshTableMode }) => {
       case 3:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField fullWidth label="Agent Email" />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="loa-template-label">LOA Template</InputLabel>
                 <Select labelId="loa-template-label" label="LOA Template">
@@ -601,10 +613,10 @@ const AddCompany = ({ refreshTableMode }) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField fullWidth type="date" label="LOA Start Date" />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField fullWidth type="date" label="LOA End Date" />
             </Grid>
           </Grid>
@@ -612,14 +624,14 @@ const AddCompany = ({ refreshTableMode }) => {
       case 4:
         return (
           <>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+           <Grid item sm={6}>
                 <FormControlLabel
                   control={<Switch checked />}
                   label="Primary Contact"
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+            <Grid container spacing={2} mt={1}>
+              <Grid item sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id="contact-list-label">Contact List</InputLabel>
                   <Select labelId="contact-list-label" label="Contact List">
@@ -627,7 +639,7 @@ const AddCompany = ({ refreshTableMode }) => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id="company-label">Contact Title</InputLabel>
                   <Select
@@ -652,22 +664,22 @@ const AddCompany = ({ refreshTableMode }) => {
                   </Select>
                 </FormControl>
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <TextField fullWidth type="text" label="Contact Name" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <TextField fullWidth type="text" label="Job Title" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <TextField fullWidth type="text" label="Direct Line" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <TextField fullWidth type="text" label="Landline" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <TextField fullWidth type="text" label="Mobile" />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <TextField
                   fullWidth
                   type="email"
@@ -687,18 +699,18 @@ const AddCompany = ({ refreshTableMode }) => {
               Marketing Preferences (Optional)
             </Typography>
             <Box display="flex" flexWrap="wrap">
-            <Grid item xs={12} sm={6}>
-              <FormControlLabel control={<Switch checked />} label="Email" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControlLabel control={<Switch checked />} label="Phone" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControlLabel control={<Switch checked />} label="SMS" />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControlLabel control={<Switch checked />} label="Post" />
-            </Grid>
+              <Grid item sm={6}>
+                <FormControlLabel control={<Switch checked />} label="Email" />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControlLabel control={<Switch checked />} label="Phone" />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControlLabel control={<Switch checked />} label="SMS" />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControlLabel control={<Switch checked />} label="Post" />
+              </Grid>
             </Box>
           </>
         );
@@ -710,7 +722,7 @@ const AddCompany = ({ refreshTableMode }) => {
   return (
     <Container maxWidth="xl">
       <Typography variant="h6" padding={1} margin={1}>
-        Add Company
+        Create Company
       </Typography>
       <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
         {steps.map((label) => (

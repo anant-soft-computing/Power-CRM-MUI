@@ -98,9 +98,7 @@ const Dashboard = () => {
           </CardContent>
         </Card>
       </Box>
-      <Box sx={{ display: "flex", justifyContent: "space-between", mt: 5 }}>
-        <SiteReport siteData={siteData} />
-      </Box>
+      <SiteReport siteData={siteData} />
       <RecentSites siteData={siteData} isLoading={isLoading} />
     </Container>
   );

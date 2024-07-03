@@ -20,7 +20,7 @@ const SiteChart = ({ siteData }) => {
     ],
   };
   return (
-    <Card sx={{ width: "48%", boxShadow: 5, borderRadius: 3 }}>
+    <Card sx={{ width: "50%", mt: 3, boxShadow: 5, borderRadius: 3 }}>
       <CardContent>
         <Typography variant="h5" component="div">
           Site Report

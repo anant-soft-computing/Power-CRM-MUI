@@ -128,23 +128,25 @@ const SiteDashboard = () => {
               value === 0 && (
                 <>
                   {quotes.length > 0 ? (
-                    <DataGrid
-                      rows={quotes}
-                      columns={columns}
-                      disableColumnFilter
-                      disableDensitySelector
-                      getRowClassName={(params) =>
-                        params.indexRelativeToCurrentPage % 2 === 0
-                          ? "evenRow"
-                          : "oddRow"
-                      }
-                      slots={{ toolbar: GridToolbar }}
-                      slotProps={{
-                        toolbar: {
-                          showQuickFilter: true,
-                        },
-                      }}
-                    />
+                    <Box sx={{ height: "100%", width: "100%" }}>
+                      <DataGrid
+                        rows={quotes}
+                        columns={columns}
+                        disableColumnFilter
+                        disableDensitySelector
+                        getRowClassName={(params) =>
+                          params.indexRelativeToCurrentPage % 2 === 0
+                            ? "evenRow"
+                            : "oddRow"
+                        }
+                        slots={{ toolbar: GridToolbar }}
+                        slotProps={{
+                          toolbar: {
+                            showQuickFilter: true,
+                          },
+                        }}
+                      />
+                    </Box>
                   ) : (
                     <Typography
                       color="error"

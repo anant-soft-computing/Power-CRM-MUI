@@ -126,7 +126,7 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
   return (
     <Card sx={{ m: 5, boxShadow: 5 }}>
       {ratesData.length > 0 ? (
-        <Box sx={{ height: 400, width: "100%" }}>
+        <Box sx={{ height: "100%", width: "100%" }}>
           <DataGrid
             rows={ratesData}
             columns={columns}

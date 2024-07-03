@@ -168,23 +168,25 @@ const CompanyDashboard = () => {
           ) : (
             <Box sx={{ mt: 2 }}>
               {value === 0 && companySites.length > 0 ? (
-                <DataGrid
-                  rows={companySites}
-                  columns={columns}
-                  disableColumnFilter
-                  disableDensitySelector
-                  getRowClassName={(params) =>
-                    params.indexRelativeToCurrentPage % 2 === 0
-                      ? "evenRow"
-                      : "oddRow"
-                  }
-                  slots={{ toolbar: GridToolbar }}
-                  slotProps={{
-                    toolbar: {
-                      showQuickFilter: true,
-                    },
-                  }}
-                />
+                <Box sx={{ height: "100%", width: "100%" }}>
+                  <DataGrid
+                    rows={companySites}
+                    columns={columns}
+                    disableColumnFilter
+                    disableDensitySelector
+                    getRowClassName={(params) =>
+                      params.indexRelativeToCurrentPage % 2 === 0
+                        ? "evenRow"
+                        : "oddRow"
+                    }
+                    slots={{ toolbar: GridToolbar }}
+                    slotProps={{
+                      toolbar: {
+                        showQuickFilter: true,
+                      },
+                    }}
+                  />
+                </Box>
               ) : (
                 <Typography
                   color="error"
@@ -208,27 +210,28 @@ const CompanyDashboard = () => {
         <DialogTitle>Quotes</DialogTitle>
         <DialogContent>
           {quotes.length > 0 ? (
-            <DataGrid
-              rows={quotes}
-              columns={quotesColumns}
-              disableColumnFilter
-              disableDensitySelector
-              getRowClassName={(params) =>
-                params.indexRelativeToCurrentPage % 2 === 0
-                  ? "evenRow"
-                  : "oddRow"
-              }
-              slots={{ toolbar: GridToolbar }}
-              slotProps={{
-                toolbar: {
-                  showQuickFilter: true,
-                },
-              }}
-            />
+            <Box sx={{ height: "100%", width: "100%" }}>
+              <DataGrid
+                rows={quotes}
+                columns={quotesColumns}
+                disableColumnFilter
+                disableDensitySelector
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0
+                    ? "evenRow"
+                    : "oddRow"
+                }
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                  },
+                }}
+              />
+            </Box>
           ) : (
             <Typography
               color="error"
-              sx={{ mt: 2 }}
               align="center"
               variant="h6"
               component="div"

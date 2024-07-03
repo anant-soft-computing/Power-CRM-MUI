@@ -26,7 +26,6 @@ const Site = () => {
   const [siteData, setSiteData] = useState([]);
   const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [loaData, setLoaData] = useState([]);
   const [companyData, setCompanyData] = useState([]);
   const [contactData, setContactData] = useState([]);
 
@@ -67,7 +66,6 @@ const Site = () => {
     );
     fetchData("company/", setCompanyData);
     fetchData("sites/get/support_contact/", setContactData);
-    fetchData("sites/get/loa_template/", setLoaData);
   }, [fetchData, refreshTable]);
 
   const renderItemAvailable = ({ value }) => {
@@ -199,16 +197,15 @@ const Site = () => {
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Breadcrumb title="Sites" main="Dashboard" />
-      <Box sx={{ display: "flex", mt: 3 }}>
-        <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
-          <AddSite
-            loaData={loaData}
-            companyData={companyData}
-            contactData={contactData}
-            refreshTableMode={refreshTableMode}
-          />
-        </Card>
-      </Box>
+
+      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
+        <AddSite
+          companyData={companyData}
+          contactData={contactData}
+          refreshTableMode={refreshTableMode}
+        />
+      </Card>
+
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <CardContent>
           {isLoading ? (
@@ -216,7 +213,7 @@ const Site = () => {
               <CircularProgress />
             </Box>
           ) : siteData.length > 0 ? (
-            <Box sx={{ height: 400, width: "100%" }}>
+            <Box sx={{ height: "100%", width: "100%" }}>
               <DataGrid
                 rows={siteData}
                 columns={columns}

@@ -236,7 +236,7 @@ const GenerateQuote = () => {
       case 0:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="site-label">Site Name</InputLabel>
                 <Select
@@ -254,7 +254,7 @@ const GenerateQuote = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Postcode"
@@ -264,7 +264,7 @@ const GenerateQuote = () => {
               />
             </Grid>
             {leadType === "GAS" && (
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <TextField
                   fullWidth
                   label="G MPR"
@@ -276,7 +276,7 @@ const GenerateQuote = () => {
             )}
             {leadType === "ELECTRICITY" && (
               <>
-                <Grid item xs={12} sm={6}>
+                <Grid item sm={6}>
                   <TextField
                     fullWidth
                     label="E MPAN Topline"
@@ -285,7 +285,7 @@ const GenerateQuote = () => {
                     onChange={handleChange}
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item sm={6}>
                   <TextField
                     fullWidth
                     label="E MPAN Bottomline"
@@ -301,7 +301,7 @@ const GenerateQuote = () => {
       case 1:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Credit Score"
@@ -311,7 +311,7 @@ const GenerateQuote = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Custom End Date"
@@ -321,7 +321,7 @@ const GenerateQuote = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Measurement Class"
@@ -331,7 +331,7 @@ const GenerateQuote = () => {
               />
             </Grid>
             {leadType === "ELECTRICITY" && (
-              <Grid item xs={12} sm={6}>
+              <Grid item sm={6}>
                 <TextField
                   fullWidth
                   label="E Meter Type"
@@ -346,7 +346,7 @@ const GenerateQuote = () => {
       case 2:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="site-label">Payment Method</InputLabel>
                 <Select
@@ -364,7 +364,7 @@ const GenerateQuote = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Current Supplier"
@@ -373,7 +373,7 @@ const GenerateQuote = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Renewal Date"
@@ -388,7 +388,7 @@ const GenerateQuote = () => {
       case 3:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="unit-rate-uplift-label">
                   Unit Rate Uplift
@@ -408,7 +408,7 @@ const GenerateQuote = () => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Invariable Uplift"
@@ -418,7 +418,7 @@ const GenerateQuote = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Annual Day Usage"
@@ -428,7 +428,7 @@ const GenerateQuote = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Day Rate"
@@ -438,7 +438,7 @@ const GenerateQuote = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Feed-in Tariff"
@@ -448,7 +448,7 @@ const GenerateQuote = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Standing Charge"
@@ -458,7 +458,7 @@ const GenerateQuote = () => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Annual Usage"

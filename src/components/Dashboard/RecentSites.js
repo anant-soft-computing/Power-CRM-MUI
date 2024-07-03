@@ -126,7 +126,7 @@ const RecentSites = ({ siteData, isLoading }) => {
             <CircularProgress />
           </Box>
         ) : siteData?.length > 0 ? (
-          <Box sx={{ height: 400, width: "100%", mt: 2 }}>
+          <Box sx={{ height: "100%", width: "100%", mt: 2 }}>
             <DataGrid
               rows={siteData}
               columns={columns}

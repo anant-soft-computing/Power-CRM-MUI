@@ -82,14 +82,15 @@ const initialSiteData = {
 const steps = [
   "Site Information",
   "Site Address",
-  "Billing Information",
+  "Billing Address",
+  "Our Details",
   "Contact Information",
-  "Additional Information",
+  "Letter Of Authority",
 ];
 
 const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
-const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
+const AddSite = ({ companyData, contactData, refreshTableMode }) => {
   const [open, setOpen] = useState(false);
   const [postcode, setPostcode] = useState("");
   const [addresses, setAddresses] = useState([]);
@@ -378,7 +379,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
       case 0:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Site Name"
@@ -387,7 +388,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="company-label">Company</InputLabel>
                 <Select
@@ -405,7 +406,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Tenant / Owner Name"
@@ -414,7 +415,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Current Gas & Electricity Supplier Details"
@@ -423,7 +424,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControlLabel
                 control={
                   <Switch
@@ -435,7 +436,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 label="Tenant"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControlLabel
                 control={
                   <Switch
@@ -447,7 +448,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 label="Vacant"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControlLabel
                 control={
                   <Switch
@@ -459,7 +460,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 label="Change of Tenancy"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControlLabel
                 control={
                   <Switch
@@ -476,7 +477,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
       case 1:
         return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Address Line 1"
@@ -485,7 +486,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Address Line 2"
@@ -494,7 +495,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Address Line 3"
@@ -503,7 +504,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Address Line 4"
@@ -512,7 +513,7 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField
                 fullWidth
                 label="Post Code"
@@ -521,15 +522,15 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 onChange={handleChange}
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <TextField fullWidth label="Country" value="United Kingdom" />
             </Grid>
           </Grid>
         );
       case 2:
         return (
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
+          <>
+            <Grid item>
               <FormControlLabel
                 control={
                   <Switch
@@ -541,258 +542,260 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
                 label="Billing Address is the same as Site Address"
               />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Billing Address Line 1"
-                name="billingAddressLine1"
-                value={formData.billingAddressLine1}
-                onChange={handleChange}
-              />
+            <Grid container spacing={2} mt={1}>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Billing Address Line 1"
+                  name="billingAddressLine1"
+                  value={formData.billingAddressLine1}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Billing Address Line 2"
+                  name="billingAddressLine2"
+                  value={formData.billingAddressLine2}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Billing Address Line 3"
+                  name="billingAddressLine3"
+                  value={formData.billingAddressLine3}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Billing Address Line 4"
+                  name="billingAddressLine4"
+                  value={formData.billingAddressLine4}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Billing Post Code"
+                  name="billingPostCode"
+                  value={formData.billingPostCode}
+                  onChange={handleChange}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Billing Country"
+                  value="United Kingdom"
+                />
+              </Grid>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Billing Address Line 2"
-                name="billingAddressLine2"
-                value={formData.billingAddressLine2}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Billing Address Line 3"
-                name="billingAddressLine3"
-                value={formData.billingAddressLine3}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Billing Address Line 4"
-                name="billingAddressLine4"
-                value={formData.billingAddressLine4}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Billing Post Code"
-                name="billingPostCode"
-                value={formData.billingPostCode}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Billing Country"
-                value="United Kingdom"
-              />
-            </Grid>
-          </Grid>
+          </>
         );
       case 3:
         return (
-          <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="First Name"
-                name="first_name"
-                value={formData.first_name}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Last Name"
-                name="last_name"
-                value={formData.last_name}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="company-label">Contact Title</InputLabel>
-                <Select
-                  labelId="company-label"
-                  label="Contact Title"
-                  name="contact_title"
-                  value={formData.contact_title}
+          <>
+            <Grid container spacing={2}>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Site Reference"
+                  name="site_reference"
+                  value={formData.site_reference}
                   onChange={handleChange}
-                >
-                  <MenuItem value="Dr">Dr</MenuItem>
-                  <MenuItem value="Mr">Mr</MenuItem>
-                  <MenuItem value="Miss">Miss</MenuItem>
-                  <MenuItem value="Mrs">Mrs</MenuItem>
-                  <MenuItem value="Professor">Professor</MenuItem>
-                  <MenuItem value="Rev">Rev</MenuItem>
-                  <MenuItem value="Ms">Ms</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Position"
-                name="position"
-                value={formData.position}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Telephone Number"
-                name="telephone_number"
-                value={formData.telephone_number}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Email"
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Agent Email"
-                name="agent_email"
-                value={formData.agent_email}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="company-label">LOA Header To Use</InputLabel>
-                <Select
-                  label="LOA Header to Use"
-                  name="loa_header_to_use"
-                  value={formData.loa_header_to_use}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-label">Support Contact</InputLabel>
+                  <Select
+                    labelId="company-label"
+                    label="Support Contact"
+                    name="support_contact"
+                    value={formData.support_contact}
+                    onChange={handleChange}
+                  >
+                    {contactData.map((item) => (
+                      <MenuItem key={item.id} value={item.id}>
+                        {item.username}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Lead Source"
+                  name="lead_source"
+                  value={formData.lead_source}
                   onChange={handleChange}
-                >
-                  <MenuItem value="1">Site Name</MenuItem>
-                  <MenuItem value="2">Company Name</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="company-label">LOA Template</InputLabel>
-                <Select
-                  labelId="company-label"
-                  label="LOA Template"
-                  name="loa_template"
-                  value={formData.loa_template}
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  label="Notes"
+                  name="notes"
+                  value={formData.notes}
                   onChange={handleChange}
-                >
-                  {loaData.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.name}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-label">Lead Type</InputLabel>
+                  <Select
+                    labelId="company-label"
+                    label="Lead Type"
+                    name="lead_type"
+                    value={formData.lead_type}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="ELECTRICITY">Electricity</MenuItem>
+                    <MenuItem value="GAS">Gas</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
             </Grid>
-          </Grid>
+            <Box mt={2}>
+              <Grid item sm={6}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.bill_to_sent}
+                      onChange={handleChange}
+                      name="bill_to_sent"
+                    />
+                  }
+                  label="Bill to Sent"
+                />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.welcome_letter_send}
+                      onChange={handleChange}
+                      name="welcome_letter_send"
+                    />
+                  }
+                  label="Welcome Letter Send"
+                />
+              </Grid>
+            </Box>
+          </>
         );
       case 4:
         return (
+          <>
+            <Grid item sm={6}>
+              <FormControlLabel
+                control={<Switch checked />}
+                label="Primary Contact"
+              />
+            </Grid>
+            <Grid container spacing={2} mt={1}>
+              <Grid item sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="contact-list-label">Contact List</InputLabel>
+                  <Select labelId="contact-list-label" label="Contact List">
+                    <MenuItem value=""></MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={6}>
+                <FormControl fullWidth>
+                  <InputLabel id="company-label">Contact Title</InputLabel>
+                  <Select
+                    labelId="company-label"
+                    label="Contact Title"
+                    name="contact_title"
+                    value={formData.contact_title}
+                    onChange={handleChange}
+                  >
+                    <MenuItem value="Dr">Dr</MenuItem>
+                    <MenuItem value="Mr">Mr</MenuItem>
+                    <MenuItem value="Miss">Miss</MenuItem>
+                    <MenuItem value="Mrs">Mrs</MenuItem>
+                    <MenuItem value="Professor">Professor</MenuItem>
+                    <MenuItem value="Rev">Rev</MenuItem>
+                    <MenuItem value="Ms">Ms</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid item sm={6}>
+                <TextField fullWidth type="text" label="Contact Name" />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField fullWidth type="text" label="Job Title" />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField fullWidth type="text" label="Direct Line" />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField fullWidth type="text" label="Landline" />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField fullWidth type="text" label="Mobile" />
+              </Grid>
+              <Grid item sm={6}>
+                <TextField
+                  fullWidth
+                  type="email"
+                  label="Email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                />
+              </Grid>
+            </Grid>
+            <Typography variant="h6" mt={2}>
+              Marketing Preferences (Optional)
+            </Typography>
+            <Box display="flex" flexWrap="wrap">
+              <Grid item sm={6}>
+                <FormControlLabel control={<Switch checked />} label="Email" />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControlLabel control={<Switch checked />} label="Phone" />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControlLabel control={<Switch checked />} label="SMS" />
+              </Grid>
+              <Grid item sm={6}>
+                <FormControlLabel control={<Switch checked />} label="Post" />
+              </Grid>
+            </Box>
+          </>
+        );
+      case 5:
+        return (
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Site Reference"
-                name="site_reference"
-                value={formData.site_reference}
-                onChange={handleChange}
-              />
+            <Grid item sm={6}>
+              <TextField fullWidth label="Agent Email" />
             </Grid>
-            <Grid item xs={12} sm={6}>
+            <Grid item sm={6}>
               <FormControl fullWidth>
-                <InputLabel id="company-label">Support Contact</InputLabel>
-                <Select
-                  labelId="company-label"
-                  label="Support Contact"
-                  name="support_contact"
-                  value={formData.support_contact}
-                  onChange={handleChange}
-                >
-                  {contactData.map((item) => (
-                    <MenuItem key={item.id} value={item.id}>
-                      {item.username}
-                    </MenuItem>
-                  ))}
+                <InputLabel id="loa-template-label">LOA Template</InputLabel>
+                <Select labelId="loa-template-label" label="LOA Template">
+                  <MenuItem value="Power Standard LOA">
+                    Power Standard LOA
+                  </MenuItem>
+                  <MenuItem value="SSE-LOA">SSE-LOA</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Lead Source"
-                name="lead_source"
-                value={formData.lead_source}
-                onChange={handleChange}
-              />
+            <Grid item sm={6}>
+              <TextField fullWidth type="date" label="LOA Start Date" />
             </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                fullWidth
-                label="Notes"
-                name="notes"
-                value={formData.notes}
-                onChange={handleChange}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControl fullWidth>
-                <InputLabel id="company-label">Lead Type</InputLabel>
-                <Select
-                  labelId="company-label"
-                  label="Lead Type"
-                  name="lead_type"
-                  value={formData.lead_type}
-                  onChange={handleChange}
-                >
-                  <MenuItem value="ELECTRICITY">Electricity</MenuItem>
-                  <MenuItem value="GAS">Gas</MenuItem>
-                </Select>
-              </FormControl>
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={formData.bill_to_sent}
-                    onChange={handleChange}
-                    name="bill_to_sent"
-                  />
-                }
-                label="Bill to Sent"
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <FormControlLabel
-                control={
-                  <Switch
-                    checked={formData.welcome_letter_send}
-                    onChange={handleChange}
-                    name="welcome_letter_send"
-                  />
-                }
-                label="Welcome Letter Send"
-              />
+            <Grid item sm={6}>
+              <TextField fullWidth type="date" label="LOA End Date" />
             </Grid>
           </Grid>
         );
@@ -945,23 +948,27 @@ const AddSite = ({ loaData, companyData, contactData, refreshTableMode }) => {
       <Dialog open={open} onClose={() => setOpen(false)} maxWidth="xl">
         <DialogTitle>Select Address</DialogTitle>
         <DialogContent>
-          <DataGrid
-            rows={addresses}
-            columns={columns}
-            disableColumnFilter
-            disableDensitySelector
-            onRowClick={(params) => handleAddressSelect(params.row)}
-            getRowId={(row) => row.propertyAddressId}
-            getRowClassName={(params) =>
-              params.indexRelativeToCurrentPage % 2 === 0 ? "evenRow" : "oddRow"
-            }
-            slots={{ toolbar: GridToolbar }}
-            slotProps={{
-              toolbar: {
-                showQuickFilter: true,
-              },
-            }}
-          />
+          <Box sx={{ height: "100%", width: "100%" }}>
+            <DataGrid
+              rows={addresses}
+              columns={columns}
+              disableColumnFilter
+              disableDensitySelector
+              onRowClick={(params) => handleAddressSelect(params.row)}
+              getRowId={(row) => row.propertyAddressId}
+              getRowClassName={(params) =>
+                params.indexRelativeToCurrentPage % 2 === 0
+                  ? "evenRow"
+                  : "oddRow"
+              }
+              slots={{ toolbar: GridToolbar }}
+              slotProps={{
+                toolbar: {
+                  showQuickFilter: true,
+                },
+              }}
+            />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setOpen(false)} color="primary">

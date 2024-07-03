@@ -142,11 +142,10 @@ const Company = () => {
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Breadcrumb title="Company" main="Dashboard" />
-      <Box sx={{ display: "flex", mt: 3 }}>
-        <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
-          <AddCompany refreshTableMode={refreshTableMode} />
-        </Card>
-      </Box>
+
+      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
+        <AddCompany refreshTableMode={refreshTableMode} />
+      </Card>
 
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <CardContent>
@@ -155,7 +154,7 @@ const Company = () => {
               <CircularProgress />
             </Box>
           ) : companyData.length > 0 ? (
-            <Box sx={{ height: 400, width: "100%" }}>
+            <Box sx={{ height: "100%", width: "100%" }}>
               <DataGrid
                 rows={companyData}
                 columns={columns}

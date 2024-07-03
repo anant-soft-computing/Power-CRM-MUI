@@ -78,11 +78,11 @@ const Quote = () => {
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Breadcrumb title="Quotes" main="Dashboard" />
-      <Box sx={{ mt: 3 }}>
-        <Card sx={{ boxShadow: 5, borderRadius: 3 }}>
+    
+        <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
           <GenerateQuote />
         </Card>
-      </Box>
+      
 
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <Grid container m={2}>
@@ -107,7 +107,7 @@ const Quote = () => {
         </Grid>
         <CardContent>
           {filteredQuoteData.length > 0 ? (
-            <Box sx={{ height: 400, width: "100%" }}>
+            <Box sx={{ height: "100%", width: "100%" }}>
               <DataGrid
                 rows={filteredQuoteData}
                 columns={columns}

@@ -11,6 +11,7 @@
 }
 
 @media print {
+
   .MuiDataGrid-toolbarContainer,
   .MuiDataGrid-footerContainer {
     display: none !important;

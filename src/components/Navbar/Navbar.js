@@ -9,20 +9,19 @@ const Navbar = ({ toggleSidebar }) => {
     <AppBar
       position="fixed"
       sx={{
-        backgroundColor: theme.palette.primary.light,
         zIndex: theme.zIndex.drawer + 1,
       }}
     >
       <Toolbar>
         <IconButton
-          color="inherit"
+          style={{ color: "white" }}
           aria-label="menu"
           edge="start"
           onClick={toggleSidebar}
         >
           <MenuIcon />
         </IconButton>
-        <Typography variant="h6" noWrap>
+        <Typography variant="h6" style={{ color: "white" }} noWrap>
           POWER CRM
         </Typography>
       </Toolbar>

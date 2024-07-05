@@ -37,7 +37,7 @@ function App() {
                   transition: "margin-left 0.2s ease",
                   width: isSidebarOpen ? "calc(100% - 240px)" : "100%",
                   marginLeft: isSidebarOpen ? "240px" : "0",
-                  backgroundColor: "#4791db42",
+                  backgroundColor: "#f0f2f5",
                 }
               : { flexGrow: 1 }
           }

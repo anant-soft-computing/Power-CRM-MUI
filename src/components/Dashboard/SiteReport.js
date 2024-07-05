@@ -1,5 +1,4 @@
 import React from "react";
-import Chart from "chart.js/auto";
 import moment from "moment/moment";
 import { Bar } from "react-chartjs-2";
 import { Card, CardContent, Typography } from "@mui/material";
@@ -15,7 +14,7 @@ const SiteChart = ({ siteData }) => {
         label: "Site Data",
         data: siteData?.map(({ id }) => id),
         fill: true,
-        backgroundColor: "#1976d2",
+        backgroundColor: "#474646",
       },
     ],
   };

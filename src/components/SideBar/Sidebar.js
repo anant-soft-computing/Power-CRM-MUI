@@ -61,11 +61,12 @@ const Sidebar = ({ isOpen }) => {
         width: isOpen ? 250 : 0,
         position: "fixed",
         height: "100%",
-        backgroundColor: "#f1f1f1",
+        backgroundColor: "#ffffff",
+        color: "black",
         transition: "width 0.3s",
         overflowX: "hidden",
         paddingTop: "66px",
-        marginLeft: "-5px",
+        marginLeft: "-10px",
       }}
     >
       <List>

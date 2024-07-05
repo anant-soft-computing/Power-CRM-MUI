@@ -1,4 +1,5 @@
 import React, { useReducer, useState } from "react";
+import { useTheme } from "@mui/material/styles";
 import {
   Grid,
   Select,
@@ -84,6 +85,8 @@ const companyReducer = (state, action) => {
 const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const AddCompany = ({ refreshTableMode }) => {
+  const theme = useTheme();
+  console.log(theme);
   const [companyData, dispatchCompany] = useReducer(
     companyReducer,
     initialCompanyData
@@ -194,6 +197,11 @@ const AddCompany = ({ refreshTableMode }) => {
                       value: e.target.value,
                     })
                   }
+                  sx={{
+                    "& .MuiInputBase-input": {
+                      color: theme.palette.primary.text,
+                    },
+                  }}
                 />
               </Grid>
               <Grid item sm={4}>
@@ -624,12 +632,12 @@ const AddCompany = ({ refreshTableMode }) => {
       case 4:
         return (
           <>
-           <Grid item sm={6}>
-                <FormControlLabel
-                  control={<Switch checked />}
-                  label="Primary Contact"
-                />
-              </Grid>
+            <Grid item sm={6}>
+              <FormControlLabel
+                control={<Switch checked />}
+                label="Primary Contact"
+              />
+            </Grid>
             <Grid container spacing={2} mt={1}>
               <Grid item sm={6}>
                 <FormControl fullWidth>
@@ -731,6 +739,7 @@ const AddCompany = ({ refreshTableMode }) => {
           </Step>
         ))}
       </Stepper>
+
       {renderStepContent(activeStep)}
       {formStatus.isError && (
         <Typography
@@ -745,7 +754,7 @@ const AddCompany = ({ refreshTableMode }) => {
       )}
       <Box sx={{ display: "flex", justifyContent: "flex-end", m: 2 }}>
         {activeStep !== 0 && (
-          <Button onClick={handleBack} sx={{ mr: 1 }}>
+          <Button onClick={handleBack} sx={{ mr: 1 }} color="primary">
             Back
           </Button>
         )}

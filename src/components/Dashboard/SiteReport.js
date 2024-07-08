@@ -1,4 +1,5 @@
 import React from "react";
+import Chart from "chart.js/auto";
 import moment from "moment/moment";
 import { Bar } from "react-chartjs-2";
 import { Card, CardContent, Typography } from "@mui/material";

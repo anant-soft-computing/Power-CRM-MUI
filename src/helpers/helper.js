@@ -35,7 +35,6 @@ const getRefreshToken = async (refreshToken) => {
       refresh: refreshToken,
     })
   );
-
   if (response.msg === "login Successful") {
     const localObj = {
       accessToken: response.token.access,

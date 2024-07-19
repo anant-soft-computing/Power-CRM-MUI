@@ -624,12 +624,12 @@ const AddCompany = ({ refreshTableMode }) => {
       case 4:
         return (
           <>
-           <Grid item sm={6}>
-                <FormControlLabel
-                  control={<Switch checked />}
-                  label="Primary Contact"
-                />
-              </Grid>
+            <Grid item sm={6}>
+              <FormControlLabel
+                control={<Switch checked />}
+                label="Primary Contact"
+              />
+            </Grid>
             <Grid container spacing={2} mt={1}>
               <Grid item sm={6}>
                 <FormControl fullWidth>

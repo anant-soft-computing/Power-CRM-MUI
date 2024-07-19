@@ -10,12 +10,14 @@ import {
   Select,
   MenuItem,
   CardContent,
+  Button,
 } from "@mui/material";
 import GenerateQuote from "./GenerateQuote";
 import ajaxCall from "../../helpers/ajaxCall";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../../css/custom.css";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { headerName: "Supplier", field: "supplier", width: 180 },
@@ -31,10 +33,10 @@ const columns = [
 ];
 
 const Quote = () => {
+  const navigate = useNavigate();
   const [site, setSite] = useState("");
   const [siteData, setSiteData] = useState([]);
   const [quoteData, setQuoteData] = useState([]);
-
   const filteredQuoteData = quoteData.filter((item) => item.site === site);
 
   const fetchData = async (url, setData) => {
@@ -86,7 +88,7 @@ const Quote = () => {
 
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <Grid container m={2}>
-          <Grid item xs={3} sm={3}>
+          <Grid item xs={3} sm={3} justifyContent="space-between">
             <FormControl fullWidth>
               <InputLabel id="site-label">Site Name</InputLabel>
               <Select
@@ -103,8 +105,17 @@ const Quote = () => {
                 ))}
               </Select>
             </FormControl>
+            <Button
+              variant="contained"
+              color="primary"
+              sx={{ mt: 2 }}
+              onClick={() => navigate(`/Test/${site}`)}
+            >
+              Send Quotation
+            </Button>
           </Grid>
         </Grid>
+
         <CardContent>
           {filteredQuoteData.length > 0 ? (
             <Box sx={{ height: "100%", width: "100%" }}>

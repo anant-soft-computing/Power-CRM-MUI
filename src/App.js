@@ -13,10 +13,12 @@ import CompanyDashboard from "./components/Company/Dashboard";
 import SiteDashboard from "./components/Site/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Test from "./components/Quote/Test";
 
 function App() {
   const location = useLocation();
-  const hide = location.pathname === "/";
+  const hide =
+    location.pathname === "/" || location.pathname.startsWith("/Test/");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -50,6 +52,7 @@ function App() {
             <Route path="/Sites" element={<Site />} />
             <Route path="/Site/:siteId" element={<SiteDashboard />} />
             <Route path="/Quotes" element={<Quote />} />
+            <Route path="/Test/:siteId" element={<Test />} />
           </Routes>
         </div>
       </div>

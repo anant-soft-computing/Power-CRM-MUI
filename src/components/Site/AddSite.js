@@ -792,10 +792,20 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </FormControl>
             </Grid>
             <Grid item sm={6}>
-              <TextField fullWidth type="date" label="LOA Start Date" />
+              <TextField
+                fullWidth
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                label="LOA Start Date"
+              />
             </Grid>
             <Grid item sm={6}>
-              <TextField fullWidth type="date" label="LOA End Date" />
+              <TextField
+                fullWidth
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                label="LOA End Date"
+              />
             </Grid>
           </Grid>
         );

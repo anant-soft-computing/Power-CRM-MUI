@@ -316,6 +316,7 @@ const GenerateQuote = () => {
                 fullWidth
                 label="Custom End Date"
                 type="date"
+                InputLabelProps={{ shrink: true }}
                 name="custom_end_date"
                 value={quoteData.custom_end_date}
                 onChange={handleChange}
@@ -378,6 +379,7 @@ const GenerateQuote = () => {
                 fullWidth
                 label="Renewal Date"
                 type="date"
+                InputLabelProps={{ shrink: true }}
                 name="renewal_date"
                 value={quoteData.renewal_date}
                 onChange={handleChange}

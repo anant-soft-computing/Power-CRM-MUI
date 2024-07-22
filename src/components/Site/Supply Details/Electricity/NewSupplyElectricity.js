@@ -259,6 +259,7 @@ const NewSupplyElectricity = () => {
             fullWidth
             label="Won Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="e_won_date"
             value={NSElectricityData.e_won_date}
             onChange={(e) =>
@@ -273,6 +274,7 @@ const NewSupplyElectricity = () => {
           <TextField
             fullWidth
             type="date"
+            InputLabelProps={{ shrink: true }}
             label="Contract Start Date"
             name="e_contract_start_date"
             value={NSElectricityData.e_contract_start_date}
@@ -289,6 +291,7 @@ const NewSupplyElectricity = () => {
             fullWidth
             label="Contract End Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="e_contract_end_date"
             value={NSElectricityData.e_contract_end_date}
             onChange={(e) =>
@@ -319,6 +322,7 @@ const NewSupplyElectricity = () => {
             fullWidth
             label="Contract Back Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="e_contract_back_date"
             value={NSElectricityData.e_contract_back_date}
             onChange={(e) =>

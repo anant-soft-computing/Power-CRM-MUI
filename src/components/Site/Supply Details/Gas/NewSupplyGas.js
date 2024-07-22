@@ -232,6 +232,7 @@ const NewSupplyGas = () => {
             fullWidth
             label="Won Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="g_won_date"
             value={NSGasData.g_won_date}
             onChange={(e) =>
@@ -246,6 +247,7 @@ const NewSupplyGas = () => {
           <TextField
             fullWidth
             type="date"
+            InputLabelProps={{ shrink: true }}
             label="Contract Start Date"
             name="g_contract_start_date"
             value={NSGasData.g_contract_start_date}
@@ -262,6 +264,7 @@ const NewSupplyGas = () => {
             fullWidth
             label="Contract End Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="g_contract_end_date"
             value={NSGasData.g_contract_end_date}
             onChange={(e) =>
@@ -292,6 +295,7 @@ const NewSupplyGas = () => {
             fullWidth
             label="Contract Back Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="g_contract_back_date"
             value={NSGasData.g_contract_back_date}
             onChange={(e) =>

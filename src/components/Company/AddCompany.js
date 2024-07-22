@@ -247,6 +247,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <TextField
                   fullWidth
                   type="date"
+                  InputLabelProps={{ shrink: true }}
                   label="Company Incorporated Date"
                 />
               </Grid>
@@ -274,6 +275,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <TextField
                   fullWidth
                   type="date"
+                  InputLabelProps={{ shrink: true }}
                   label="Director Date of Birth"
                 />
               </Grid>
@@ -554,6 +556,7 @@ const AddCompany = ({ refreshTableMode }) => {
               <TextField
                 fullWidth
                 type="date"
+                InputLabelProps={{ shrink: true }}
                 label="Direct Debit Start Date"
               />
             </Grid>
@@ -614,10 +617,20 @@ const AddCompany = ({ refreshTableMode }) => {
               </FormControl>
             </Grid>
             <Grid item sm={6}>
-              <TextField fullWidth type="date" label="LOA Start Date" />
+              <TextField
+                fullWidth
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                label="LOA Start Date"
+              />
             </Grid>
             <Grid item sm={6}>
-              <TextField fullWidth type="date" label="LOA End Date" />
+              <TextField
+                fullWidth
+                type="date"
+                InputLabelProps={{ shrink: true }}
+                label="LOA End Date"
+              />
             </Grid>
           </Grid>
         );

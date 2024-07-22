@@ -244,6 +244,7 @@ const CurrentSupplyElectricity = ({ EleDetails }) => {
             fullWidth
             label="Won Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="e_won_date"
             value={CSElectricData.e_won_date}
             onChange={(e) =>
@@ -258,6 +259,7 @@ const CurrentSupplyElectricity = ({ EleDetails }) => {
           <TextField
             fullWidth
             type="date"
+            InputLabelProps={{ shrink: true }}
             label="Contract Start Date"
             name="e_contract_start_date"
             value={CSElectricData.e_contract_start_date}
@@ -274,6 +276,7 @@ const CurrentSupplyElectricity = ({ EleDetails }) => {
             fullWidth
             label="Contract End Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="e_contract_end_date"
             value={CSElectricData.e_contract_end_date}
             onChange={(e) =>
@@ -304,6 +307,7 @@ const CurrentSupplyElectricity = ({ EleDetails }) => {
             fullWidth
             label="Contract Back Date"
             type="date"
+            InputLabelProps={{ shrink: true }}
             name="e_contract_back_date"
             value={CSElectricData.e_contract_back_date}
             onChange={(e) =>

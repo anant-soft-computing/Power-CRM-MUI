@@ -20,6 +20,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import "../../css/custom.css";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
+import { Margin } from "@mui/icons-material";
 
 const quotesColumns = [
   { headerName: "Supplier", field: "supplier", filter: true },
@@ -52,6 +53,10 @@ const CompanyDashboard = () => {
   const [showQuote, setShowQuote] = useState(false);
 
   const quotes = siteQuotes.filter((item) => item.site === siteId);
+
+  const QuoteData = siteQuotes.filter((item) =>
+    companySites.some((site) => site.id === item.site)
+  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -128,6 +133,27 @@ const CompanyDashboard = () => {
     },
   ];
 
+  const QuoteColumns = [
+    { field: "supplier", headerName: "Supplier", width: 200 },
+    { field: "term", headerName: "Term", width: 200 },
+    {
+      field: "day_rate",
+      headerName: "Day Rate",
+      width: 200,
+    },
+    { field: "night_rate", headerName: "Night Rate", width: 200 },
+    {
+      field: "standing_charge",
+      headerName: "Standing Charge",
+      width: 190,
+    },
+    {
+      field: "up_lift",
+      headerName: "Up Lift",
+      width: 190,
+    },
+  ];
+
   return (
     <>
       <Container maxWidth="xl" sx={{ my: 10 }}>
@@ -151,55 +177,109 @@ const CompanyDashboard = () => {
               aria-label="company dashboard tabs"
             >
               <Tab label="Site" />
+              <Tab label="Quotes" />
             </Tabs>
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={() => navigate("/Sites")}
-            >
-              <AddIcon sx={{ mr: 1 }} />
-              Add Site
-            </Button>
+
+            <Box>
+              <Button
+                variant="contained"
+                color="primary"
+                sx={{ m: 1 }}
+                onClick={() => navigate("/Quotes")}
+              >
+                <AddIcon sx={{ mr: 1 }} />
+                Generate Quote
+              </Button>
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={() => navigate("/Sites")}
+              >
+                <AddIcon sx={{ mr: 1 }} />
+                Add Site
+              </Button>
+            </Box>
           </Box>
-          {isLoading ? (
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <CircularProgress />
-            </Box>
-          ) : (
-            <Box sx={{ mt: 2 }}>
-              {value === 0 && companySites.length > 0 ? (
-                <Box sx={{ height: "100%", width: "100%" }}>
-                  <DataGrid
-                    rows={companySites}
-                    columns={columns}
-                    disableColumnFilter
-                    disableDensitySelector
-                    getRowClassName={(params) =>
-                      params.indexRelativeToCurrentPage % 2 === 0
-                        ? "evenRow"
-                        : "oddRow"
-                    }
-                    slots={{ toolbar: GridToolbar }}
-                    slotProps={{
-                      toolbar: {
-                        showQuickFilter: true,
-                      },
-                    }}
-                  />
-                </Box>
-              ) : (
-                <Typography
-                  color="error"
-                  sx={{ mt: 2 }}
-                  align="center"
-                  variant="h6"
-                  component="div"
-                >
-                  No Sites Available !!
-                </Typography>
-              )}
-            </Box>
-          )}
+
+          <Box sx={{ mt: 2 }}>
+            {isLoading ? (
+              <Box display="flex" justifyContent="center" alignItems="center">
+                <CircularProgress />
+              </Box>
+            ) : (
+              value === 0 && (
+                <>
+                  {companySites.length > 0 ? (
+                    <Box sx={{ height: "100%", width: "100%" }}>
+                      <DataGrid
+                        rows={companySites}
+                        columns={columns}
+                        disableColumnFilter
+                        disableDensitySelector
+                        getRowClassName={(params) =>
+                          params.indexRelativeToCurrentPage % 2 === 0
+                            ? "evenRow"
+                            : "oddRow"
+                        }
+                        slots={{ toolbar: GridToolbar }}
+                        slotProps={{
+                          toolbar: {
+                            showQuickFilter: true,
+                          },
+                        }}
+                      />
+                    </Box>
+                  ) : (
+                    <Typography
+                      color="error"
+                      sx={{ mt: 2 }}
+                      align="center"
+                      variant="h6"
+                      component="div"
+                    >
+                      No Sites Available !!
+                    </Typography>
+                  )}
+                </>
+              )
+            )}
+            {value === 1 && (
+              <>
+                {QuoteData.length > 0 ? (
+                  <Box sx={{ height: "100%", width: "100%" }}>
+                    <DataGrid
+                      rows={QuoteData}
+                      columns={QuoteColumns}
+                      disableColumnFilter
+                      disableDensitySelector
+                      getRowClassName={(params) =>
+                        params.indexRelativeToCurrentPage % 2 === 0
+                          ? "evenRow"
+                          : "oddRow"
+                      }
+                      slots={{ toolbar: GridToolbar }}
+                      slotProps={{
+                        toolbar: {
+                          showQuickFilter: true,
+                        },
+                      }}
+                    />
+                  </Box>
+                ) : (
+                  <Typography
+                    color="error"
+                    sx={{ mt: 2 }}
+                    align="center"
+                    variant="h6"
+                    component="div"
+                  >
+                    No Quotes Available !!
+                  </Typography>
+                )}
+              </>
+            )}
+          </Box>
         </Card>
       </Container>
       <Dialog

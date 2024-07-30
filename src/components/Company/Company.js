@@ -25,9 +25,14 @@ const Company = () => {
   const [companyData, setCompanyData] = useState([]);
   const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [showAddCompany, setShowAddCompany] = useState(false);
 
   const refreshTableMode = () => {
     setRefreshTable((prev) => prev + 1);
+  };
+
+  const toggleAddCompany = () => {
+    setShowAddCompany((prev) => !prev);
   };
 
   useEffect(() => {
@@ -139,13 +144,10 @@ const Company = () => {
       field: "time_at_address_years",
     },
   ];
+
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Breadcrumb title="Company" main="Dashboard" />
-
-      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
-        <AddCompany refreshTableMode={refreshTableMode} />
-      </Card>
 
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <CardContent>
@@ -186,6 +188,18 @@ const Company = () => {
           )}
         </CardContent>
       </Card>
+
+      <Box display="flex" justifyContent="flex-end" sx={{ mt: 3 }}>
+        <Button variant="contained" color="primary" onClick={toggleAddCompany}>
+          {showAddCompany ? "Add Company" : "Add Company"}
+        </Button>
+      </Box>
+
+      {showAddCompany && (
+        <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
+          <AddCompany refreshTableMode={refreshTableMode} />
+        </Card>
+      )}
     </Container>
   );
 };

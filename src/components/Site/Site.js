@@ -197,15 +197,6 @@ const Site = () => {
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Breadcrumb title="Sites" main="Dashboard" />
-
-      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
-        <AddSite
-          companyData={companyData}
-          contactData={contactData}
-          refreshTableMode={refreshTableMode}
-        />
-      </Card>
-
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <CardContent>
           {isLoading ? (
@@ -244,6 +235,13 @@ const Site = () => {
             </Typography>
           )}
         </CardContent>
+      </Card>
+      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
+        <AddSite
+          companyData={companyData}
+          contactData={contactData}
+          refreshTableMode={refreshTableMode}
+        />
       </Card>
     </Container>
   );

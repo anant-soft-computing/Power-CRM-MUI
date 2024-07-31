@@ -73,92 +73,17 @@ const Quote = () => {
     fetchData("supplierdatagetview/", setQuoteData);
   }, []);
 
-  const handleSiteChange = (e) => {
-    setSite(e.target.value);
-  };
-
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Breadcrumb title="Quotes" main="Dashboard" />
-    
-        <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
-          <GenerateQuote />
-        </Card>
-      
+      <Breadcrumb
+        title="Generate Quotes"
+        middleUrl="Companies"
+        middle="Company"
+        main="Dashboard"
+      />
 
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
-        <Grid container m={2}>
-          <Grid item xs={3} sm={3} justifyContent="space-between">
-            <FormControl fullWidth>
-              <InputLabel id="site-label">Site Name</InputLabel>
-              <Select
-                labelId="site-label"
-                label="Site Name"
-                name="site_name"
-                value={site}
-                onChange={handleSiteChange}
-              >
-                {siteData.map((data) => (
-                  <MenuItem key={data.id} value={data.id}>
-                    {data.site_name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <Button
-              variant="contained"
-              color="primary"
-              sx={{ mt: 2 }}
-              onClick={() => navigate(`/Test/${site}`)}
-            >
-              Send Quotation
-            </Button>
-          </Grid>
-        </Grid>
-
-        <CardContent>
-          {filteredQuoteData.length > 0 ? (
-            <Box sx={{ height: "100%", width: "100%" }}>
-              <DataGrid
-                rows={filteredQuoteData}
-                columns={columns}
-                disableColumnFilter
-                disableDensitySelector
-                getRowClassName={(params) =>
-                  params.indexRelativeToCurrentPage % 2 === 0
-                    ? "evenRow"
-                    : "oddRow"
-                }
-                slots={{ toolbar: GridToolbar }}
-                slotProps={{
-                  toolbar: {
-                    showQuickFilter: true,
-                  },
-                }}
-              />
-            </Box>
-          ) : site === "" ? (
-            <Typography
-              color="error"
-              sx={{ mt: 2 }}
-              align="center"
-              variant="h6"
-              component="div"
-            >
-              Please Select Site For Quotes
-            </Typography>
-          ) : (
-            <Typography
-              color="error"
-              sx={{ mt: 2 }}
-              align="center"
-              variant="h6"
-              component="div"
-            >
-              No Quotation Available !!
-            </Typography>
-          )}
-        </CardContent>
+        <GenerateQuote />
       </Card>
     </Container>
   );

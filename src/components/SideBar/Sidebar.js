@@ -42,16 +42,16 @@ const Sidebar = ({ isOpen }) => {
       icon: <BusinessIcon color="primary" />,
       path: "/Companies",
     },
-    {
-      text: "Sites",
-      icon: <AccountTreeIcon color="primary" />,
-      path: "/Sites",
-    },
-    {
-      text: "Generate Quote",
-      icon: <FormatQuoteIcon color="primary" />,
-      path: "/Quotes",
-    },
+    // {
+    //   text: "Sites",
+    //   icon: <AccountTreeIcon color="primary" />,
+    //   path: "/Sites",
+    // },
+    // {
+    //   text: "Generate Quote",
+    //   icon: <FormatQuoteIcon color="primary" />,
+    //   path: "/Quotes",
+    // },
     { text: "LogOut", icon: <LogoutIcon color="primary" />, action: logout },
   ];
 

@@ -31,7 +31,7 @@ const Quotation = ({ siteId, upLiftRate, setShowQuotation }) => {
 
   const validateForm = () => {
     if (selectedRows.length === 0) {
-      setFormError("Please select at least one Rate before saving. ");
+      setFormError("Please select at least one Rate before saving.");
       return false;
     }
     setFormStatus({ isError: false, errMsg: null, isSubmitting: false });

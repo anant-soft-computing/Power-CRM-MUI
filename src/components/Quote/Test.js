@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Container, Box, Card, CardContent, Button } from "@mui/material";
+import {
+  Container,
+  Box,
+  Card,
+  CardContent,
+  Button,
+  Typography,
+} from "@mui/material";
 import ajaxCall from "../../helpers/ajaxCall";
 import { DataGrid } from "@mui/x-data-grid";
 import "../../css/custom.css";
@@ -72,22 +79,34 @@ const Test = () => {
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
       <Navbar />
-      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
-        <CardContent>
-          <Box sx={{ height: "100%", width: "100%" }}>
-            <DataGrid
-              rows={filteredQuoteData}
-              columns={columns}
-              getRowClassName={(params) =>
-                params.indexRelativeToCurrentPage % 2 === 0
-                  ? "evenRow"
-                  : "oddRow"
-              }
-            />
-          </Box>
-        </CardContent>
-      </Card>
-
+      {filteredQuoteData.length > 0 ? (
+        <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
+          <CardContent>
+            <Box sx={{ height: "100%", width: "100%" }}>
+              <DataGrid
+                rows={filteredQuoteData}
+                columns={columns}
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0
+                    ? "evenRow"
+                    : "oddRow"
+                }
+              />
+            </Box>
+          </CardContent>
+        </Card>
+      ) : (
+        <Typography
+          color="error"
+          sx={{ mt: 4 }}
+          align="center"
+          variant="h6"
+          component="div"
+        >
+          No Quotes Available !!
+        </Typography>
+      )}
+      {/* 
       <Box sx={{ display: "flex", justifyContent: "flex-end", m: 3 }}>
         <Button variant="contained" color="primary" sx={{ m: 1 }}>
           Save
@@ -95,7 +114,7 @@ const Test = () => {
         <Button variant="contained" color="primary" sx={{ m: 1 }}>
           Save & Send
         </Button>
-      </Box>
+      </Box> */}
     </Container>
   );
 };

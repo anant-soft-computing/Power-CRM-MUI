@@ -20,7 +20,6 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import "../../css/custom.css";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
-import { Margin } from "@mui/icons-material";
 
 const quotesColumns = [
   { headerName: "Supplier", field: "supplier", filter: true },
@@ -51,12 +50,8 @@ const CompanyDashboard = () => {
   const [companySites, setCompanySites] = useState([]);
   const [siteQuotes, setSiteQuotes] = useState([]);
   const [showQuote, setShowQuote] = useState(false);
-
+  const [quoteData, setQuoteData] = useState([]);
   const quotes = siteQuotes.filter((item) => item.site === siteId);
-
-  const QuoteData = siteQuotes.filter((item) =>
-    companySites.some((site) => site.id === item.site)
-  );
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -105,16 +100,32 @@ const CompanyDashboard = () => {
     setShowQuote(true);
   };
 
+  const handleGenerateQuote = (data) => {
+    navigate("/Quotes", { state: data });
+  };
+
+  const handleSiteid = (siteId) => {
+    navigate("/Sites", { state: siteId });
+  };
+
+  useEffect(() => {
+    fetchData("supplierdatagetview/", setQuoteData);
+  }, []);
+
+  useEffect(() => {
+    fetchData("company/", setCompanyData);
+  }, []);
+
   const columns = [
-    { field: "site_name", headerName: "Site Name", width: 200 },
-    { field: "owner_name", headerName: "Owner Name", width: 200 },
+    { field: "site_name", headerName: "Site Name", width: 190 },
+    { field: "owner_name", headerName: "Owner Name", width: 190 },
     {
       field: "company.name",
       headerName: "Company",
       width: 200,
       renderCell: (params) => params.row.company.name,
     },
-    { field: "lead_type", headerName: "Lead Type", width: 200 },
+    { field: "lead_type", headerName: "Lead Type", width: 190 },
     {
       field: "View Quote",
       headerName: "View Quote",
@@ -124,33 +135,40 @@ const CompanyDashboard = () => {
           variant="contained"
           color="primary"
           onClick={() => handleViewQuotes(params.row.id)}
-          sx={{ m: 1 }}
         >
           <RemoveRedEyeIcon sx={{ mr: 1 }} />
           View Quote
         </Button>
       ),
     },
-  ];
-
-  const QuoteColumns = [
-    { field: "supplier", headerName: "Supplier", width: 200 },
-    { field: "term", headerName: "Term", width: 200 },
+    // {
+    //   field: "Generate Quote",
+    //   headerName: "Generate Quote",
+    //   width: 200,
+    //   renderCell: (params) => (
+    //     <Button
+    //       variant="contained"
+    //       color="primary"
+    //       onClick={() => setQuoteId(params.row.id)}
+    //     >
+    //       <AddIcon />
+    //       Generate Quote
+    //     </Button>
+    //   ),
+    // },
     {
-      field: "day_rate",
-      headerName: "Day Rate",
-      width: 200,
-    },
-    { field: "night_rate", headerName: "Night Rate", width: 200 },
-    {
-      field: "standing_charge",
-      headerName: "Standing Charge",
-      width: 190,
-    },
-    {
-      field: "up_lift",
-      headerName: "Up Lift",
-      width: 190,
+      field: "Send Quote",
+      headerName: "Send Quote",
+      width: 180,
+      renderCell: (params) => (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate(`/Test/${params.row.id}`)}
+        >
+          Send Quotation
+        </Button>
+      ),
     },
   ];
 
@@ -177,7 +195,6 @@ const CompanyDashboard = () => {
               aria-label="company dashboard tabs"
             >
               <Tab label="Site" />
-              <Tab label="Quotes" />
             </Tabs>
 
             <Box>
@@ -185,7 +202,7 @@ const CompanyDashboard = () => {
                 variant="contained"
                 color="primary"
                 sx={{ m: 1 }}
-                onClick={() => navigate("/Quotes")}
+                onClick={() => handleGenerateQuote(companyId)}
               >
                 <AddIcon sx={{ mr: 1 }} />
                 Generate Quote
@@ -194,7 +211,7 @@ const CompanyDashboard = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => navigate("/Sites")}
+                onClick={() => handleSiteid(companyId)}
               >
                 <AddIcon sx={{ mr: 1 }} />
                 Add Site
@@ -243,41 +260,6 @@ const CompanyDashboard = () => {
                   )}
                 </>
               )
-            )}
-            {value === 1 && (
-              <>
-                {QuoteData.length > 0 ? (
-                  <Box sx={{ height: "100%", width: "100%" }}>
-                    <DataGrid
-                      rows={QuoteData}
-                      columns={QuoteColumns}
-                      disableColumnFilter
-                      disableDensitySelector
-                      getRowClassName={(params) =>
-                        params.indexRelativeToCurrentPage % 2 === 0
-                          ? "evenRow"
-                          : "oddRow"
-                      }
-                      slots={{ toolbar: GridToolbar }}
-                      slotProps={{
-                        toolbar: {
-                          showQuickFilter: true,
-                        },
-                      }}
-                    />
-                  </Box>
-                ) : (
-                  <Typography
-                    color="error"
-                    sx={{ mt: 2 }}
-                    align="center"
-                    variant="h6"
-                    component="div"
-                  >
-                    No Quotes Available !!
-                  </Typography>
-                )}
-              </>
             )}
           </Box>
         </Card>

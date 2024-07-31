@@ -19,6 +19,7 @@ import moment from "moment";
 import Quotation from "./Quotation";
 import ajaxCall from "../../helpers/ajaxCall";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
 
 const initialQuoteState = {
   e_mpan_topline: "",
@@ -67,6 +68,8 @@ const unitRateUplifts = [
 const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const GenerateQuote = () => {
+  const location = useLocation();
+  const data = location.state;
   const [site, setSite] = useState("");
   const [siteId, setSiteId] = useState("");
   const [siteData, setSiteData] = useState([]);
@@ -75,7 +78,7 @@ const GenerateQuote = () => {
   const [showQuotation, setShowQuotation] = useState(false);
   const [formStatus, setFormStatus] = useState(initialSubmit);
   const [quoteData, setQuoteData] = useState(initialQuoteState);
-
+  const [companySite, setCompanySite] = useState([]);
   useEffect(() => {
     (async () => {
       try {
@@ -102,6 +105,36 @@ const GenerateQuote = () => {
         console.error("error", error);
       }
     })();
+  }, []);
+
+  const fetchData = async (url, setData) => {
+    try {
+      const response = await ajaxCall(
+        url,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "GET",
+        },
+        8000
+      );
+      if (response?.status === 200) {
+        setData(response?.data);
+      } else {
+        console.error("Fetch error:", response);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(`sites/get/site/?company=${data}`, setCompanySite);
   }, []);
 
   useEffect(() => {
@@ -246,7 +279,7 @@ const GenerateQuote = () => {
                   value={siteId}
                   onChange={(e) => setSiteId(e.target.value)}
                 >
-                  {siteData.map((data) => (
+                  {companySite.map((data) => (
                     <MenuItem key={data.id} value={data.id}>
                       {data.site_name}
                     </MenuItem>

@@ -31,6 +31,7 @@ import { toast } from "react-toastify";
 import ajaxCall from "../../helpers/ajaxCall";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
+import { useLocation } from "react-router-dom";
 
 const initialSiteData = {
   site_name: "",
@@ -91,6 +92,8 @@ const steps = [
 const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 
 const AddSite = ({ companyData, contactData, refreshTableMode }) => {
+  const location = useLocation();
+  const data = location.state;
   const [open, setOpen] = useState(false);
   const [postcode, setPostcode] = useState("");
   const [addresses, setAddresses] = useState([]);
@@ -395,7 +398,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                   labelId="company-label"
                   label="Company"
                   name="company"
-                  value={formData.company}
+                  value={data}
                   onChange={handleChange}
                 >
                   {companyData.map((item) => (

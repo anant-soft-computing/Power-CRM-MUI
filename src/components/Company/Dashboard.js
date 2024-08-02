@@ -50,7 +50,6 @@ const CompanyDashboard = () => {
   const [companySites, setCompanySites] = useState([]);
   const [siteQuotes, setSiteQuotes] = useState([]);
   const [showQuote, setShowQuote] = useState(false);
-  const [quoteData, setQuoteData] = useState([]);
   const quotes = siteQuotes.filter((item) => item.site === siteId);
 
   const handleChange = (event, newValue) => {
@@ -108,24 +107,62 @@ const CompanyDashboard = () => {
     navigate("/Sites", { state: siteId });
   };
 
-  useEffect(() => {
-    fetchData("supplierdatagetview/", setQuoteData);
-  }, []);
+  const handleNotesUpdate = async (params) => {
+    const { id, value } = params;
+    try {
+      const response = await ajaxCall(
+        `sites/update/site/${id}/`, // Updated endpoint
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          body: JSON.stringify({ notes: value }),
+        },
+        8000
+      );
 
-  useEffect(() => {
-    fetchData("company/", setCompanyData);
-  }, []);
+      if (response?.status === 200) {
+        setCompanySites((prevSites) =>
+          prevSites.map((site) =>
+            site.id === id ? { ...site, notes: value } : site
+          )
+        );
+        console.log("Updated");
+      } else {
+        console.error("Update error:", response);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
 
   const columns = [
-    { field: "site_name", headerName: "Site Name", width: 190 },
-    { field: "owner_name", headerName: "Owner Name", width: 190 },
+    { field: "site_name", headerName: "Site Name", width: 170 },
+    { field: "owner_name", headerName: "Owner Name", width: 170 },
     {
       field: "company.name",
       headerName: "Company",
-      width: 200,
+      width: 180,
       renderCell: (params) => params.row.company.name,
     },
-    { field: "lead_type", headerName: "Lead Type", width: 190 },
+    { field: "lead_type", headerName: "Lead Type", width: 170 },
+    {
+      field: "notes",
+      headerName: "Notes",
+      width: 180,
+      editable: true,
+      preProcessEditCellProps: (params) => {
+        const hasChanged = params.props.value !== params.row.notes;
+        if (hasChanged) {
+          handleNotesUpdate({ id: params.row.id, value: params.props.value });
+        }
+        return { ...params.props, error: false };
+      },
+    },
     {
       field: "View Quote",
       headerName: "View Quote",
@@ -141,21 +178,6 @@ const CompanyDashboard = () => {
         </Button>
       ),
     },
-    // {
-    //   field: "Generate Quote",
-    //   headerName: "Generate Quote",
-    //   width: 200,
-    //   renderCell: (params) => (
-    //     <Button
-    //       variant="contained"
-    //       color="primary"
-    //       onClick={() => setQuoteId(params.row.id)}
-    //     >
-    //       <AddIcon />
-    //       Generate Quote
-    //     </Button>
-    //   ),
-    // },
     {
       field: "Send Quote",
       headerName: "Send Quote",
@@ -244,6 +266,12 @@ const CompanyDashboard = () => {
                           toolbar: {
                             showQuickFilter: true,
                           },
+                        }}
+                        editMode="cell"
+                        onCellEditStop={(params, event) => {
+                          if (params.reason === "enterKeyDown") {
+                            event.defaultMuiPrevented = true;
+                          }
                         }}
                       />
                     </Box>

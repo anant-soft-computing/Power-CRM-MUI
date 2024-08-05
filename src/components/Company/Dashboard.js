@@ -103,15 +103,15 @@ const CompanyDashboard = () => {
     navigate("/Quotes", { state: data });
   };
 
-  const handleSiteid = (siteId) => {
-    navigate("/Sites", { state: siteId });
+  const handleCompanyId = (id) => {
+    navigate("/Sites", { state: id });
   };
 
   const handleNotesUpdate = async (params) => {
     const { id, value } = params;
     try {
       const response = await ajaxCall(
-        `sites/update/site/${id}/`, // Updated endpoint
+        `sites/update/site/${id}/`,
         {
           method: "PATCH",
           headers: {
@@ -233,7 +233,7 @@ const CompanyDashboard = () => {
               <Button
                 variant="contained"
                 color="primary"
-                onClick={() => handleSiteid(companyId)}
+                onClick={() => handleCompanyId(companyId)}
               >
                 <AddIcon sx={{ mr: 1 }} />
                 Add Site

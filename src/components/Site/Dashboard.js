@@ -50,6 +50,34 @@ const columns = [
   },
 ];
 
+const SiteColumn = [
+  {
+    headerName: "Site Name",
+    field: "site_name",
+    filter: true,
+  },
+  {
+    headerName: "Lead Source",
+    field: "lead_source",
+    filter: true,
+  },
+  {
+    headerName: "Lead Type",
+    field: "lead_type",
+    filter: true,
+  },
+  {
+    headerName: "Owner Name",
+    field: "owner_name",
+    filter: true,
+  },
+  {
+    headerName: "Agent Email",
+    field: "contacts[email]",
+    filter: true,
+  },
+];
+
 const SiteDashboard = () => {
   const { siteId } = useParams();
   const [value, setValue] = useState(0);
@@ -58,7 +86,7 @@ const SiteDashboard = () => {
   const [siteQuotes, setSiteQuotes] = useState([]);
 
   const quotes = siteQuotes.filter((item) => item.site === parseInt(siteId));
-
+  console.log(siteData);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -115,6 +143,7 @@ const SiteDashboard = () => {
             onChange={handleChange}
             aria-label="company dashboard tabs"
           >
+            <Tab label="Site Details" />
             <Tab label="Quotes" />
             <Tab label="Supply Details" />
           </Tabs>
@@ -127,41 +156,64 @@ const SiteDashboard = () => {
             ) : (
               value === 0 && (
                 <>
-                  {quotes.length > 0 ? (
-                    <Box sx={{ height: "100%", width: "100%" }}>
-                      <DataGrid
-                        rows={quotes}
-                        columns={columns}
-                        disableColumnFilter
-                        disableDensitySelector
-                        getRowClassName={(params) =>
-                          params.indexRelativeToCurrentPage % 2 === 0
-                            ? "evenRow"
-                            : "oddRow"
-                        }
-                        slots={{ toolbar: GridToolbar }}
-                        slotProps={{
-                          toolbar: {
-                            showQuickFilter: true,
-                          },
-                        }}
-                      />
-                    </Box>
-                  ) : (
-                    <Typography
-                      color="error"
-                      sx={{ mt: 2 }}
-                      align="center"
-                      variant="h6"
-                      component="div"
-                    >
-                      {`No Quotes Available For This ${siteData.site_name} Site !!`}
-                    </Typography>
-                  )}
+                  <Box sx={{ height: "100%", width: "100%" }}>
+                    <DataGrid
+                      rows={[siteData]}
+                      columns={SiteColumn}
+                      disableColumnFilter
+                      disableDensitySelector
+                      getRowClassName={(params) =>
+                        params.indexRelativeToCurrentPage % 2 === 0
+                          ? "evenRow"
+                          : "oddRow"
+                      }
+                      slots={{ toolbar: GridToolbar }}
+                      slotProps={{
+                        toolbar: {
+                          showQuickFilter: true,
+                        },
+                      }}
+                    />
+                  </Box>
                 </>
               )
             )}
             {value === 1 && (
+              <>
+                {quotes.length > 0 ? (
+                  <Box sx={{ height: "100%", width: "100%" }}>
+                    <DataGrid
+                      rows={quotes}
+                      columns={columns}
+                      disableColumnFilter
+                      disableDensitySelector
+                      getRowClassName={(params) =>
+                        params.indexRelativeToCurrentPage % 2 === 0
+                          ? "evenRow"
+                          : "oddRow"
+                      }
+                      slots={{ toolbar: GridToolbar }}
+                      slotProps={{
+                        toolbar: {
+                          showQuickFilter: true,
+                        },
+                      }}
+                    />
+                  </Box>
+                ) : (
+                  <Typography
+                    color="error"
+                    sx={{ mt: 2 }}
+                    align="center"
+                    variant="h6"
+                    component="div"
+                  >
+                    {`No Quotes Available For This ${siteData.site_name} Site !!`}
+                  </Typography>
+                )}
+              </>
+            )}
+            {value === 2 && (
               <SupplyDetails
                 leadType={siteData.lead_type}
                 MpanID={siteData.mpan_id}

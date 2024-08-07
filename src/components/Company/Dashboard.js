@@ -107,6 +107,8 @@ const CompanyDashboard = () => {
     navigate("/Sites", { state: id });
   };
 
+  // for notes inline Update Functionality
+
   const handleNotesUpdate = async (params) => {
     const { id, value } = params;
     try {
@@ -141,7 +143,19 @@ const CompanyDashboard = () => {
   };
 
   const columns = [
-    { field: "site_name", headerName: "Site Name", width: 170 },
+    {
+      field: "site_name",
+      headerName: "Site Name",
+      width: 170,
+      renderCell: (params) => (
+        <Button
+          color="primary"
+          onClick={() => navigate(`/Site/${params.row.id}`)}
+        >
+          {params.value}
+        </Button>
+      ),
+    },
     { field: "owner_name", headerName: "Owner Name", width: 170 },
     {
       field: "company.name",
@@ -155,6 +169,7 @@ const CompanyDashboard = () => {
       headerName: "Notes",
       width: 180,
       editable: true,
+      //for notes inline update functionality
       preProcessEditCellProps: (params) => {
         const hasChanged = params.props.value !== params.row.notes;
         if (hasChanged) {

@@ -219,6 +219,7 @@ const MeterDetailElectricity = ({ EleDetails }) => {
               label="Voltage"
               type="number"
               name="e_voltage"
+              InputLabelProps={{ shrink: true }}
               value={meterElectricityData.e_voltage}
               onChange={(e) =>
                 dispatchMeterElectricityData({

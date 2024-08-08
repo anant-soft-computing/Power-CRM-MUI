@@ -21,25 +21,6 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import "../../css/custom.css";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 
-const quotesColumns = [
-  { headerName: "Supplier", field: "supplier", filter: true },
-  { headerName: "Term", field: "term", filter: true },
-  { headerName: "Day Rate (pence/kWh)", field: "day_rate", filter: true },
-  {
-    headerName: "Night Rate (pence/kWh)",
-    field: "night_rate",
-    filter: true,
-    width: 210,
-  },
-  {
-    headerName: "Standing Charge (pence)",
-    field: "standing_charge",
-    filter: true,
-    width: 210,
-  },
-  { headerName: "Up Lift", field: "up_lift", filter: true },
-];
-
 const CompanyDashboard = () => {
   const { companyId } = useParams();
   const navigate = useNavigate();
@@ -51,96 +32,6 @@ const CompanyDashboard = () => {
   const [siteQuotes, setSiteQuotes] = useState([]);
   const [showQuote, setShowQuote] = useState(false);
   const quotes = siteQuotes.filter((item) => item.site === siteId);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const fetchData = async (url, setData) => {
-    try {
-      const response = await ajaxCall(
-        url,
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-            }`,
-          },
-          method: "GET",
-        },
-        8000
-      );
-      if (response?.status === 200) {
-        setData(response?.data);
-      } else {
-        console.error("Fetch error:", response);
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-    }
-  };
-
-  useEffect(() => {
-    setIsLoading(true);
-    fetchData(`company/${companyId}/`, setCompanyData);
-    fetchData(`sites/get/site/?company=${companyId}`, setCompanySites).finally(
-      () => setIsLoading(false)
-    );
-  }, [companyId]);
-
-  useEffect(() => {
-    fetchData("supplierdatagetview", setSiteQuotes);
-  }, []);
-
-  const handleViewQuotes = (data) => {
-    setSiteId(data);
-    setShowQuote(true);
-  };
-
-  const handleGenerateQuote = (data) => {
-    navigate("/Quotes", { state: data });
-  };
-
-  const handleCompanyId = (id) => {
-    navigate("/Sites", { state: id });
-  };
-
-  // for notes inline Update Functionality
-
-  const handleNotesUpdate = async (params) => {
-    const { id, value } = params;
-    try {
-      const response = await ajaxCall(
-        `sites/update/site/${id}/`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-            }`,
-          },
-          body: JSON.stringify({ notes: value }),
-        },
-        8000
-      );
-
-      if (response?.status === 200) {
-        setCompanySites((prevSites) =>
-          prevSites.map((site) =>
-            site.id === id ? { ...site, notes: value } : site
-          )
-        );
-        console.log("Updated");
-      } else {
-        console.error("Update error:", response);
-      }
-    } catch (error) {
-      console.error("Network error:", error);
-    }
-  };
 
   const columns = [
     {
@@ -196,7 +87,7 @@ const CompanyDashboard = () => {
     {
       field: "Send Quote",
       headerName: "Send Quote",
-      width: 180,
+      width: 190,
       renderCell: (params) => (
         <Button
           variant="contained"
@@ -208,6 +99,115 @@ const CompanyDashboard = () => {
       ),
     },
   ];
+
+  const quotesColumns = [
+    { headerName: "Supplier", field: "supplier", filter: true },
+    { headerName: "Term", field: "term", filter: true },
+    { headerName: "Day Rate (pence/kWh)", field: "day_rate", filter: true },
+    {
+      headerName: "Night Rate (pence/kWh)",
+      field: "night_rate",
+      filter: true,
+      width: 210,
+    },
+    {
+      headerName: "Standing Charge (pence)",
+      field: "standing_charge",
+      filter: true,
+      width: 210,
+    },
+    { headerName: "Up Lift", field: "up_lift", filter: true },
+  ];
+
+  // for notes inline Update Functionality
+
+  const handleNotesUpdate = async (params) => {
+    const { id, value } = params;
+    try {
+      const response = await ajaxCall(
+        `sites/update/site/${id}/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          body: JSON.stringify({ notes: value }),
+        },
+        8000
+      );
+
+      if (response?.status === 200) {
+        setCompanySites((prevSites) =>
+          prevSites.map((site) =>
+            site.id === id ? { ...site, notes: value } : site
+          )
+        );
+        console.log("Updated");
+      } else {
+        console.error("Update error:", response);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  const fetchData = async (url, setData) => {
+    try {
+      const response = await ajaxCall(
+        url,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "GET",
+        },
+        8000
+      );
+      if (response?.status === 200) {
+        setData(response?.data);
+      } else {
+        console.error("Fetch error:", response);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    fetchData(`company/${companyId}/`, setCompanyData);
+    fetchData(`sites/get/site/?company=${companyId}`, setCompanySites).finally(
+      () => setIsLoading(false)
+    );
+  }, [companyId]);
+
+  useEffect(() => {
+    fetchData("supplierdatagetview", setSiteQuotes);
+  }, []);
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const handleViewQuotes = (data) => {
+    setSiteId(data);
+    setShowQuote(true);
+  };
+
+  const handleGenerateQuote = (data) => {
+    navigate("/Quotes", { state: data });
+  };
+
+  const handleCompanyId = (id) => {
+    navigate("/Sites", { state: id });
+  };
 
   return (
     <>

@@ -32,6 +32,7 @@ import ajaxCall from "../../helpers/ajaxCall";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
 import { useLocation } from "react-router-dom";
+import DocumentUploadForm from "./DocumentUploadForm";
 
 const initialSiteData = {
   site_name: "",
@@ -988,6 +989,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             Cancel
           </Button>
         </DialogActions>
+        <DocumentUploadForm />
       </Dialog>
     </Container>
   );

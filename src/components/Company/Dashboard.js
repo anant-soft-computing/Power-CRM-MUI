@@ -31,13 +31,15 @@ const CompanyDashboard = () => {
   const [companySites, setCompanySites] = useState([]);
   const [siteQuotes, setSiteQuotes] = useState([]);
   const [showQuote, setShowQuote] = useState(false);
+  const [siteDocument, setSiteDocument] = useState([]);
+
   const quotes = siteQuotes.filter((item) => item.site === siteId);
 
   const columns = [
     {
       field: "site_name",
       headerName: "Site Name",
-      width: 170,
+      width: 160,
       renderCell: (params) => (
         <Button
           color="primary"
@@ -51,14 +53,14 @@ const CompanyDashboard = () => {
     {
       field: "company.name",
       headerName: "Company",
-      width: 180,
+      width: 160,
       renderCell: (params) => params.row.company.name,
     },
     { field: "lead_type", headerName: "Lead Type", width: 170 },
     {
       field: "notes",
       headerName: "Notes",
-      width: 180,
+      width: 150,
       editable: true,
       //for notes inline update functionality
       preProcessEditCellProps: (params) => {
@@ -97,6 +99,21 @@ const CompanyDashboard = () => {
           Send Quotation
         </Button>
       ),
+    },
+    {
+      headerName: "Site Document",
+      field: "siteDocument",
+      width: 140,
+      renderCell: (params) => {
+        const document = siteDocument.find((doc) => doc.site === params.row.id);
+        return document ? (
+          <a href={document.document} target="_blank" rel="noopener noreferrer">
+            {"View Document"}
+          </a>
+        ) : (
+          "N/A"
+        );
+      },
     },
   ];
 
@@ -190,6 +207,10 @@ const CompanyDashboard = () => {
 
   useEffect(() => {
     fetchData("supplierdatagetview", setSiteQuotes);
+  }, []);
+
+  useEffect(() => {
+    fetchData(`site-document/`, setSiteDocument);
   }, []);
 
   const handleChange = (event, newValue) => {

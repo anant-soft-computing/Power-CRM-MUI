@@ -14,6 +14,7 @@ import SiteDashboard from "./components/Site/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Test from "./components/Quote/Test";
+import Document from "./components/Documents/Document";
 
 function App() {
   const location = useLocation();
@@ -52,6 +53,7 @@ function App() {
             <Route path="/Sites" element={<Site />} />
             <Route path="/Site/:siteId" element={<SiteDashboard />} />
             <Route path="/Quotes" element={<Quote />} />
+            <Route path="/Documents" element={<Document />} />
             <Route path="/Test/:siteId" element={<Test />} />
           </Routes>
         </div>

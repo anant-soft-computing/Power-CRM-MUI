@@ -20,7 +20,6 @@ import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import "../../css/custom.css";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
-import DocumentUploadForm from "./DocumentUploadForm";
 
 const Site = () => {
   const navigate = useNavigate();
@@ -248,9 +247,6 @@ const Site = () => {
           contactData={contactData}
           refreshTableMode={refreshTableMode}
         />
-      </Card>
-      <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
-        <DocumentUploadForm />
       </Card>
     </Container>
   );

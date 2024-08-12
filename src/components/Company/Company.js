@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import AddCompany from "./AddCompany";
+import CompanyDocument from "../Documents/Document";
 import ajaxCall from "../../helpers/ajaxCall";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import FollowTheSignsIcon from "@mui/icons-material/FollowTheSigns";

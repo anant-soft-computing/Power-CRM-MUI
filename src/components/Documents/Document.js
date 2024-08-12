@@ -9,20 +9,21 @@ import {
   Input,
   Button,
   MenuItem,
-  Typography,
-  Box,
+  Card,
 } from "@mui/material";
 import ajaxCall from "../../helpers/ajaxCall";
 import { toast } from "react-toastify";
+import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 
 const initialSiteData = {
   name: "",
   document: "",
   description: "",
-  site: "",
+  companyOrSite: "",
+  documentType: "company",
 };
 
-const DocumentUploadForm = () => {
+const Document = () => {
   const [formData, setFormData] = useState(initialSiteData);
   const [siteData, setSiteData] = useState([]);
 
@@ -69,21 +70,33 @@ const DocumentUploadForm = () => {
   };
 
   useEffect(() => {
-    fetchData(`sites/get/site/`, setSiteData);
-  }, []);
+    if (formData.documentType === "company") {
+      fetchData(`company/`, setSiteData);
+    } else if (formData.documentType === "site") {
+      fetchData(`sites/get/site/`, setSiteData);
+    }
+  }, [formData.documentType]);
 
-  const CreateSiteDocument = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("site", formData.site);
+    formDataToSend.append(
+      formData.documentType === "company" ? "company" : "site",
+      formData.companyOrSite
+    );
     formDataToSend.append("document", formData.document);
+
+    const apiEndpoint =
+      formData.documentType === "company"
+        ? "company-document/"
+        : "site-document/";
 
     try {
       const response = await ajaxCall(
-        "site-document/",
+        apiEndpoint,
         {
           headers: {
             Accept: "application/json",
@@ -97,28 +110,36 @@ const DocumentUploadForm = () => {
         8000
       );
       if ([200, 201].includes(response.status)) {
-        toast.success("Site Document Add Successfully");
+        toast.success("Document Submitted Successfully");
       } else if ([400, 404].includes(response.status)) {
         toast.error("Some Problem Occurred. Please try again.");
       }
     } catch (error) {
       toast.error("Some Problem Occurred. Please try again.");
-    } finally {
-      console.log("Done!");
     }
   };
 
   return (
-    <Container maxWidth="xl" sx={{ my: 4 }}>
-      <Box
-        sx={{
-          alignItems: "center",
-        }}
-      >
-        <Typography variant="h6" padding={1} margin={1}>
-          Submit Site Document
-        </Typography>
+    <Container maxWidth="xl" sx={{ my: 10 }}>
+      <Breadcrumb title="Submit Document" main="Dashboard" />
+      <Card sx={{ p: 4, m: 2, boxShadow: 5, borderRadius: 3 }}>
         <Grid container spacing={2}>
+          <Grid item sm={6}>
+            <FormControl fullWidth>
+              <InputLabel id="document-type-label">Document Type</InputLabel>
+              <Select
+                labelId="document-type-label"
+                label="Document Type"
+                name="documentType"
+                value={formData.documentType}
+                onChange={handleChange}
+              >
+                <MenuItem value="company">Company Document</MenuItem>
+                <MenuItem value="site">Site Document</MenuItem>
+              </Select>
+            </FormControl>
+          </Grid>
+
           <Grid item sm={6}>
             <TextField
               fullWidth
@@ -130,16 +151,6 @@ const DocumentUploadForm = () => {
           </Grid>
 
           <Grid item sm={6}>
-            <FormControl fullWidth>
-              <Input
-                id="upload-document"
-                name="document"
-                type="file"
-                onChange={handleFileChange}
-              />
-            </FormControl>
-          </Grid>
-          <Grid item sm={6}>
             <TextField
               fullWidth
               label="Description"
@@ -150,20 +161,35 @@ const DocumentUploadForm = () => {
           </Grid>
           <Grid item sm={6}>
             <FormControl fullWidth>
-              <InputLabel id="site-label">Select Site</InputLabel>
+              <InputLabel id="company-or-site-label">
+                Select{" "}
+                {formData.documentType === "company" ? "Company" : "Site"}
+              </InputLabel>
               <Select
-                labelId="site-label"
-                label="Select Site"
-                name="site"
-                value={formData.site}
+                labelId="company-or-site-label"
+                label={`Select ${
+                  formData.documentType === "company" ? "Company" : "Site"
+                }`}
+                name="companyOrSite"
+                value={formData.companyOrSite}
                 onChange={handleChange}
               >
                 {siteData.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
-                    {item.site_name}
+                    {item.name || item.site_name}
                   </MenuItem>
                 ))}
               </Select>
+            </FormControl>
+          </Grid>
+          <Grid item sm={6}>
+            <FormControl fullWidth>
+              <Input
+                id="upload-document"
+                name="document"
+                type="file"
+                onChange={handleFileChange}
+              />
             </FormControl>
           </Grid>
           <Grid item sm={12}>
@@ -171,15 +197,15 @@ const DocumentUploadForm = () => {
               variant="contained"
               color="primary"
               type="submit"
-              onClick={CreateSiteDocument}
+              onClick={handleSubmit}
             >
               Submit
             </Button>
           </Grid>
         </Grid>
-      </Box>
+      </Card>
     </Container>
   );
 };
 
-export default DocumentUploadForm;
+export default Document;

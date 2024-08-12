@@ -5,6 +5,7 @@ import DashboardIcon from "@mui/icons-material/Dashboard";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import BusinessIcon from "@mui/icons-material/Business";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
+import FileCopyIcon from "@mui/icons-material/FileCopy";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../store/authStore";
@@ -41,6 +42,11 @@ const Sidebar = ({ isOpen }) => {
       text: "Company",
       icon: <BusinessIcon color="primary" />,
       path: "/Companies",
+    },
+    {
+      text: "Documents",
+      icon: <FileCopyIcon color="primary" />,
+      path: "/Documents",
     },
     // {
     //   text: "Sites",

@@ -22,6 +22,7 @@ const SiteDashboard = () => {
   const [siteData, setSiteData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [siteQuotes, setSiteQuotes] = useState([]);
+  const [siteDocument, setSiteDocument] = useState([]);
 
   const quotes = siteQuotes.filter((item) => item.site === parseInt(siteId));
   const siteDataWithId = { ...siteData, id: siteData.site_id || 1 };
@@ -30,12 +31,6 @@ const SiteDashboard = () => {
     {
       headerName: "Site Name",
       field: "site_name",
-      width: 150,
-      filter: true,
-    },
-    {
-      headerName: "Lead Source",
-      field: "lead_source",
       width: 150,
       filter: true,
     },
@@ -87,6 +82,21 @@ const SiteDashboard = () => {
           handleNotesUpdate({ id: params.row.id, value: params.props.value });
         }
         return { ...params.props, error: false };
+      },
+    },
+    {
+      headerName: "Site Document",
+      field: "siteDocument",
+      width: 140,
+      renderCell: (params) => {
+        const document = siteDocument.find((doc) => doc.site === params.row.id);
+        return document ? (
+          <a href={document.document} target="_blank" rel="noopener noreferrer">
+            {"View Document"}
+          </a>
+        ) : (
+          "N/A"
+        );
       },
     },
   ];
@@ -193,6 +203,10 @@ const SiteDashboard = () => {
     fetchData("supplierdatagetview", setSiteQuotes).finally(() =>
       setIsLoading(false)
     );
+  }, []);
+
+  useEffect(() => {
+    fetchData(`site-document/`, setSiteDocument);
   }, []);
 
   const handleChange = (event, newValue) => {

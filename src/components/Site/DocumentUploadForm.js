@@ -9,6 +9,8 @@ import {
   Input,
   Button,
   MenuItem,
+  Typography,
+  Box,
 } from "@mui/material";
 import ajaxCall from "../../helpers/ajaxCall";
 import { toast } from "react-toastify";
@@ -95,7 +97,7 @@ const DocumentUploadForm = () => {
         8000
       );
       if ([200, 201].includes(response.status)) {
-        toast.success("Site Document Created Successfully");
+        toast.success("Site Document Add Successfully");
       } else if ([400, 404].includes(response.status)) {
         toast.error("Some Problem Occurred. Please try again.");
       }
@@ -107,66 +109,75 @@ const DocumentUploadForm = () => {
   };
 
   return (
-    <Container maxWidth="xl" sx={{ my: 8 }}>
-      <Grid container spacing={2}>
-        <Grid item sm={6}>
-          <TextField
-            fullWidth
-            label="Document Name"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-          />
-        </Grid>
-
-        <Grid item sm={6}>
-          <FormControl fullWidth>
-            <Input
-              id="upload-document"
-              name="document"
-              type="file"
-              onChange={handleFileChange}
-            />
-          </FormControl>
-        </Grid>
-        <Grid item sm={6}>
-          <TextField
-            fullWidth
-            label="Description"
-            name="description"
-            value={formData.description}
-            onChange={handleChange}
-          />
-        </Grid>
-        <Grid item sm={6}>
-          <FormControl fullWidth>
-            <InputLabel id="site-label">Select Site</InputLabel>
-            <Select
-              labelId="site-label"
-              label="Select Site"
-              name="site"
-              value={formData.site}
+    <Container maxWidth="xl" sx={{ my: 4 }}>
+      <Box
+        sx={{
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="h6" padding={1} margin={1}>
+          Submit Site Document
+        </Typography>
+        <Grid container spacing={2}>
+          <Grid item sm={6}>
+            <TextField
+              fullWidth
+              label="Document Name"
+              name="name"
+              value={formData.name}
               onChange={handleChange}
+            />
+          </Grid>
+
+          <Grid item sm={6}>
+            <FormControl fullWidth>
+              <Input
+                id="upload-document"
+                name="document"
+                type="file"
+                onChange={handleFileChange}
+              />
+            </FormControl>
+          </Grid>
+          <Grid item sm={6}>
+            <TextField
+              fullWidth
+              label="Description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item sm={6}>
+            <FormControl fullWidth>
+              <InputLabel id="site-label">Select Site</InputLabel>
+              <Select
+                labelId="site-label"
+                label="Select Site"
+                name="site"
+                value={formData.site}
+                onChange={handleChange}
+              >
+                {siteData.map((item) => (
+                  <MenuItem key={item.id} value={item.id}>
+                    {item.site_name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item sm={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              onClick={CreateSiteDocument}
             >
-              {siteData.map((item) => (
-                <MenuItem key={item.id} value={item.id}>
-                  {item.site_name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+              Submit
+            </Button>
+          </Grid>
         </Grid>
-        <Grid item sm={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            onClick={CreateSiteDocument}
-          >
-            Submit
-          </Button>
-        </Grid>
-      </Grid>
+      </Box>
     </Container>
   );
 };

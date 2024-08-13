@@ -6,6 +6,8 @@ import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import BusinessIcon from "@mui/icons-material/Business";
 import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import FileCopyIcon from "@mui/icons-material/FileCopy";
+import ViewListIcon from "@mui/icons-material/ViewList";
+
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../store/authStore";
@@ -48,6 +50,16 @@ const Sidebar = ({ isOpen }) => {
       icon: <FileCopyIcon color="primary" />,
       path: "/Documents",
     },
+    {
+      text: "MultiSite",
+      icon: <ViewListIcon color="primary" />,
+      path: "/MultiSites",
+    },
+    // {
+    //   text: "MultiQuote",
+    //   icon: <ViewListIcon color="primary" />,
+    //   path: "/MultiQuotes",
+    // },
     // {
     //   text: "Sites",
     //   icon: <AccountTreeIcon color="primary" />,

@@ -6,6 +6,12 @@ import {
   FormControl,
   InputLabel,
   CircularProgress,
+  InputAdornment,
+  DialogActions,
+  DialogContent,
+  Dialog,
+  DialogTitle,
+  Checkbox,
 } from "@mui/material";
 import moment from "moment";
 import {
@@ -22,6 +28,9 @@ import {
 } from "@mui/material";
 import ajaxCall from "../../helpers/ajaxCall";
 import { toast } from "react-toastify";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
+import CheckIcon from "../../UI/Icons/CheckIcon";
+import CancelIcon from "../../UI/Icons/Cancel";
 
 const initialCompanyData = {
   name: "",
@@ -60,6 +69,53 @@ const initialCompanyData = {
   email: "",
 };
 
+const initialSiteData = {
+  site_name: "",
+  company: "",
+  owner_name: "",
+  current_gas_and_electricity_supplier_details: "",
+  tenant: true,
+  vacant: false,
+  change_of_tenancy: false,
+  customer_consent: false,
+  mpan_id: "",
+
+  siteAddressLine1: "",
+  siteAddressLine2: "",
+  siteAddressLine3: "",
+  siteAddressLine4: "",
+  siteCountry: "United Kingdom",
+  sitePostCode: "",
+
+  isBillingSiteSame: false,
+
+  billingAddressLine1: "",
+  billingAddressLine2: "",
+  billingAddressLine3: "",
+  billingAddressLine4: "",
+  billingCountry: "United Kingdom",
+  billingPostCode: "",
+
+  site_reference: "",
+  support_contact: "",
+  lead_source: "",
+  notes: "",
+  lead_type: "",
+  bill_to_sent: false,
+  welcome_letter_send: false,
+
+  first_name: "",
+  last_name: "",
+  contact_title: "",
+  position: "",
+  telephone_number: "",
+  email: "",
+
+  agent_email: "",
+  loa_header_to_use: "",
+  loa_template: "",
+};
+
 const steps = [
   "Company Details",
   "Company Address",
@@ -90,6 +146,11 @@ const AddCompany = ({ refreshTableMode }) => {
   );
   const [formStatus, setFormStatus] = useState(initialSubmit);
   const [activeStep, setActiveStep] = useState(0);
+  const [open, setOpen] = useState(false);
+  const [addresses, setAddresses] = useState([]);
+  const [postcode, setPostcode] = useState("");
+  const [selectedRow, setSelectedRow] = useState(null);
+  const [formData, setFormData] = useState(initialSiteData);
 
   const validateForm = () => {
     const requiredFields = [
@@ -166,6 +227,58 @@ const AddCompany = ({ refreshTableMode }) => {
     } finally {
       setFormStatus({ ...formStatus, isSubmitting: false });
     }
+  };
+
+  const searchByPostCode = async (e) => {
+    e.preventDefault();
+    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
+    try {
+      const response = await ajaxCall(
+        "lookup/Property/SearchByPostcode/",
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "POST",
+          body: JSON.stringify({
+            query: postcode,
+            isQueryTicket: true,
+          }),
+        },
+        8000
+      );
+      if ([200, 201].includes(response.status)) {
+        setOpen(true);
+        setAddresses(response.data);
+        toast.success("Search Successful");
+        setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
+      } else {
+        toast.error("Some Problem Occurred. Please try again.");
+      }
+    } catch (error) {
+      toast.error("Some Problem Occurred. Please try again.");
+    } finally {
+      setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
+    }
+  };
+
+  const handleAddressSelect = (row) => {
+    setSelectedRow(row);
+    setFormData({
+      ...formData,
+      siteAddressLine1: row?.addressMatch?.address?.addressBreakdown[0] || "",
+      siteAddressLine2: row?.addressMatch?.address?.addressBreakdown[1] || "",
+      siteAddressLine3: row?.addressMatch?.address?.addressBreakdown[2] || "",
+      siteAddressLine4: row?.addressMatch?.address?.addressBreakdown[3] || "",
+      lead_type: row?.matchedElectricity ? "ELECTRICITY" : "GAS",
+      sitePostCode: row?.addressMatch?.address?.postcode || row.postCode || "",
+      mpan_id: row?.mpanId,
+    });
+    setOpen(false);
   };
 
   const handleNext = () => {
@@ -732,11 +845,102 @@ const AddCompany = ({ refreshTableMode }) => {
     }
   };
 
+  const columns = [
+    {
+      field: "select",
+      headerName: "",
+      width: 50,
+      renderCell: (params) => (
+        <Checkbox
+          checked={selectedRow?.mpanId === params.row.mpanId}
+          onChange={() => handleAddressSelect(params.row)}
+        />
+      ),
+    },
+    { field: "mpanId", headerName: "MPAN ID", width: 200 },
+    {
+      field: "addressBreakdown0",
+      headerName: "Address 1",
+      width: 200,
+      renderCell: (params) =>
+        params.row?.addressMatch?.address?.addressBreakdown[0] || "",
+    },
+    {
+      field: "addressBreakdown1",
+      headerName: "Address 2",
+      width: 200,
+      renderCell: (params) =>
+        params.row?.addressMatch?.address?.addressBreakdown[1] || "",
+    },
+    {
+      field: "addressBreakdown2",
+      headerName: "Address 3",
+      width: 200,
+      renderCell: (params) =>
+        params.row?.addressMatch?.address?.addressBreakdown[2] || "",
+    },
+    {
+      field: "addressBreakdown3",
+      headerName: "Address 4",
+      width: 200,
+      renderCell: (params) =>
+        params.row?.addressMatch?.address?.addressBreakdown[3] || "",
+    },
+    {
+      field: "matchedElectricity",
+      headerName: "Electricity",
+      width: 200,
+      renderCell: (params) =>
+        params.row?.matchedElectricity ? <CheckIcon /> : <CancelIcon />,
+    },
+    {
+      field: "matchedGas",
+      headerName: "Gas",
+      width: 200,
+      renderCell: (params) =>
+        params.row?.matchedGas ? <CheckIcon /> : <CancelIcon />,
+    },
+    { headerName: "PostCode", field: "postCode", filter: true },
+  ];
+
   return (
     <Container maxWidth="xl">
-      <Typography variant="h6" padding={1} margin={1}>
-        Create Company
-      </Typography>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
+      >
+        <Typography variant="h6" padding={1} margin={1}>
+          Create Company
+        </Typography>
+        <TextField
+          sx={{ m: 2 }}
+          label="Postcode"
+          value={postcode}
+          onChange={(e) => setPostcode(e.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {formStatus.isSubmitting ? (
+                  <CircularProgress />
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="submit"
+                    disabled={formStatus.isSubmitting}
+                    onClick={searchByPostCode}
+                  >
+                    Look Up
+                  </Button>
+                )}
+              </InputAdornment>
+            ),
+          }}
+        />
+      </Box>
       <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
         {steps.map((label) => (
           <Step key={label}>
@@ -782,6 +986,37 @@ const AddCompany = ({ refreshTableMode }) => {
           </Button>
         )}
       </Box>
+      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="xl">
+        <DialogTitle>Select Address</DialogTitle>
+        <DialogContent>
+          <Box sx={{ height: "100%", width: "100%" }}>
+            <DataGrid
+              rows={addresses}
+              columns={columns}
+              disableColumnFilter
+              disableDensitySelector
+              onRowClick={(params) => handleAddressSelect(params.row)}
+              getRowId={(row) => row.propertyAddressId}
+              getRowClassName={(params) =>
+                params.indexRelativeToCurrentPage % 2 === 0
+                  ? "evenRow"
+                  : "oddRow"
+              }
+              slots={{ toolbar: GridToolbar }}
+              slotProps={{
+                toolbar: {
+                  showQuickFilter: true,
+                },
+              }}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setOpen(false)} color="primary">
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

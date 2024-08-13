@@ -15,6 +15,8 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Test from "./components/Quote/Test";
 import Document from "./components/Documents/Document";
+import MultiSite from "./components/MultiSite-MultiQuotes/MultiSite";
+import MultiQuote from "./components/MultiSite-MultiQuotes/MultiQuote";
 
 function App() {
   const location = useLocation();
@@ -54,6 +56,8 @@ function App() {
             <Route path="/Site/:siteId" element={<SiteDashboard />} />
             <Route path="/Quotes" element={<Quote />} />
             <Route path="/Documents" element={<Document />} />
+            <Route path="/MultiSites" element={<MultiSite />} />
+            <Route path="/MultiQuotes" element={<MultiQuote />} />
             <Route path="/Test/:siteId" element={<Test />} />
           </Routes>
         </div>

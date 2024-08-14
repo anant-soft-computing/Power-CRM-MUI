@@ -6,7 +6,6 @@ import {
   FormControl,
   InputLabel,
   CircularProgress,
-  InputAdornment,
   DialogActions,
   DialogContent,
   Dialog,
@@ -41,6 +40,26 @@ const initialCompanyData = {
   estimated_turnover: 0,
   business_type: "",
   is_macro_business: false,
+  customer_value: "",
+  customer_status: "",
+  credit_score: "",
+  company_sector: "",
+  building_use: "",
+  turnover: "",
+  net_worth: "",
+  website_url: "",
+  vat_declatarion: "",
+  vat: "",
+  vat_number: "",
+  payment_type: "",
+  bank_postcode: "",
+  job_title: "",
+  direct_line: "",
+  mobile: "",
+  primary_contact: true,
+  phone: true,
+  sms: true,
+  post: true,
 
   addressline1_company: "",
   addressline2_company: "",
@@ -61,10 +80,9 @@ const initialCompanyData = {
   time_at_address_months: 0,
   time_at_address_years: 0,
 
-  first_name: "",
-  last_name: "",
+  contact_name: "",
   contact_title: "",
-  position: "",
+  // position: "",
   telephone_number: "",
   email: "",
 };
@@ -148,18 +166,17 @@ const AddCompany = ({ refreshTableMode }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [open, setOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
-  const [postcode, setPostcode] = useState("");
+  // const [postcode, setPostcode] = useState("");
   const [selectedRow, setSelectedRow] = useState(null);
   const [formData, setFormData] = useState(initialSiteData);
 
   const validateForm = () => {
     const requiredFields = [
-      { field: "name", message: "Company Name is Required" },
-      { field: "first_name", message: "First Name is Required" },
-      { field: "last_name", message: "Last Name is Required" },
-      { field: "email", message: "Email is Required" },
-      { field: "position", message: "Position is Required" },
-      { field: "telephone_number", message: "Telephone Number is Required" },
+      // { field: "name", message: "Company Name is Required" },
+      // { field: "contact_name", message: "Contact Name is Required" },
+      // { field: "email", message: "Email is Required" },
+      // { field: "position", message: "Position is Required" },
+      // { field: "telephone_number", message: "Telephone Number is Required" },
     ];
     for (let { field, message } of requiredFields) {
       if (!companyData[field]) {
@@ -192,12 +209,22 @@ const AddCompany = ({ refreshTableMode }) => {
     let sendData = {
       ...companyData,
       contacts: {
-        first_name: companyData.first_name,
-        last_name: companyData.last_name,
+        contact_name: companyData.contact_name,
         contact_title: companyData.contact_title,
-        position: companyData.position,
         telephone_number: companyData.telephone_number,
         email: companyData.email,
+        company_incorporated_date: companyData.company_incorporated_date,
+        director_date_of_birth: companyData.director_date_of_birth,
+        direct_debit_start_date: companyData.direct_debit_start_date,
+        loa_start_date: companyData.loa_start_date,
+        loa_end_date: companyData.loa_end_date,
+        primary_contact: companyData.primary_contact,
+        post: companyData.post,
+        sms: companyData.sms,
+        phone: companyData.phone,
+        job_title: companyData.job_title,
+        direct_line: companyData.direct_line,
+        mobile: companyData.mobile,
       },
     };
     try {
@@ -229,42 +256,42 @@ const AddCompany = ({ refreshTableMode }) => {
     }
   };
 
-  const searchByPostCode = async (e) => {
-    e.preventDefault();
-    setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
-    try {
-      const response = await ajaxCall(
-        "lookup/Property/SearchByPostcode/",
-        {
-          headers: {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${
-              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-            }`,
-          },
-          method: "POST",
-          body: JSON.stringify({
-            query: postcode,
-            isQueryTicket: true,
-          }),
-        },
-        8000
-      );
-      if ([200, 201].includes(response.status)) {
-        setOpen(true);
-        setAddresses(response.data);
-        toast.success("Search Successful");
-        setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
-      } else {
-        toast.error("Some Problem Occurred. Please try again.");
-      }
-    } catch (error) {
-      toast.error("Some Problem Occurred. Please try again.");
-    } finally {
-      setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
-    }
-  };
+  // const searchByPostCode = async (e) => {
+  //   e.preventDefault();
+  //   setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
+  //   try {
+  //     const response = await ajaxCall(
+  //       "lookup/Property/SearchByPostcode/",
+  //       {
+  //         headers: {
+  //           Accept: "application/json",
+  //           "Content-Type": "application/json",
+  //           Authorization: `Bearer ${
+  //             JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+  //           }`,
+  //         },
+  //         method: "POST",
+  //         body: JSON.stringify({
+  //           query: postcode,
+  //           isQueryTicket: true,
+  //         }),
+  //       },
+  //       8000
+  //     );
+  //     if ([200, 201].includes(response.status)) {
+  //       setOpen(true);
+  //       setAddresses(response.data);
+  //       toast.success("Search Successful");
+  //       setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
+  //     } else {
+  //       toast.error("Some Problem Occurred. Please try again.");
+  //     }
+  //   } catch (error) {
+  //     toast.error("Some Problem Occurred. Please try again.");
+  //   } finally {
+  //     setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
+  //   }
+  // };
 
   const handleAddressSelect = (row) => {
     setSelectedRow(row);
@@ -354,7 +381,19 @@ const AddCompany = ({ refreshTableMode }) => {
                 </FormControl>
               </Grid>
               <Grid item sm={4}>
-                <TextField fullWidth type="text" label="Company Number" />
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Company Number"
+                  name="registration_no"
+                  value={companyData.registration_no}
+                  onChange={(e) => {
+                    dispatchCompany({
+                      type: "registration_no",
+                      value: e.target.value,
+                    });
+                  }}
+                />
               </Grid>
               <Grid item sm={4}>
                 <TextField
@@ -362,6 +401,14 @@ const AddCompany = ({ refreshTableMode }) => {
                   type="date"
                   InputLabelProps={{ shrink: true }}
                   label="Company Incorporated Date"
+                  name="company_incorporated_date"
+                  value={companyData.company_incorporated_date}
+                  onChange={(e) => {
+                    dispatchCompany({
+                      type: "company_incorporated_date",
+                      value: e.target.value,
+                    });
+                  }}
                 />
               </Grid>
               <Grid item sm={4}>
@@ -372,6 +419,14 @@ const AddCompany = ({ refreshTableMode }) => {
                   <Select
                     labelId="customer-status-label"
                     label="Customer Status"
+                    name="customer_status"
+                    value={companyData.customer_status}
+                    onChange={(e) => {
+                      dispatchCompany({
+                        type: "customer_status",
+                        value: e.target.value,
+                      });
+                    }}
                   >
                     <MenuItem value="Lead">Lead</MenuItem>
                     <MenuItem value="FSO">FSO</MenuItem>
@@ -382,7 +437,19 @@ const AddCompany = ({ refreshTableMode }) => {
                 </FormControl>
               </Grid>
               <Grid item sm={4}>
-                <TextField fullWidth type="text" label="Customer Value" />
+                <TextField
+                  fullWidth
+                  name="customer_value"
+                  type="text"
+                  label="Customer Value"
+                  value={companyData.customer_value}
+                  onChange={(e) => {
+                    dispatchCompany({
+                      type: "customer_value",
+                      value: e.target.value,
+                    });
+                  }}
+                />
               </Grid>
               <Grid item sm={4}>
                 <TextField
@@ -390,17 +457,48 @@ const AddCompany = ({ refreshTableMode }) => {
                   type="date"
                   InputLabelProps={{ shrink: true }}
                   label="Director Date of Birth"
+                  name="director_date_of_birth"
+                  value={companyData.director_date_of_birth}
+                  onChange={(e) => {
+                    dispatchCompany({
+                      type: "director_date_of_birth",
+                      value: e.target.value,
+                    });
+                  }}
                 />
               </Grid>
               <Grid item sm={4}>
-                <TextField fullWidth type="text" label="Credit Score" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Credit Score"
+                  name="credit_score"
+                  value={companyData.credit_score}
+                  onChange={(e) => {
+                    dispatchCompany({
+                      type: "credit_score",
+                      value: e.target.value,
+                    });
+                  }}
+                />
               </Grid>
               <Grid item sm={4}>
                 <FormControl fullWidth>
                   <InputLabel id="company-sector-label">
                     Company Sector
                   </InputLabel>
-                  <Select labelId="company-sector-label" label="Company Sector">
+                  <Select
+                    labelId="company-sector-label"
+                    label="Company Sector"
+                    name="company_sector"
+                    value={companyData.company_sector}
+                    onChange={(e) => {
+                      dispatchCompany({
+                        type: "company_sector",
+                        value: e.target.value,
+                      });
+                    }}
+                  >
                     <MenuItem value="Care Home">Care Home</MenuItem>
                     <MenuItem value="Charity">Charity</MenuItem>
                     <MenuItem value="Commercial">Commercial</MenuItem>
@@ -448,12 +546,35 @@ const AddCompany = ({ refreshTableMode }) => {
                 </FormControl>
               </Grid>
               <Grid item sm={4}>
-                <TextField fullWidth type="text" label="SIC Score" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="SIC Code"
+                  name="sic_code"
+                  value={companyData.sic_code}
+                  onChange={(e) => {
+                    dispatchCompany({
+                      type: "sic_code",
+                      value: e.target.value,
+                    });
+                  }}
+                />
               </Grid>
               <Grid item sm={4}>
                 <FormControl fullWidth>
                   <InputLabel id="turnover-label">Turnover</InputLabel>
-                  <Select labelId="turnover-label" label="Turnover">
+                  <Select
+                    labelId="turnover-label"
+                    label="Turnover"
+                    name="turnover"
+                    value={companyData.turnover}
+                    onChange={(e) => {
+                      dispatchCompany({
+                        type: "turnover",
+                        value: e.target.value,
+                      });
+                    }}
+                  >
                     <MenuItem value="Unclassified">Unclassified</MenuItem>
                     <MenuItem value="1 to <90k">1 to {"<"}90k</MenuItem>
                     <MenuItem value="90k to <400k">90k to {"<"}400k</MenuItem>
@@ -469,7 +590,18 @@ const AddCompany = ({ refreshTableMode }) => {
               <Grid item sm={4}>
                 <FormControl fullWidth>
                   <InputLabel id="net-worth-label">Net Worth</InputLabel>
-                  <Select labelId="net-worth-label" label="Net Worth">
+                  <Select
+                    labelId="net-worth-label"
+                    label="Net Worth"
+                    name="net_worth"
+                    value={companyData.net_worth}
+                    onChange={(e) => {
+                      dispatchCompany({
+                        type: "net_worth",
+                        value: e.target.value,
+                      });
+                    }}
+                  >
                     <MenuItem value="Unclassified">Unclassified</MenuItem>
                     <MenuItem value="1 to <90k">1 to {"<"}90k</MenuItem>
                     <MenuItem value="90k to <400k">90k to {"<"}400k</MenuItem>
@@ -485,7 +617,18 @@ const AddCompany = ({ refreshTableMode }) => {
               <Grid item sm={4}>
                 <FormControl fullWidth>
                   <InputLabel id="building-use-label">Building Use</InputLabel>
-                  <Select labelId="building-use-label" label="Building Use">
+                  <Select
+                    labelId="building-use-label"
+                    label="Building Use"
+                    name="building_use"
+                    value={companyData.building_use}
+                    onChange={(e) => {
+                      dispatchCompany({
+                        type: "building_use",
+                        value: e.target.value,
+                      });
+                    }}
+                  >
                     <MenuItem value="Agriculture">Agriculture</MenuItem>
                     <MenuItem value="Educational">Educational</MenuItem>
                     <MenuItem value="Government/Local Authority">
@@ -521,22 +664,69 @@ const AddCompany = ({ refreshTableMode }) => {
                 />
               </Grid>
               <Grid item sm={4}>
-                <TextField fullWidth label="Website URL" type="text" />
+                <TextField
+                  fullWidth
+                  label="Website URL"
+                  type="URLField"
+                  name="website_url"
+                  value={companyData.website_url}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "website_url",
+                      value: e.target.value,
+                    })
+                  }
+                />
               </Grid>
               <Grid item sm={4}>
                 <FormControl fullWidth>
                   <InputLabel id="vat-label">VAT Declaration</InputLabel>
-                  <Select labelId="vat-label" label="VAT Declaration">
+                  <Select
+                    labelId="vat-label"
+                    label="VAT Declaration"
+                    name="vat_declatarion"
+                    value={companyData.vat_declatarion}
+                    onChange={(e) =>
+                      dispatchCompany({
+                        type: "vat_declatarion",
+                        value: e.target.value,
+                      })
+                    }
+                  >
                     <MenuItem value="Yes">Yes</MenuItem>
                     <MenuItem value="No">No</MenuItem>
                   </Select>
                 </FormControl>
               </Grid>
               <Grid item sm={4}>
-                <TextField fullWidth label="VAT %" type="text" />
+                <TextField
+                  fullWidth
+                  label="VAT %"
+                  type="text"
+                  name="vat"
+                  value={companyData.vat}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "vat",
+                      value: e.target.value,
+                    })
+                  }
+                />
               </Grid>
               <Grid item sm={4}>
-                <TextField fullWidth label="VAT Number" type="text" />
+                <TextField
+                  fullWidth
+                  label="VAT Number"
+                  type="number"
+                  name="vat_number"
+                  value={companyData.vat_number}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "vat_number",
+                      value: e.target.value,
+                    })
+                  }
+                />
               </Grid>
             </Grid>
             <Grid item sm={4} mt={2}>
@@ -603,11 +793,11 @@ const AddCompany = ({ refreshTableMode }) => {
                 }
               />
             </Grid>
+
             <Grid item sm={6}>
               <TextField
                 fullWidth
-                label="Postcode"
-                type="text"
+                label="Post Code"
                 name="postcode"
                 value={companyData.postcode}
                 onChange={(e) =>
@@ -618,10 +808,23 @@ const AddCompany = ({ refreshTableMode }) => {
                 }
               />
             </Grid>
+
             <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="country-label">Country</InputLabel>
-                <Select labelId="country-label" label="Country">
+                <Select
+                  labelId="country-label"
+                  label="Country"
+                  type="text"
+                  name="country_of_company"
+                  value={companyData.country_of_company}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "country_of_company",
+                      value: e.target.value,
+                    })
+                  }
+                >
                   <MenuItem value="United Kingdom">United Kingdom</MenuItem>
                   <MenuItem value="England">England</MenuItem>
                   <MenuItem value="Scotland">Scotland</MenuItem>
@@ -648,7 +851,18 @@ const AddCompany = ({ refreshTableMode }) => {
             <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="payment-type-label">Payment Type</InputLabel>
-                <Select labelId="payment-type-label" label="Payment Type">
+                <Select
+                  labelId="payment-type-label"
+                  label="Payment Type"
+                  name="payment_type"
+                  value={companyData.payment_type}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "payment_type",
+                      value: e.target.value,
+                    })
+                  }
+                >
                   <MenuItem value="Monthly Direct Debit">
                     Monthly Direct Debit
                   </MenuItem>
@@ -671,14 +885,35 @@ const AddCompany = ({ refreshTableMode }) => {
                 type="date"
                 InputLabelProps={{ shrink: true }}
                 label="Direct Debit Start Date"
+                name="direct_debit_start_date"
+                value={companyData.direct_debit_start_date}
+                onChange={(e) =>
+                  dispatchCompany({
+                    type: "direct_debit_start_date",
+                    value: e.target.value,
+                  })
+                }
               />
-            </Grid>
-            <Grid item sm={6}>
-              <TextField fullWidth label="Account Holder" />
             </Grid>
             <Grid item sm={6}>
               <TextField
                 fullWidth
+                type="number"
+                label="Account Number"
+                name="account_no"
+                value={companyData.account_no}
+                onChange={(e) =>
+                  dispatchCompany({
+                    type: "account_no",
+                    value: e.target.value,
+                  })
+                }
+              />
+            </Grid>
+            <Grid item sm={6}>
+              <TextField
+                fullWidth
+                type="text"
                 label="Account Name"
                 name="account_name"
                 value={companyData.account_name}
@@ -691,7 +926,19 @@ const AddCompany = ({ refreshTableMode }) => {
               />
             </Grid>
             <Grid item sm={6}>
-              <TextField fullWidth label="Sort Code" />
+              <TextField
+                fullWidth
+                type="number"
+                label="shortcode"
+                name="shortcode"
+                value={companyData.shortcode}
+                onChange={(e) =>
+                  dispatchCompany({
+                    type: "shortcode",
+                    value: e.target.value,
+                  })
+                }
+              />
             </Grid>
             <Grid item sm={6}>
               <TextField
@@ -708,7 +955,19 @@ const AddCompany = ({ refreshTableMode }) => {
               />
             </Grid>
             <Grid item sm={6}>
-              <TextField fullWidth label="Bank Postcode" />
+              <TextField
+                fullWidth
+                label="Bank Postcode"
+                type="number"
+                name="bank_postcode"
+                value={companyData.bank_postcode}
+                onChange={(e) =>
+                  dispatchCompany({
+                    type: "bank_postcode",
+                    value: e.target.value,
+                  })
+                }
+              />
             </Grid>
           </Grid>
         );
@@ -716,12 +975,34 @@ const AddCompany = ({ refreshTableMode }) => {
         return (
           <Grid container spacing={2}>
             <Grid item sm={6}>
-              <TextField fullWidth label="Agent Email" />
+              <TextField
+                fullWidth
+                label="Agent Email"
+                name="agent_email"
+                value={companyData.agent_email}
+                onChange={(e) =>
+                  dispatchCompany({
+                    type: "agent_email",
+                    value: e.target.value,
+                  })
+                }
+              />
             </Grid>
             <Grid item sm={6}>
               <FormControl fullWidth>
                 <InputLabel id="loa-template-label">LOA Template</InputLabel>
-                <Select labelId="loa-template-label" label="LOA Template">
+                <Select
+                  labelId="loa-template-label"
+                  label="LOA Template"
+                  name="loa_template"
+                  value={companyData.loa_template}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "loa_template",
+                      value: e.target.value,
+                    })
+                  }
+                >
                   <MenuItem value="Power Standard LOA">
                     Power Standard LOA
                   </MenuItem>
@@ -735,6 +1016,14 @@ const AddCompany = ({ refreshTableMode }) => {
                 type="date"
                 InputLabelProps={{ shrink: true }}
                 label="LOA Start Date"
+                name="loa_start_date"
+                value={companyData.loa_start_date}
+                onChange={(e) =>
+                  dispatchCompany({
+                    type: "loa_start_date",
+                    value: e.target.value,
+                  })
+                }
               />
             </Grid>
             <Grid item sm={6}>
@@ -743,6 +1032,14 @@ const AddCompany = ({ refreshTableMode }) => {
                 type="date"
                 InputLabelProps={{ shrink: true }}
                 label="LOA End Date"
+                name="loa_end_date"
+                value={companyData.loa_end_date}
+                onChange={(e) =>
+                  dispatchCompany({
+                    type: "loa_end_date",
+                    value: e.target.value,
+                  })
+                }
               />
             </Grid>
           </Grid>
@@ -752,19 +1049,22 @@ const AddCompany = ({ refreshTableMode }) => {
           <>
             <Grid item sm={6}>
               <FormControlLabel
-                control={<Switch checked />}
+                control={
+                  <Switch
+                    name="primary_contact"
+                    checked={companyData.primary_contact}
+                    onChange={(e) => {
+                      dispatchCompany({
+                        type: "primary_contact",
+                        value: e.target.checked,
+                      });
+                    }}
+                  />
+                }
                 label="Primary Contact"
               />
             </Grid>
             <Grid container spacing={2} mt={1}>
-              <Grid item sm={6}>
-                <FormControl fullWidth>
-                  <InputLabel id="contact-list-label">Contact List</InputLabel>
-                  <Select labelId="contact-list-label" label="Contact List">
-                    <MenuItem value=""></MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
               <Grid item sm={6}>
                 <FormControl fullWidth>
                   <InputLabel id="company-label">Contact Title</InputLabel>
@@ -791,19 +1091,79 @@ const AddCompany = ({ refreshTableMode }) => {
                 </FormControl>
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Contact Name" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Contact Name"
+                  name="contact_name"
+                  value={companyData.contact_name}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "contact_name",
+                      value: e.target.value,
+                    })
+                  }
+                />
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Job Title" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Job Title"
+                  name="job_title"
+                  value={companyData.job_title}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "job_title",
+                      value: e.target.value,
+                    })
+                  }
+                />
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Direct Line" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Direct Line"
+                  name="direct_line"
+                  value={companyData.direct_line}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "direct_line",
+                      value: e.target.value,
+                    })
+                  }
+                />
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Landline" />
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Telephone Number"
+                  name="telephone_number"
+                  value={companyData.telephone_number}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "telephone_number",
+                      value: e.target.value,
+                    })
+                  }
+                />
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Mobile" />
+                <TextField
+                  fullWidth
+                  type="number"
+                  label="Mobile"
+                  name="mobile"
+                  value={companyData.mobile}
+                  onChange={(e) =>
+                    dispatchCompany({
+                      type: "mobile",
+                      value: e.target.value,
+                    })
+                  }
+                />
               </Grid>
               <Grid item sm={6}>
                 <TextField
@@ -826,16 +1186,72 @@ const AddCompany = ({ refreshTableMode }) => {
             </Typography>
             <Box display="flex" flexWrap="wrap">
               <Grid item sm={6}>
-                <FormControlLabel control={<Switch checked />} label="Email" />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name="email"
+                      checked={companyData.email}
+                      onChange={(e) => {
+                        dispatchCompany({
+                          type: "email",
+                          value: e.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label="Email"
+                />
               </Grid>
               <Grid item sm={6}>
-                <FormControlLabel control={<Switch checked />} label="Phone" />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name="phone"
+                      checked={companyData.phone}
+                      onChange={(e) => {
+                        dispatchCompany({
+                          type: "phone",
+                          value: e.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label="Phone"
+                />
               </Grid>
               <Grid item sm={6}>
-                <FormControlLabel control={<Switch checked />} label="SMS" />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name="sms"
+                      checked={companyData.sms}
+                      onChange={(e) => {
+                        dispatchCompany({
+                          type: "sms",
+                          value: e.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label="SMS"
+                />
               </Grid>
               <Grid item sm={6}>
-                <FormControlLabel control={<Switch checked />} label="Post" />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      name="post"
+                      checked={companyData.post}
+                      onChange={(e) => {
+                        dispatchCompany({
+                          type: "post",
+                          value: e.target.checked,
+                        });
+                      }}
+                    />
+                  }
+                  label="Post"
+                />
               </Grid>
             </Box>
           </>
@@ -915,10 +1331,10 @@ const AddCompany = ({ refreshTableMode }) => {
         <Typography variant="h6" padding={1} margin={1}>
           Create Company
         </Typography>
-        <TextField
+        {/* <TextField
           sx={{ m: 2 }}
           label="Postcode"
-          value={postcode}
+          // value={postcode}
           onChange={(e) => setPostcode(e.target.value)}
           InputProps={{
             endAdornment: (
@@ -939,7 +1355,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </InputAdornment>
             ),
           }}
-        />
+        /> */}
       </Box>
       <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
         {steps.map((label) => (

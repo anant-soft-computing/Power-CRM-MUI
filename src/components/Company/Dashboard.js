@@ -60,7 +60,7 @@ const CompanyDashboard = () => {
     {
       field: "notes",
       headerName: "Notes",
-      width: 150,
+      width: 140,
       editable: true,
       //for notes inline update functionality
       preProcessEditCellProps: (params) => {
@@ -103,13 +103,13 @@ const CompanyDashboard = () => {
     {
       headerName: "Site Document",
       field: "siteDocument",
-      width: 140,
+      width: 190,
       renderCell: (params) => {
         const document = siteDocument.find((doc) => doc.site === params.row.id);
         return document ? (
-          <a href={document.document} target="_blank" rel="noopener noreferrer">
+          <Button href={document.document} variant="contained" color="primary">
             {"View Document"}
-          </a>
+          </Button>
         ) : (
           "N/A"
         );

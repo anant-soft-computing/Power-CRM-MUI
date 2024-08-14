@@ -27,6 +27,7 @@ const Company = () => {
   const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddCompany, setShowAddCompany] = useState(false);
+  console.log(companyData);
 
   const refreshTableMode = () => {
     setRefreshTable((prev) => prev + 1);
@@ -114,11 +115,7 @@ const Company = () => {
       field: "postcode",
       width: 120,
     },
-    {
-      headerName: "Reference",
-      field: "reference",
-      width: 200,
-    },
+
     {
       headerName: "Registration No",
       field: "registration_no",
@@ -134,7 +131,7 @@ const Company = () => {
       headerName: "Email",
       field: "contacts.email",
       renderCell: (params) => params.row.contacts.email,
-      width: 250,
+      width: 120,
     },
     {
       headerName: "Time of The Months",

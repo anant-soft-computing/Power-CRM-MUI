@@ -78,6 +78,10 @@ const initialSiteData = {
   agent_email: "",
   loa_header_to_use: "",
   loa_template: "",
+
+  contact_name: "",
+  direct_line: "",
+  mobile: "",
 };
 
 const steps = [
@@ -105,7 +109,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
   const validateForm = () => {
     const {
       site_name,
-      company,
+      // company,
       siteAddressLine1,
       siteAddressLine2,
       siteAddressLine3,
@@ -122,10 +126,10 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
       setFormError("Site Name is Required");
       return false;
     }
-    if (!company) {
-      setFormError("Company Name is Required");
-      return false;
-    }
+    // if (!company) {
+    //   setFormError("Company Name is Required");
+    //   return false;
+    // }
     if (
       !(
         siteAddressLine1 ||
@@ -229,6 +233,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
       agent_email: formData.agent_email,
       loa_header_to_use: formData.loa_header_to_use,
       loa_template: formData.loa_template,
+      telephone_number: formData.telephone_number,
     };
     if (formData.owner_name) {
       sendData.owner_name = formData.owner_name;
@@ -706,14 +711,6 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             <Grid container spacing={2} mt={1}>
               <Grid item sm={6}>
                 <FormControl fullWidth>
-                  <InputLabel id="contact-list-label">Contact List</InputLabel>
-                  <Select labelId="contact-list-label" label="Contact List">
-                    <MenuItem value=""></MenuItem>
-                  </Select>
-                </FormControl>
-              </Grid>
-              <Grid item sm={6}>
-                <FormControl fullWidth>
                   <InputLabel id="company-label">Contact Title</InputLabel>
                   <Select
                     labelId="company-label"
@@ -733,19 +730,54 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 </FormControl>
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Contact Name" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Contact Name"
+                  name="contact_name"
+                  value={formData.contact_name}
+                  onChange={handleChange}
+                />
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Job Title" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Job Title"
+                  name="contact_title"
+                  value={formData.contact_title}
+                  onChange={handleChange}
+                />
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Direct Line" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Direct Line"
+                  name="direct_line"
+                  value={formData.direct_line}
+                  onChange={handleChange}
+                />
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Landline" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Telephone"
+                  name="telephone_number"
+                  value={formData.telephone_number}
+                  onChange={handleChange}
+                />
               </Grid>
               <Grid item sm={6}>
-                <TextField fullWidth type="text" label="Mobile" />
+                <TextField
+                  fullWidth
+                  type="text"
+                  label="Mobile"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleChange}
+                />
               </Grid>
               <Grid item sm={6}>
                 <TextField
@@ -781,7 +813,14 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
         return (
           <Grid container spacing={2}>
             <Grid item sm={6}>
-              <TextField fullWidth label="Agent Email" />
+              <TextField
+                fullWidth
+                type="email"
+                label="Agent Email"
+                value={formData.agent_email}
+                name="agent_email"
+                onChange={handleChange}
+              />
             </Grid>
             <Grid item sm={6}>
               <FormControl fullWidth>

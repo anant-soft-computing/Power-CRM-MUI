@@ -11,6 +11,7 @@ import {
   Dialog,
   DialogTitle,
   Checkbox,
+  Card,
 } from "@mui/material";
 import moment from "moment";
 import {
@@ -30,6 +31,7 @@ import { toast } from "react-toastify";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
+import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 
 const initialCompanyData = {
   name: "",
@@ -1320,119 +1322,86 @@ const AddCompany = ({ refreshTableMode }) => {
   ];
 
   return (
-    <Container maxWidth="xl">
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-        }}
-      >
-        <Typography variant="h6" padding={1} margin={1}>
-          Create Company
-        </Typography>
-        {/* <TextField
-          sx={{ m: 2 }}
-          label="Postcode"
-          // value={postcode}
-          onChange={(e) => setPostcode(e.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                {formStatus.isSubmitting ? (
-                  <CircularProgress />
-                ) : (
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    type="submit"
-                    disabled={formStatus.isSubmitting}
-                    onClick={searchByPostCode}
-                  >
-                    Look Up
-                  </Button>
-                )}
-              </InputAdornment>
-            ),
-          }}
-        /> */}
-      </Box>
-      <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
-        {steps.map((label) => (
-          <Step key={label}>
-            <StepLabel>{label}</StepLabel>
-          </Step>
-        ))}
-      </Stepper>
-      {renderStepContent(activeStep)}
-      {formStatus.isError && (
-        <Typography
-          color="error"
-          sx={{ mt: 2 }}
-          align="center"
-          variant="h6"
-          component="div"
-        >
-          {formStatus.errMsg}
-        </Typography>
-      )}
-      <Box sx={{ display: "flex", justifyContent: "flex-end", m: 2 }}>
-        {activeStep !== 0 && (
-          <Button onClick={handleBack} sx={{ mr: 1 }}>
-            Back
-          </Button>
+    <Container maxWidth="xl" sx={{ my: 10 }}>
+      <Breadcrumb title="Create Company" main="Dashboard" />
+      <Card sx={{ p: 4, m: 2, boxShadow: 5, borderRadius: 3 }}>
+        <Stepper activeStep={activeStep} sx={{ mb: 3 }}>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        {renderStepContent(activeStep)}
+        {formStatus.isError && (
+          <Typography
+            color="error"
+            sx={{ mt: 2 }}
+            align="center"
+            variant="h6"
+            component="div"
+          >
+            {formStatus.errMsg}
+          </Typography>
         )}
-        {activeStep === steps.length - 1 ? (
-          formStatus.isSubmitting ? (
-            <CircularProgress />
-          ) : (
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              disabled={formStatus.isSubmitting}
-              onClick={createCompany}
-            >
-              Submit
+        <Box sx={{ display: "flex", justifyContent: "flex-end", m: 2 }}>
+          {activeStep !== 0 && (
+            <Button onClick={handleBack} sx={{ mr: 1 }}>
+              Back
             </Button>
-          )
-        ) : (
-          <Button variant="contained" color="primary" onClick={handleNext}>
-            Next
-          </Button>
-        )}
-      </Box>
-      <Dialog open={open} onClose={() => setOpen(false)} maxWidth="xl">
-        <DialogTitle>Select Address</DialogTitle>
-        <DialogContent>
-          <Box sx={{ height: "100%", width: "100%" }}>
-            <DataGrid
-              rows={addresses}
-              columns={columns}
-              disableColumnFilter
-              disableDensitySelector
-              onRowClick={(params) => handleAddressSelect(params.row)}
-              getRowId={(row) => row.propertyAddressId}
-              getRowClassName={(params) =>
-                params.indexRelativeToCurrentPage % 2 === 0
-                  ? "evenRow"
-                  : "oddRow"
-              }
-              slots={{ toolbar: GridToolbar }}
-              slotProps={{
-                toolbar: {
-                  showQuickFilter: true,
-                },
-              }}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
-            Cancel
-          </Button>
-        </DialogActions>
-      </Dialog>
+          )}
+          {activeStep === steps.length - 1 ? (
+            formStatus.isSubmitting ? (
+              <CircularProgress />
+            ) : (
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={formStatus.isSubmitting}
+                onClick={createCompany}
+              >
+                Submit
+              </Button>
+            )
+          ) : (
+            <Button variant="contained" color="primary" onClick={handleNext}>
+              Next
+            </Button>
+          )}
+        </Box>
+        <Dialog open={open} onClose={() => setOpen(false)} maxWidth="xl">
+          <DialogTitle>Select Address</DialogTitle>
+          <DialogContent>
+            <Box sx={{ height: "100%", width: "100%" }}>
+              <DataGrid
+                rows={addresses}
+                columns={columns}
+                disableColumnFilter
+                disableDensitySelector
+                onRowClick={(params) => handleAddressSelect(params.row)}
+                getRowId={(row) => row.propertyAddressId}
+                getRowClassName={(params) =>
+                  params.indexRelativeToCurrentPage % 2 === 0
+                    ? "evenRow"
+                    : "oddRow"
+                }
+                slots={{ toolbar: GridToolbar }}
+                slotProps={{
+                  toolbar: {
+                    showQuickFilter: true,
+                  },
+                }}
+              />
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpen(false)} color="primary">
+              Cancel
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </Card>
     </Container>
   );
 };

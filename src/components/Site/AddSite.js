@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Select,
@@ -67,21 +67,24 @@ const initialSiteData = {
   lead_type: "",
   bill_to_sent: false,
   welcome_letter_send: false,
+  sms: true,
+  post: true,
 
   first_name: "",
   last_name: "",
-  contact_title: "",
   position: "",
-  telephone_number: "",
-  email: "",
 
   agent_email: "",
   loa_header_to_use: "",
   loa_template: "",
 
   contact_name: "",
+  contact_title: "",
+  job_title: "",
+  telephone_number: "",
   direct_line: "",
   mobile: "",
+  email: "",
 };
 
 const steps = [
@@ -105,11 +108,42 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
   const [selectedRow, setSelectedRow] = useState(null);
   const [formData, setFormData] = useState(initialSiteData);
   const [formStatus, setFormStatus] = useState(initialSubmit);
+  const [LOATemplate, setLOATemplate] = useState([]);
+
+  const fetchData = async (url, setData) => {
+    try {
+      const response = await ajaxCall(
+        url,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "GET",
+        },
+        8000
+      );
+      if (response?.status === 200) {
+        setData(response?.data || []);
+      } else {
+        console.error("Fetch error:", response);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(`sites/get/loa_template/`, setLOATemplate);
+  }, []);
 
   const validateForm = () => {
     const {
       site_name,
-      // company,
+      company,
       siteAddressLine1,
       siteAddressLine2,
       siteAddressLine3,
@@ -126,10 +160,10 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
       setFormError("Site Name is Required");
       return false;
     }
-    // if (!company) {
-    //   setFormError("Company Name is Required");
-    //   return false;
-    // }
+    if (!company) {
+      setFormError("Company Name is Required");
+      return false;
+    }
     if (
       !(
         siteAddressLine1 ||
@@ -234,6 +268,12 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
       loa_header_to_use: formData.loa_header_to_use,
       loa_template: formData.loa_template,
       telephone_number: formData.telephone_number,
+      contact_name: formData.contact_name,
+      contact_title: formData.contact_title,
+      job_title: formData.job_title,
+      direct_line: formData.direct_line,
+      mobile: formData.mobile,
+      email: formData.email,
     };
     if (formData.owner_name) {
       sendData.owner_name = formData.owner_name;
@@ -744,8 +784,8 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                   fullWidth
                   type="text"
                   label="Job Title"
-                  name="contact_title"
-                  value={formData.contact_title}
+                  name="job_title"
+                  value={formData.job_title}
                   onChange={handleChange}
                 />
               </Grid>
@@ -795,16 +835,53 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Typography>
             <Box display="flex" flexWrap="wrap">
               <Grid item sm={6}>
-                <FormControlLabel control={<Switch checked />} label="Email" />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.email}
+                      onChange={handleChange}
+                      name="email"
+                    />
+                  }
+                  label="Email"
+                />
               </Grid>
               <Grid item sm={6}>
-                <FormControlLabel control={<Switch checked />} label="Phone" />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.telephone_number}
+                      onChange={handleChange}
+                      name="telephone_number"
+                    />
+                  }
+                  label="Telephone Number"
+                />
+              </Grid>
+
+              <Grid item sm={6}>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.sms}
+                      onChange={handleChange}
+                      name="sms"
+                    />
+                  }
+                  label="SMS"
+                />
               </Grid>
               <Grid item sm={6}>
-                <FormControlLabel control={<Switch checked />} label="SMS" />
-              </Grid>
-              <Grid item sm={6}>
-                <FormControlLabel control={<Switch checked />} label="Post" />
+                <FormControlLabel
+                  control={
+                    <Switch
+                      checked={formData.post}
+                      onChange={handleChange}
+                      name="post"
+                    />
+                  }
+                  label="Post"
+                />
               </Grid>
             </Box>
           </>
@@ -824,12 +901,36 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <FormControl fullWidth>
+                <InputLabel id="loaHeader-template-label">
+                  LOA Header to Use
+                </InputLabel>
+                <Select
+                  labelId="loaHeader-template-label"
+                  label="LOA Template"
+                  name="loa_header_to_use"
+                  value={formData.loa_header_to_use}
+                  onChange={handleChange}
+                >
+                  <MenuItem value={1}>Site Name</MenuItem>
+                  <MenuItem value={2}>Company Name</MenuItem>
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item sm={6}>
+              <FormControl fullWidth>
                 <InputLabel id="loa-template-label">LOA Template</InputLabel>
-                <Select labelId="loa-template-label" label="LOA Template">
-                  <MenuItem value="Power Standard LOA">
-                    Power Standard LOA
-                  </MenuItem>
-                  <MenuItem value="SSE-LOA">SSE-LOA</MenuItem>
+                <Select
+                  labelId="loa-template-label"
+                  label="LOA Template"
+                  name="loa_template"
+                  value={formData.loa_template}
+                  onChange={handleChange}
+                >
+                  {LOATemplate.map((item) => (
+                    <MenuItem key={item.id} value={item.id}>
+                      {item.name}
+                    </MenuItem>
+                  ))}
                 </Select>
               </FormControl>
             </Grid>

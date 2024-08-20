@@ -52,6 +52,7 @@ const MultiSite = () => {
   const [multiSiteData, setMultiSiteData] = useState([]);
   const [siteData, setSiteData] = useState([]);
   const [companyData, setCompanyData] = useState([]);
+  const [filteredSites, setFilteredSites] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const handleChange = (e) => {
@@ -61,6 +62,20 @@ const MultiSite = () => {
       ...prevFormData,
       [name]: name === "sites" ? value : value,
     }));
+
+    if (name === "company") {
+      const selectedCompany = companyData.find(
+        (company) => company.id == value
+      );
+      if (selectedCompany) {
+        const filtered = siteData.filter(
+          (site) => site.company.id == selectedCompany.id
+        );
+        setFilteredSites(filtered);
+      } else {
+        setFilteredSites([]);
+      }
+    }
   };
 
   const fetchData = async (url, setData) => {
@@ -80,7 +95,11 @@ const MultiSite = () => {
         8000
       );
       if (response?.status === 200) {
-        setData(response?.data || []);
+        if (url === "multisite/") {
+          setData(response?.data?.results || []);
+        } else {
+          setData(response?.data || []);
+        }
       } else {
         console.error("Fetch error:", response);
       }
@@ -188,7 +207,7 @@ const MultiSite = () => {
                 value={formData.sites}
                 onChange={handleChange}
               >
-                {siteData.map((item) => (
+                {filteredSites.map((item) => (
                   <MenuItem key={item.id} value={item.id}>
                     {item.site_name}
                   </MenuItem>

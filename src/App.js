@@ -17,6 +17,9 @@ import Test from "./components/Quote/Test";
 import Document from "./components/Documents/Document";
 import MultiSite from "./components/MultiSite-MultiQuotes/MultiSite";
 import MultiQuote from "./components/MultiSite-MultiQuotes/MultiQuote";
+import CompanyDocument from "./components/Documents/CompanyDocument";
+import SiteDocument from "./components/Documents/SiteDocument";
+import AddCompany from "./components/Company/AddCompany";
 
 function App() {
   const location = useLocation();
@@ -51,7 +54,11 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/Dashboard" element={<Dashboard />} />
             <Route path="/Companies" element={<Company />} />
+            <Route path="/AddCompany" element={<AddCompany />} />
+            <Route path="/ViewCompany" element={<Dashboard />} />
             <Route path="/Company/:companyId" element={<CompanyDashboard />} />
+            <Route path="/CompanyDocument" element={<CompanyDocument />} />
+            <Route path="/SiteDocument" element={<SiteDocument />} />
             <Route path="/Sites" element={<Site />} />
             <Route path="/Site/:siteId" element={<SiteDashboard />} />
             <Route path="/Quotes" element={<Quote />} />

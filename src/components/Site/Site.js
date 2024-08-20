@@ -196,12 +196,7 @@ const Site = () => {
 
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Breadcrumb
-        title="Sites"
-        middle="Company"
-        middleUrl="Companies"
-        main="Dashboard"
-      />
+      <Breadcrumb title="Sites" main="Dashboard" />
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <CardContent>
           {isLoading ? (

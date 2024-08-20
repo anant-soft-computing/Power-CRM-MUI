@@ -27,7 +27,6 @@ const Company = () => {
   const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddCompany, setShowAddCompany] = useState(false);
-  console.log(companyData);
 
   const refreshTableMode = () => {
     setRefreshTable((prev) => prev + 1);
@@ -145,7 +144,7 @@ const Company = () => {
 
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Breadcrumb title="Company" main="Dashboard" />
+      <Breadcrumb title="Companies" main="Dashboard" />
 
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <CardContent>

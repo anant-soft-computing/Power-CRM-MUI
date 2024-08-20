@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Box,
+  Button,
   Card,
   CircularProgress,
   Container,
@@ -43,7 +44,7 @@ const SiteDashboard = () => {
     {
       headerName: "Owner Name",
       field: "owner_name",
-      width: 150,
+      width: 130,
       filter: true,
     },
     {
@@ -74,7 +75,7 @@ const SiteDashboard = () => {
     {
       headerName: "Notes",
       field: "notes",
-      width: 150,
+      width: 130,
       editable: true,
       preProcessEditCellProps: (params) => {
         const hasChanged = params.props.value !== params.row.notes;
@@ -87,13 +88,13 @@ const SiteDashboard = () => {
     {
       headerName: "Site Document",
       field: "siteDocument",
-      width: 140,
+      width: 190,
       renderCell: (params) => {
         const document = siteDocument.find((doc) => doc.site === params.row.id);
         return document ? (
-          <a href={document.document} target="_blank" rel="noopener noreferrer">
+          <Button href={document.document} variant="contained" color="primary">
             {"View Document"}
-          </a>
+          </Button>
         ) : (
           "N/A"
         );

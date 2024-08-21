@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   Box,
   List,
@@ -10,9 +10,7 @@ import {
 } from "@mui/material";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import BusinessIcon from "@mui/icons-material/Business";
-import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
-import FileCopyIcon from "@mui/icons-material/FileCopy";
 import ViewListIcon from "@mui/icons-material/ViewList";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
@@ -23,6 +21,7 @@ import { deleteFromLocalStorage } from "../../helpers/helper";
 
 const Sidebar = ({ isOpen }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const [openCompany, setOpenCompany] = useState(false);
@@ -47,12 +46,12 @@ const Sidebar = ({ isOpen }) => {
 
   const handleCompany = () => {
     setOpenCompany(!openCompany);
-    setOpenSite(false); // Ensure the Site section is closed when Company is opened
+    setOpenSite(false);
   };
 
   const handleSite = () => {
     setOpenSite(!openSite);
-    setOpenCompany(false); // Ensure the Company section is closed when Site is opened
+    setOpenCompany(false);
   };
 
   const navItems = [
@@ -68,23 +67,18 @@ const Sidebar = ({ isOpen }) => {
       subItems: [
         { text: "All Companies", path: "/Companies" },
         { text: "Create Company", path: "/AddCompany" },
-        { text: "Add Company Document", path: "/CompanyDocument" },
+        { text: "Create Company Document", path: "/CompanyDocument" },
       ],
     },
     {
-      text: "Site",
+      text: "Sites",
       icon: <AccountTreeIcon color="primary" />,
       action: handleSite,
       subItems: [
-        { text: "All Site", path: "/Sites" },
-        { text: "Add Site Document", path: "/SiteDocument" },
+        { text: "All Sites", path: "/Sites" },
+        { text: "Create Site Document", path: "/SiteDocument" },
       ],
     },
-    // {
-    //   text: "Documents",
-    //   icon: <FileCopyIcon color="primary" />,
-    //   path: "/Documents",
-    // },
     {
       text: "MultiSite",
       icon: <ViewListIcon color="primary" />,
@@ -112,8 +106,19 @@ const Sidebar = ({ isOpen }) => {
             <ListItem
               button
               onClick={() => (path ? navigate(path) : action ? action() : null)}
+              sx={{
+                backgroundColor:
+                  path === location.pathname ? "rgba(0, 0, 255, 0.1)" : "",
+                color: path === location.pathname ? "#3498db" : "inherit",
+              }}
             >
-              <ListItemIcon>{icon}</ListItemIcon>
+              <ListItemIcon
+                sx={{
+                  color: path === location.pathname ? "#3498db" : "inherit",
+                }}
+              >
+                {icon}
+              </ListItemIcon>
               <ListItemText primary={text} />
               {subItems &&
                 (action ? (
@@ -143,7 +148,17 @@ const Sidebar = ({ isOpen }) => {
                     <ListItem
                       button
                       key={subItem.text}
-                      sx={{ pl: 4 }}
+                      sx={{
+                        pl: 4,
+                        backgroundColor:
+                          subItem.path === location.pathname
+                            ? "rgba(0, 0, 255, 0.1)"
+                            : "",
+                        color:
+                          subItem.path === location.pathname
+                            ? "#3498db"
+                            : "inherit",
+                      }}
                       onClick={() => navigate(subItem.path)}
                     >
                       <ListItemText primary={subItem.text} />

@@ -94,7 +94,7 @@ const CompanyDashboard = () => {
         <Button
           variant="contained"
           color="primary"
-          onClick={() => navigate(`/Test/${params.row.id}`)}
+          onClick={() => navigate(`/SendQuotation/${params.row.id}`)}
         >
           Send Quotation
         </Button>

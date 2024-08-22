@@ -67,7 +67,7 @@ const Sidebar = ({ isOpen }) => {
       subItems: [
         { text: "All Companies", path: "/Companies" },
         { text: "Create Company", path: "/AddCompany" },
-        { text: "Create Company Document", path: "/CompanyDocument" },
+        { text: "Company Document", path: "/CompanyDocument" },
       ],
     },
     {
@@ -76,7 +76,7 @@ const Sidebar = ({ isOpen }) => {
       action: handleSite,
       subItems: [
         { text: "All Sites", path: "/Sites" },
-        { text: "Create Site Document", path: "/SiteDocument" },
+        { text: "Site Document", path: "/SiteDocument" },
       ],
     },
     {
@@ -107,8 +107,6 @@ const Sidebar = ({ isOpen }) => {
               button
               onClick={() => (path ? navigate(path) : action ? action() : null)}
               sx={{
-                backgroundColor:
-                  path === location.pathname ? "rgba(0, 0, 255, 0.1)" : "",
                 color: path === location.pathname ? "#3498db" : "inherit",
               }}
             >
@@ -150,10 +148,8 @@ const Sidebar = ({ isOpen }) => {
                       key={subItem.text}
                       sx={{
                         pl: 4,
-                        backgroundColor:
-                          subItem.path === location.pathname
-                            ? "rgba(0, 0, 255, 0.1)"
-                            : "",
+                        ml: 7,
+                        // Remove backgroundColor or leave it empty
                         color:
                           subItem.path === location.pathname
                             ? "#3498db"

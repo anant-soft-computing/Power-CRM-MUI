@@ -38,7 +38,7 @@ const columns = [
   },
 ];
 
-const Test = () => {
+const SendQuotation = () => {
   const params = useParams();
   const [quoteData, setQuoteData] = useState([]);
 
@@ -119,4 +119,4 @@ const Test = () => {
   );
 };
 
-export default Test;
+export default SendQuotation;

@@ -12,8 +12,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import AddCompany from "./AddCompany";
-import CompanyDocument from "../Documents/Document";
 import ajaxCall from "../../helpers/ajaxCall";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
 import FollowTheSignsIcon from "@mui/icons-material/FollowTheSigns";
@@ -27,10 +25,6 @@ const Company = () => {
   const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [showAddCompany, setShowAddCompany] = useState(false);
-
-  const refreshTableMode = () => {
-    setRefreshTable((prev) => prev + 1);
-  };
 
   const toggleAddCompany = () => {
     setShowAddCompany((prev) => !prev);
@@ -191,12 +185,6 @@ const Company = () => {
           {showAddCompany ? "Add Company" : "Add Company"}
         </Button>
       </Box>
-
-      {showAddCompany && (
-        <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
-          <AddCompany refreshTableMode={refreshTableMode} />
-        </Card>
-      )}
     </Container>
   );
 };

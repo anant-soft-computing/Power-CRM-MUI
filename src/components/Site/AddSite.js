@@ -38,7 +38,7 @@ const initialSiteData = {
   company: "",
   owner_name: "",
   current_gas_and_electricity_supplier_details: "",
-  tenant: true,
+  tenant: false,
   vacant: false,
   change_of_tenancy: false,
   customer_consent: false,
@@ -443,7 +443,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                   labelId="company-label"
                   label="Company"
                   name="company"
-                  value={data}
+                  value={data ? data : formData.company}
                   onChange={handleChange}
                 >
                   {companyData.map((item) => (

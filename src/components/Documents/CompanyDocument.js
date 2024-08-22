@@ -108,7 +108,7 @@ const CompanyDocument = () => {
 
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Breadcrumb title="Add Company Document" main="Dashboard" />
+      <Breadcrumb title="Create Company Document" main="Dashboard" />
       <Card sx={{ p: 4, m: 2, boxShadow: 5, borderRadius: 3 }}>
         <Grid container spacing={2}>
           <Grid item sm={6}>

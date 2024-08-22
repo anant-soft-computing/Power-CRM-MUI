@@ -13,18 +13,19 @@ import CompanyDashboard from "./components/Company/Dashboard";
 import SiteDashboard from "./components/Site/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Test from "./components/Quote/Test";
 import Document from "./components/Documents/Document";
 import MultiSite from "./components/MultiSite-MultiQuotes/MultiSite";
 import MultiQuote from "./components/MultiSite-MultiQuotes/MultiQuote";
 import CompanyDocument from "./components/Documents/CompanyDocument";
 import SiteDocument from "./components/Documents/SiteDocument";
 import AddCompany from "./components/Company/AddCompany";
+import SendQuotation from "./components/Quote/SendQuotation";
 
 function App() {
   const location = useLocation();
   const hide =
-    location.pathname === "/" || location.pathname.startsWith("/Test/");
+    location.pathname === "/" ||
+    location.pathname.startsWith("/SendQuotation/");
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const toggleSidebar = () => {
@@ -65,7 +66,7 @@ function App() {
             <Route path="/Documents" element={<Document />} />
             <Route path="/MultiSites" element={<MultiSite />} />
             <Route path="/MultiQuotes" element={<MultiQuote />} />
-            <Route path="/Test/:siteId" element={<Test />} />
+            <Route path="/SendQuotation/:siteId" element={<SendQuotation />} />
           </Routes>
         </div>
       </div>

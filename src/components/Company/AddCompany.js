@@ -258,43 +258,6 @@ const AddCompany = ({ refreshTableMode }) => {
     }
   };
 
-  // const searchByPostCode = async (e) => {
-  //   e.preventDefault();
-  //   setFormStatus({ isError: false, errMsg: null, isSubmitting: true });
-  //   try {
-  //     const response = await ajaxCall(
-  //       "lookup/Property/SearchByPostcode/",
-  //       {
-  //         headers: {
-  //           Accept: "application/json",
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${
-  //             JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-  //           }`,
-  //         },
-  //         method: "POST",
-  //         body: JSON.stringify({
-  //           query: postcode,
-  //           isQueryTicket: true,
-  //         }),
-  //       },
-  //       8000
-  //     );
-  //     if ([200, 201].includes(response.status)) {
-  //       setOpen(true);
-  //       setAddresses(response.data);
-  //       toast.success("Search Successful");
-  //       setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
-  //     } else {
-  //       toast.error("Some Problem Occurred. Please try again.");
-  //     }
-  //   } catch (error) {
-  //     toast.error("Some Problem Occurred. Please try again.");
-  //   } finally {
-  //     setFormStatus((prev) => ({ ...prev, isSubmitting: false }));
-  //   }
-  // };
-
   const handleAddressSelect = (row) => {
     setSelectedRow(row);
     setFormData({

@@ -174,11 +174,11 @@ const AddCompany = ({ refreshTableMode }) => {
 
   const validateForm = () => {
     const requiredFields = [
-      // { field: "name", message: "Company Name is Required" },
-      // { field: "contact_name", message: "Contact Name is Required" },
-      // { field: "email", message: "Email is Required" },
-      // { field: "position", message: "Position is Required" },
-      // { field: "telephone_number", message: "Telephone Number is Required" },
+      { field: "name", message: "Company Name is Required" },
+      { field: "contact_name", message: "Contact Name is Required" },
+      { field: "email", message: "Email is Required" },
+      { field: "position", message: "Position is Required" },
+      { field: "telephone_number", message: "Telephone Number is Required" },
     ];
     for (let { field, message } of requiredFields) {
       if (!companyData[field]) {

@@ -148,8 +148,7 @@ const Sidebar = ({ isOpen }) => {
                       key={subItem.text}
                       sx={{
                         pl: 4,
-                        ml: 7,
-                        // Remove backgroundColor or leave it empty
+                        ml: 6,
                         color:
                           subItem.path === location.pathname
                             ? "#3498db"

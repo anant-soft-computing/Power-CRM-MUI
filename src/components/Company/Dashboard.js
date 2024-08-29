@@ -111,7 +111,13 @@ const CompanyDashboard = () => {
             {"View Document"}
           </Button>
         ) : (
-          "N/A"
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`/SiteDocument/${params.row.id}`)}
+          >
+            Add Documents
+          </Button>
         );
       },
     },

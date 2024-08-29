@@ -84,7 +84,6 @@ const initialCompanyData = {
 
   contact_name: "",
   contact_title: "",
-  // position: "",
   telephone_number: "",
   email: "",
 };
@@ -124,10 +123,7 @@ const initialSiteData = {
   bill_to_sent: false,
   welcome_letter_send: false,
 
-  first_name: "",
-  last_name: "",
   contact_title: "",
-  position: "",
   telephone_number: "",
   email: "",
 
@@ -168,7 +164,6 @@ const AddCompany = ({ refreshTableMode }) => {
   const [activeStep, setActiveStep] = useState(0);
   const [open, setOpen] = useState(false);
   const [addresses, setAddresses] = useState([]);
-  // const [postcode, setPostcode] = useState("");
   const [selectedRow, setSelectedRow] = useState(null);
   const [formData, setFormData] = useState(initialSiteData);
 
@@ -177,7 +172,6 @@ const AddCompany = ({ refreshTableMode }) => {
       { field: "name", message: "Company Name is Required" },
       { field: "contact_name", message: "Contact Name is Required" },
       { field: "email", message: "Email is Required" },
-      { field: "position", message: "Position is Required" },
       { field: "telephone_number", message: "Telephone Number is Required" },
     ];
     for (let { field, message } of requiredFields) {

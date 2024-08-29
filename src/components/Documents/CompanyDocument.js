@@ -14,6 +14,7 @@ import {
 import ajaxCall from "../../helpers/ajaxCall";
 import { toast } from "react-toastify";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
+import { useParams } from "react-router-dom";
 
 const initialCompanyData = {
   name: "",
@@ -23,24 +24,18 @@ const initialCompanyData = {
 };
 
 const CompanyDocument = () => {
+  const { DocumentId } = useParams();
   const [formData, setFormData] = useState(initialCompanyData);
   const [companyData, setCompanyData] = useState([]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: value,
-    }));
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      document: file,
-    }));
-  };
+  useEffect(() => {
+    if (DocumentId) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        company: DocumentId, // Set the initial value to DocumentId
+      }));
+    }
+  }, [DocumentId]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -71,6 +66,22 @@ const CompanyDocument = () => {
 
     fetchData();
   }, []);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      document: file,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();

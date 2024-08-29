@@ -58,8 +58,14 @@ function App() {
             <Route path="/AddCompany" element={<AddCompany />} />
             <Route path="/ViewCompany" element={<Dashboard />} />
             <Route path="/Company/:companyId" element={<CompanyDashboard />} />
-            <Route path="/CompanyDocument" element={<CompanyDocument />} />
-            <Route path="/SiteDocument" element={<SiteDocument />} />
+            <Route
+              path="/CompanyDocument/:DocumentId"
+              element={<CompanyDocument />}
+            />
+            <Route
+              path="/SiteDocument/:SiteDocumentID"
+              element={<SiteDocument />}
+            />
             <Route path="/Sites" element={<Site />} />
             <Route path="/Site/:siteId" element={<SiteDashboard />} />
             <Route path="/Quotes" element={<Quote />} />

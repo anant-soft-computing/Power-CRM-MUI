@@ -1,36 +1,10 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  Container,
-  Box,
-  Card,
-  Grid,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  CardContent,
-  Button,
-} from "@mui/material";
+import { Container, Card } from "@mui/material";
 import GenerateQuote from "./GenerateQuote";
 import ajaxCall from "../../helpers/ajaxCall";
-import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import "../../css/custom.css";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
 import { useNavigate } from "react-router-dom";
-
-const columns = [
-  { headerName: "Supplier", field: "supplier", width: 180 },
-  { headerName: "Term", field: "term", width: 150 },
-  { headerName: "Day Rate (pence/kWh)", field: "day_rate", width: 180 },
-  { headerName: "Night Rate (pence/kWh)", field: "night_rate", width: 180 },
-  {
-    headerName: "Standing Charge (pence)",
-    field: "standing_charge",
-    width: 180,
-  },
-  { headerName: "Up Lift", field: "up_lift", width: 150 },
-];
 
 const Quote = () => {
   const navigate = useNavigate();
@@ -81,7 +55,6 @@ const Quote = () => {
         middle="Company"
         main="Dashboard"
       />
-
       <Card sx={{ mt: 3, boxShadow: 5, borderRadius: 3 }}>
         <GenerateQuote />
       </Card>

@@ -14,6 +14,7 @@ import {
 import ajaxCall from "../../helpers/ajaxCall";
 import { toast } from "react-toastify";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
+import { useParams } from "react-router-dom";
 
 const initialSiteData = {
   name: "",
@@ -23,6 +24,7 @@ const initialSiteData = {
 };
 
 const SiteDocument = () => {
+  const { SiteDocumentID } = useParams();
   const [formData, setFormData] = useState(initialSiteData);
   const [siteData, setSiteData] = useState([]);
 
@@ -71,6 +73,15 @@ const SiteDocument = () => {
 
     fetchData();
   }, []);
+
+  useEffect(() => {
+    if (SiteDocumentID) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        site: SiteDocumentID,
+      }));
+    }
+  }, [SiteDocumentID]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

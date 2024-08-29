@@ -37,12 +37,14 @@ const initialSiteData = {
   site_name: "",
   company: "",
   owner_name: "",
+  type_of_owner: "",
   current_gas_and_electricity_supplier_details: "",
   tenant: false,
   vacant: false,
   change_of_tenancy: false,
   customer_consent: false,
   mpan_id: "",
+  primary_contact: true,
 
   siteAddressLine1: "",
   siteAddressLine2: "",
@@ -274,6 +276,8 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
       direct_line: formData.direct_line,
       mobile: formData.mobile,
       email: formData.email,
+      primary_contact: formData.primary_contact,
+      type_of_owner: formData.type_of_owner,
     };
     if (formData.owner_name) {
       sendData.owner_name = formData.owner_name;
@@ -320,19 +324,13 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
     }
     const contactsInfo = {
       contacts: {
-        first_name: formData.first_name,
-        last_name: formData.last_name,
         contact_title: formData.contact_title,
-        position: formData.position,
         telephone_number: formData.telephone_number,
         email: formData.email,
       },
     };
     if (
-      contactsInfo.contacts.first_name ||
-      contactsInfo.contacts.last_name ||
       contactsInfo.contacts.contact_title ||
-      contactsInfo.contacts.position ||
       contactsInfo.contacts.telephone_number ||
       contactsInfo.contacts.email
     ) {
@@ -460,6 +458,15 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 label="Tenant / Owner Name"
                 name="owner_name"
                 value={formData.owner_name}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item sm={6}>
+              <TextField
+                fullWidth
+                label="Type Of Owner"
+                name="type_of_owner"
+                value={formData.type_of_owner}
                 onChange={handleChange}
               />
             </Grid>
@@ -744,7 +751,13 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
           <>
             <Grid item sm={6}>
               <FormControlLabel
-                control={<Switch checked />}
+                control={
+                  <Switch
+                    checked={formData.primary_contact}
+                    onChange={handleChange}
+                    name="primary_contact"
+                  />
+                }
                 label="Primary Contact"
               />
             </Grid>
@@ -850,12 +863,12 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
-                      checked={formData.telephone_number}
+                      checked={formData.phone}
                       onChange={handleChange}
-                      name="telephone_number"
+                      name="phone"
                     />
                   }
-                  label="Telephone Number"
+                  label="Phone"
                 />
               </Grid>
 

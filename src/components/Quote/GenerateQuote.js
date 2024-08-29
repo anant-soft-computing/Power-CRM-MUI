@@ -70,42 +70,15 @@ const initialSubmit = { isError: false, errMsg: null, isSubmitting: false };
 const GenerateQuote = () => {
   const location = useLocation();
   const data = location.state;
+  console.log(data);
   const [site, setSite] = useState("");
   const [siteId, setSiteId] = useState("");
-  const [siteData, setSiteData] = useState([]);
   const [leadType, setLeadType] = useState("ELECTRICITY");
   const [activeStep, setActiveStep] = useState(0);
   const [showQuotation, setShowQuotation] = useState(false);
   const [formStatus, setFormStatus] = useState(initialSubmit);
   const [quoteData, setQuoteData] = useState(initialQuoteState);
   const [companySite, setCompanySite] = useState([]);
-  useEffect(() => {
-    (async () => {
-      try {
-        const response = await ajaxCall(
-          "sites/get/site/",
-          {
-            headers: {
-              Accept: "application/json",
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${
-                JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
-              }`,
-            },
-            method: "GET",
-          },
-          8000
-        );
-        if (response?.status === 200) {
-          setSiteData(response?.data);
-        } else {
-          console.error("error");
-        }
-      } catch (error) {
-        console.error("error", error);
-      }
-    })();
-  }, []);
 
   const fetchData = async (url, setData) => {
     try {

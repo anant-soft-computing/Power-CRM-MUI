@@ -24,11 +24,36 @@ const Company = () => {
   const [companyData, setCompanyData] = useState([]);
   const [refreshTable, setRefreshTable] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [showAddCompany, setShowAddCompany] = useState(false);
+  const [CompanyDocument, setCompanyDocument] = useState([]);
 
-  const toggleAddCompany = () => {
-    setShowAddCompany((prev) => !prev);
+  const fetchData = async (url, setData) => {
+    try {
+      const response = await ajaxCall(
+        url,
+        {
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem("loginInfo"))?.accessToken
+            }`,
+          },
+          method: "GET",
+        },
+        8000
+      );
+      if (response?.status === 200) {
+        setData(response?.data);
+      } else {
+        console.error("Fetch error:", response);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+    }
   };
+  useEffect(() => {
+    fetchData(`company-document/`, setCompanyDocument);
+  }, []);
 
   useEffect(() => {
     setIsLoading(true);
@@ -127,12 +152,27 @@ const Company = () => {
       width: 120,
     },
     {
-      headerName: "Time of The Months",
-      field: "time_at_address_months",
-    },
-    {
-      headerName: "Time of The Years",
-      field: "time_at_address_years",
+      headerName: "Company Document",
+      field: "CompanyDocument",
+      width: 190,
+      renderCell: (params) => {
+        const document = CompanyDocument.find(
+          (doc) => doc.company === params.row.id
+        );
+        return document ? (
+          <Button href={document.document} variant="contained" color="primary">
+            {"View Document"}
+          </Button>
+        ) : (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => navigate(`/CompanyDocument/${params.row.id}`)}
+          >
+            Add Documents
+          </Button>
+        );
+      },
     },
   ];
 
@@ -179,12 +219,6 @@ const Company = () => {
           )}
         </CardContent>
       </Card>
-
-      <Box display="flex" justifyContent="flex-end" sx={{ mt: 3 }}>
-        <Button variant="contained" color="primary" onClick={toggleAddCompany}>
-          {showAddCompany ? "Add Company" : "Add Company"}
-        </Button>
-      </Box>
     </Container>
   );
 };

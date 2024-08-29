@@ -12,7 +12,7 @@ import {
 import { toast } from "react-toastify";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import SupplyDetails from "./Supply Details/SupplyDetails";
 import ajaxCall from "../../helpers/ajaxCall";
 import "../../css/custom.css";
@@ -24,6 +24,7 @@ const SiteDashboard = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [siteQuotes, setSiteQuotes] = useState([]);
   const [siteDocument, setSiteDocument] = useState([]);
+  console.log(siteDocument);
 
   const quotes = siteQuotes.filter((item) => item.site === parseInt(siteId));
   const siteDataWithId = { ...siteData, id: siteData.site_id || 1 };
@@ -85,21 +86,28 @@ const SiteDashboard = () => {
         return { ...params.props, error: false };
       },
     },
-    {
-      headerName: "Site Document",
-      field: "siteDocument",
-      width: 190,
-      renderCell: (params) => {
-        const document = siteDocument.find((doc) => doc.site === params.row.id);
-        return document ? (
-          <Button href={document.document} variant="contained" color="primary">
-            {"View Document"}
-          </Button>
-        ) : (
-          "N/A"
-        );
-      },
-    },
+    // {
+    //   headerName: "Site Document",
+    //   field: "siteDocument",
+    //   width: 190,
+    //   renderCell: (params) => {
+    //     console.log(params);
+    //     const document = siteDocument.find((doc) => doc.site === params.row.id);
+    //     return document ? (
+    //       <Button href={document.document} variant="contained" color="primary">
+    //         {"View Document"}
+    //       </Button>
+    //     ) : (
+    //       <Button
+    //         variant="contained"
+    //         color="primary"
+    //         onClick={() => Navigate(`/SiteDocument/${params.row.id}`)}
+    //       >
+    //         Add Documents
+    //       </Button>
+    //     );
+    //   },
+    // },
   ];
 
   const columns = [

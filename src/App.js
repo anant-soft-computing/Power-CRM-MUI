@@ -13,13 +13,14 @@ import CompanyDashboard from "./components/Company/Dashboard";
 import SiteDashboard from "./components/Site/Dashboard";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Document from "./components/Documents/Document";
+import Document from "./components/Documents/GeneralDocuments";
 import MultiSite from "./components/MultiSite-MultiQuotes/MultiSite";
 import MultiQuote from "./components/MultiSite-MultiQuotes/MultiQuote";
 import CompanyDocument from "./components/Documents/CompanyDocument";
 import SiteDocument from "./components/Documents/SiteDocument";
 import AddCompany from "./components/Company/AddCompany";
 import SendQuotation from "./components/Quote/SendQuotation";
+import GeneralDocuments from "./components/Documents/GeneralDocuments";
 
 function App() {
   const location = useLocation();
@@ -58,14 +59,17 @@ function App() {
             <Route path="/AddCompany" element={<AddCompany />} />
             <Route path="/ViewCompany" element={<Dashboard />} />
             <Route path="/Company/:companyId" element={<CompanyDashboard />} />
+            <Route path="/CompanyDocument/" element={<CompanyDocument />} />
             <Route
               path="/CompanyDocument/:DocumentId"
               element={<CompanyDocument />}
             />
+            <Route path="/SiteDocument/" element={<SiteDocument />} />
             <Route
               path="/SiteDocument/:SiteDocumentID"
               element={<SiteDocument />}
             />
+            <Route path="/GeneralDocuments" element={<GeneralDocuments />} />
             <Route path="/Sites" element={<Site />} />
             <Route path="/Site/:siteId" element={<SiteDashboard />} />
             <Route path="/Quotes" element={<Quote />} />

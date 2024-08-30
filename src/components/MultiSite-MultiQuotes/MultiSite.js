@@ -169,6 +169,7 @@ const MultiSite = () => {
         <Grid container spacing={2}>
           <Grid item sm={6}>
             <TextField
+              size="small"
               fullWidth
               label="Group Name"
               name="gName"
@@ -181,6 +182,7 @@ const MultiSite = () => {
             <FormControl fullWidth>
               <InputLabel id="company-label">Select Company</InputLabel>
               <Select
+                size="small"
                 labelId="company-label"
                 label="Select Company"
                 name="company"
@@ -200,6 +202,7 @@ const MultiSite = () => {
             <FormControl fullWidth>
               <InputLabel id="site-label">Select Sites</InputLabel>
               <Select
+                size="small"
                 multiple
                 labelId="site-label"
                 label="Select Sites"
@@ -219,6 +222,7 @@ const MultiSite = () => {
             <FormControl fullWidth>
               <InputLabel id="gType-label">Group Type</InputLabel>
               <Select
+                size="small"
                 labelId="gType-label"
                 label="Group Type"
                 name="gType"
@@ -231,14 +235,17 @@ const MultiSite = () => {
             </FormControl>
           </Grid>
           <Grid item sm={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              onClick={CreateSiteDocument}
-            >
-              Submit
-            </Button>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", m: 1 }}>
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                type="submit"
+                onClick={CreateSiteDocument}
+              >
+                Submit
+              </Button>
+            </Box>
           </Grid>
         </Grid>
       </Card>

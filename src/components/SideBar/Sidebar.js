@@ -15,6 +15,7 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import LogoutIcon from "@mui/icons-material/Logout";
+import FolderCopyIcon from "@mui/icons-material/FolderCopy";
 import { useDispatch } from "react-redux";
 import { authAction } from "../../store/authStore";
 import { deleteFromLocalStorage } from "../../helpers/helper";
@@ -83,6 +84,11 @@ const Sidebar = ({ isOpen }) => {
       text: "MultiSite",
       icon: <ViewListIcon color="primary" />,
       path: "/MultiSites",
+    },
+    {
+      text: "General Documents",
+      icon: <FolderCopyIcon color="primary" />,
+      path: "/GeneralDocuments",
     },
     { text: "LogOut", icon: <LogoutIcon color="primary" />, action: logout },
   ];

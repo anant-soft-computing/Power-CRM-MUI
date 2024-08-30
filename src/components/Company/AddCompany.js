@@ -283,6 +283,7 @@ const AddCompany = ({ refreshTableMode }) => {
             <Grid container spacing={2}>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Parent Company"
                   name="parent_company"
@@ -297,6 +298,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Name"
                   name="name"
@@ -313,6 +315,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="company-label">Company Type</InputLabel>
                   <Select
+                    size="small"
                     labelId="company-label"
                     label="Company Type"
                     name="business_type"
@@ -341,6 +344,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="number"
                   label="Company Number"
@@ -356,6 +360,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="date"
                   InputLabelProps={{ shrink: true }}
@@ -376,6 +381,7 @@ const AddCompany = ({ refreshTableMode }) => {
                     Customer Status
                   </InputLabel>
                   <Select
+                    size="small"
                     labelId="customer-status-label"
                     label="Customer Status"
                     name="customer_status"
@@ -397,6 +403,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   name="customer_value"
                   type="text"
@@ -412,6 +419,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="date"
                   InputLabelProps={{ shrink: true }}
@@ -428,6 +436,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Credit Score"
@@ -447,6 +456,7 @@ const AddCompany = ({ refreshTableMode }) => {
                     Company Sector
                   </InputLabel>
                   <Select
+                    size="small"
                     labelId="company-sector-label"
                     label="Company Sector"
                     name="company_sector"
@@ -506,6 +516,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="SIC Code"
@@ -523,6 +534,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="turnover-label">Turnover</InputLabel>
                   <Select
+                    size="small"
                     labelId="turnover-label"
                     label="Turnover"
                     name="turnover"
@@ -550,6 +562,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="net-worth-label">Net Worth</InputLabel>
                   <Select
+                    size="small"
                     labelId="net-worth-label"
                     label="Net Worth"
                     name="net_worth"
@@ -577,6 +590,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="building-use-label">Building Use</InputLabel>
                   <Select
+                    size="small"
                     labelId="building-use-label"
                     label="Building Use"
                     name="building_use"
@@ -609,6 +623,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Number of Employees"
                   type="number"
@@ -624,6 +639,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Website URL"
                   type="URLField"
@@ -641,6 +657,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="vat-label">VAT Declaration</InputLabel>
                   <Select
+                    size="small"
                     labelId="vat-label"
                     label="VAT Declaration"
                     name="vat_declatarion"
@@ -659,6 +676,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="VAT %"
                   type="text"
@@ -674,6 +692,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={4}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="VAT Number"
                   type="number"
@@ -692,6 +711,7 @@ const AddCompany = ({ refreshTableMode }) => {
               <FormControlLabel
                 control={
                   <Switch
+                    size="small"
                     name="is_macro_business"
                     checked={companyData.is_macro_business}
                     onChange={(e) => {
@@ -712,6 +732,7 @@ const AddCompany = ({ refreshTableMode }) => {
           <Grid container spacing={2}>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Address Line 1"
                 name="addressline1_company"
@@ -726,6 +747,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Address Line 2"
                 name="addressline2_company"
@@ -740,6 +762,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Address Line 3"
                 name="addressline3_company"
@@ -755,6 +778,7 @@ const AddCompany = ({ refreshTableMode }) => {
 
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Post Code"
                 name="postcode"
@@ -772,6 +796,7 @@ const AddCompany = ({ refreshTableMode }) => {
               <FormControl fullWidth>
                 <InputLabel id="country-label">Country</InputLabel>
                 <Select
+                  size="small"
                   labelId="country-label"
                   label="Country"
                   type="text"
@@ -811,6 +836,7 @@ const AddCompany = ({ refreshTableMode }) => {
               <FormControl fullWidth>
                 <InputLabel id="payment-type-label">Payment Type</InputLabel>
                 <Select
+                  size="small"
                   labelId="payment-type-label"
                   label="Payment Type"
                   name="payment_type"
@@ -840,6 +866,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="date"
                 InputLabelProps={{ shrink: true }}
@@ -856,6 +883,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="number"
                 label="Account Number"
@@ -871,6 +899,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="text"
                 label="Account Name"
@@ -886,6 +915,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="number"
                 label="shortcode"
@@ -901,6 +931,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Bank Name"
                 name="bank_name"
@@ -915,6 +946,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Bank Postcode"
                 type="number"
@@ -935,6 +967,7 @@ const AddCompany = ({ refreshTableMode }) => {
           <Grid container spacing={2}>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Agent Email"
                 name="agent_email"
@@ -951,6 +984,7 @@ const AddCompany = ({ refreshTableMode }) => {
               <FormControl fullWidth>
                 <InputLabel id="loa-template-label">LOA Template</InputLabel>
                 <Select
+                  size="small"
                   labelId="loa-template-label"
                   label="LOA Template"
                   name="loa_template"
@@ -971,6 +1005,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="date"
                 InputLabelProps={{ shrink: true }}
@@ -987,6 +1022,7 @@ const AddCompany = ({ refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="date"
                 InputLabelProps={{ shrink: true }}
@@ -1010,6 +1046,7 @@ const AddCompany = ({ refreshTableMode }) => {
               <FormControlLabel
                 control={
                   <Switch
+                    size="small"
                     name="primary_contact"
                     checked={companyData.primary_contact}
                     onChange={(e) => {
@@ -1028,6 +1065,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="company-label">Contact Title</InputLabel>
                   <Select
+                    size="small"
                     labelId="company-label"
                     label="Contact Title"
                     name="contact_title"
@@ -1051,6 +1089,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Contact Name"
@@ -1066,6 +1105,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Job Title"
@@ -1081,6 +1121,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Direct Line"
@@ -1096,6 +1137,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="number"
                   label="Telephone Number"
@@ -1111,6 +1153,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="number"
                   label="Mobile"
@@ -1126,6 +1169,7 @@ const AddCompany = ({ refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="email"
                   label="Email"
@@ -1148,6 +1192,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       name="email"
                       checked={companyData.email}
                       onChange={(e) => {
@@ -1165,6 +1210,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       name="phone"
                       checked={companyData.phone}
                       onChange={(e) => {
@@ -1182,6 +1228,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       name="sms"
                       checked={companyData.sms}
                       onChange={(e) => {
@@ -1199,6 +1246,7 @@ const AddCompany = ({ refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       name="post"
                       checked={companyData.post}
                       onChange={(e) => {
@@ -1303,7 +1351,7 @@ const AddCompany = ({ refreshTableMode }) => {
         )}
         <Box sx={{ display: "flex", justifyContent: "flex-end", m: 2 }}>
           {activeStep !== 0 && (
-            <Button onClick={handleBack} sx={{ mr: 1 }}>
+            <Button size="small" onClick={handleBack} sx={{ mr: 1 }}>
               Back
             </Button>
           )}
@@ -1312,6 +1360,7 @@ const AddCompany = ({ refreshTableMode }) => {
               <CircularProgress />
             ) : (
               <Button
+                size="small"
                 variant="contained"
                 color="primary"
                 type="submit"
@@ -1322,7 +1371,12 @@ const AddCompany = ({ refreshTableMode }) => {
               </Button>
             )
           ) : (
-            <Button variant="contained" color="primary" onClick={handleNext}>
+            <Button
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={handleNext}
+            >
               Next
             </Button>
           )}

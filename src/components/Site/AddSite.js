@@ -427,6 +427,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
           <Grid container spacing={2}>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Site Name"
                 name="site_name"
@@ -438,6 +439,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               <FormControl fullWidth>
                 <InputLabel id="company-label">Company</InputLabel>
                 <Select
+                  size="small"
                   labelId="company-label"
                   label="Company"
                   name="company"
@@ -454,6 +456,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Tenant / Owner Name"
                 name="owner_name"
@@ -463,6 +466,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Type Of Owner"
                 name="type_of_owner"
@@ -472,6 +476,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Current Gas & Electricity Supplier Details"
                 name="current_gas_and_electricity_supplier_details"
@@ -483,6 +488,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               <FormControlLabel
                 control={
                   <Switch
+                    size="small"
                     checked={formData.tenant}
                     onChange={handleChange}
                     name="tenant"
@@ -495,6 +501,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               <FormControlLabel
                 control={
                   <Switch
+                    size="small"
                     checked={formData.vacant}
                     onChange={handleChange}
                     name="vacant"
@@ -507,6 +514,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               <FormControlLabel
                 control={
                   <Switch
+                    size="small"
                     checked={formData.change_of_tenancy}
                     onChange={handleChange}
                     name="change_of_tenancy"
@@ -519,6 +527,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               <FormControlLabel
                 control={
                   <Switch
+                    size="small"
                     checked={formData.customer_consent}
                     onChange={handleChange}
                     name="customer_consent"
@@ -534,6 +543,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
           <Grid container spacing={2}>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Address Line 1"
                 name="siteAddressLine1"
@@ -543,6 +553,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Address Line 2"
                 name="siteAddressLine2"
@@ -552,6 +563,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Address Line 3"
                 name="siteAddressLine3"
@@ -561,6 +573,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Address Line 4"
                 name="siteAddressLine4"
@@ -570,6 +583,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 label="Post Code"
                 name="sitePostCode"
@@ -578,7 +592,12 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               />
             </Grid>
             <Grid item sm={6}>
-              <TextField fullWidth label="Country" value="United Kingdom" />
+              <TextField
+                size="small"
+                fullWidth
+                label="Country"
+                value="United Kingdom"
+              />
             </Grid>
           </Grid>
         );
@@ -589,6 +608,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               <FormControlLabel
                 control={
                   <Switch
+                    size="small"
                     checked={formData.isBillingSiteSame}
                     onChange={handleChange}
                     name="isBillingSiteSame"
@@ -600,6 +620,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             <Grid container spacing={2} mt={1}>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Billing Address Line 1"
                   name="billingAddressLine1"
@@ -609,6 +630,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Billing Address Line 2"
                   name="billingAddressLine2"
@@ -618,6 +640,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Billing Address Line 3"
                   name="billingAddressLine3"
@@ -627,6 +650,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Billing Address Line 4"
                   name="billingAddressLine4"
@@ -636,6 +660,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Billing Post Code"
                   name="billingPostCode"
@@ -645,6 +670,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Billing Country"
                   value="United Kingdom"
@@ -659,6 +685,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             <Grid container spacing={2}>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Site Reference"
                   name="site_reference"
@@ -670,6 +697,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="company-label">Support Contact</InputLabel>
                   <Select
+                    size="small"
                     labelId="company-label"
                     label="Support Contact"
                     name="support_contact"
@@ -686,6 +714,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Lead Source"
                   name="lead_source"
@@ -695,6 +724,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   label="Notes"
                   name="notes"
@@ -706,6 +736,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="company-label">Lead Type</InputLabel>
                   <Select
+                    size="small"
                     labelId="company-label"
                     label="Lead Type"
                     name="lead_type"
@@ -723,6 +754,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       checked={formData.bill_to_sent}
                       onChange={handleChange}
                       name="bill_to_sent"
@@ -735,6 +767,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       checked={formData.welcome_letter_send}
                       onChange={handleChange}
                       name="welcome_letter_send"
@@ -753,6 +786,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               <FormControlLabel
                 control={
                   <Switch
+                    size="small"
                     checked={formData.primary_contact}
                     onChange={handleChange}
                     name="primary_contact"
@@ -766,6 +800,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControl fullWidth>
                   <InputLabel id="company-label">Contact Title</InputLabel>
                   <Select
+                    size="small"
                     labelId="company-label"
                     label="Contact Title"
                     name="contact_title"
@@ -784,6 +819,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Contact Name"
@@ -794,6 +830,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Job Title"
@@ -804,6 +841,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Direct Line"
@@ -814,6 +852,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Telephone"
@@ -824,6 +863,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="text"
                   label="Mobile"
@@ -834,6 +874,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               </Grid>
               <Grid item sm={6}>
                 <TextField
+                  size="small"
                   fullWidth
                   type="email"
                   label="Email"
@@ -851,6 +892,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       checked={formData.email}
                       onChange={handleChange}
                       name="email"
@@ -863,6 +905,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       checked={formData.phone}
                       onChange={handleChange}
                       name="phone"
@@ -876,6 +919,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       checked={formData.sms}
                       onChange={handleChange}
                       name="sms"
@@ -888,6 +932,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                 <FormControlLabel
                   control={
                     <Switch
+                      size="small"
                       checked={formData.post}
                       onChange={handleChange}
                       name="post"
@@ -904,6 +949,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
           <Grid container spacing={2}>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="email"
                 label="Agent Email"
@@ -918,6 +964,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                   LOA Header to Use
                 </InputLabel>
                 <Select
+                  size="small"
                   labelId="loaHeader-template-label"
                   label="LOA Template"
                   name="loa_header_to_use"
@@ -933,6 +980,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
               <FormControl fullWidth>
                 <InputLabel id="loa-template-label">LOA Template</InputLabel>
                 <Select
+                  size="small"
                   labelId="loa-template-label"
                   label="LOA Template"
                   name="loa_template"
@@ -949,6 +997,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="date"
                 InputLabelProps={{ shrink: true }}
@@ -957,6 +1006,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Grid>
             <Grid item sm={6}>
               <TextField
+                size="small"
                 fullWidth
                 type="date"
                 InputLabelProps={{ shrink: true }}
@@ -1041,6 +1091,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
           Add Site
         </Typography>
         <TextField
+          size="small"
           sx={{ m: 2 }}
           label="Postcode"
           value={postcode}
@@ -1052,6 +1103,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                   <CircularProgress />
                 ) : (
                   <Button
+                    size="small"
                     variant="contained"
                     color="primary"
                     type="submit"
@@ -1087,7 +1139,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
       )}
       <Box sx={{ display: "flex", justifyContent: "flex-end", m: 2 }}>
         {activeStep !== 0 && (
-          <Button onClick={handleBack} sx={{ mr: 1 }}>
+          <Button size="small" onClick={handleBack} sx={{ mr: 1 }}>
             Back
           </Button>
         )}
@@ -1096,6 +1148,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             <CircularProgress />
           ) : (
             <Button
+              size="small"
               variant="contained"
               color="primary"
               type="submit"
@@ -1106,7 +1159,12 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
             </Button>
           )
         ) : (
-          <Button variant="contained" color="primary" onClick={handleNext}>
+          <Button
+            size="small"
+            variant="contained"
+            color="primary"
+            onClick={handleNext}
+          >
             Next
           </Button>
         )}
@@ -1137,7 +1195,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
           </Box>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setOpen(false)} color="primary">
+          <Button size="small" onClick={() => setOpen(false)} color="primary">
             Cancel
           </Button>
         </DialogActions>

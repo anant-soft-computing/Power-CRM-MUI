@@ -1,48 +1,39 @@
 import React, { useState, useEffect } from "react";
 import {
   Grid,
-  Select,
   FormControl,
-  InputLabel,
   TextField,
   Container,
   Input,
   Button,
-  MenuItem,
   Card,
+  Typography,
+  CircularProgress,
   Box,
 } from "@mui/material";
 import ajaxCall from "../../helpers/ajaxCall";
 import { toast } from "react-toastify";
 import Breadcrumb from "../../UI/Breadcrumb/Breadcrumb";
-import { useParams } from "react-router-dom";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 
-const initialCompanyData = {
+const initialSiteData = {
   name: "",
   document: "",
   description: "",
-  company: "",
+  site: "",
 };
 
-const CompanyDocument = () => {
-  const { DocumentId } = useParams();
-  const [formData, setFormData] = useState(initialCompanyData);
-  const [companyData, setCompanyData] = useState([]);
+const GeneralDocuments = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [formData, setFormData] = useState(initialSiteData);
+  const [DocumentData, setDocumentData] = useState([]);
 
   useEffect(() => {
-    if (DocumentId) {
-      setFormData((prevFormData) => ({
-        ...prevFormData,
-        company: DocumentId, // Set the initial value to DocumentId
-      }));
-    }
-  }, [DocumentId]);
-
-  useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await ajaxCall(
-          `company/`,
+          `general-document/`,
           {
             headers: {
               Accept: "application/json",
@@ -56,7 +47,8 @@ const CompanyDocument = () => {
           8000
         );
         if (response?.status === 200) {
-          setCompanyData(response?.data);
+          setDocumentData(response?.data);
+          setIsLoading(false);
         } else {
           console.error("Fetch error:", response);
         }
@@ -67,6 +59,38 @@ const CompanyDocument = () => {
 
     fetchData();
   }, []);
+
+  const columns = [
+    {
+      headerName: "Document Name",
+      field: "name",
+      width: 200,
+    },
+
+    {
+      headerName: "Description",
+      field: "description",
+      width: 200,
+    },
+    {
+      headerName: "Document",
+      field: "document",
+      width: 200,
+      renderCell: (params) => {
+        return params.row.document ? (
+          <Button
+            href={`${params.row.document}`}
+            variant="contained"
+            color="primary"
+          >
+            {"View Document"}
+          </Button>
+        ) : (
+          "N/A"
+        );
+      },
+    },
+  ];
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -90,12 +114,11 @@ const CompanyDocument = () => {
     const formDataToSend = new FormData();
     formDataToSend.append("name", formData.name);
     formDataToSend.append("description", formData.description);
-    formDataToSend.append("company", formData.company);
     formDataToSend.append("document", formData.document);
 
     try {
       const response = await ajaxCall(
-        "company-document/",
+        "general-document/",
         {
           headers: {
             Accept: "application/json",
@@ -109,7 +132,7 @@ const CompanyDocument = () => {
         8000
       );
       if ([200, 201].includes(response.status)) {
-        toast.success("Company Document Submitted Successfully");
+        toast.success("Site Document Submitted Successfully");
       } else {
         toast.error("Some Problem Occurred. Please try again.");
       }
@@ -120,8 +143,8 @@ const CompanyDocument = () => {
 
   return (
     <Container maxWidth="xl" sx={{ my: 10 }}>
-      <Breadcrumb title="Create Company Document" main="Dashboard" />
-      <Card sx={{ p: 4, m: 2, boxShadow: 5, borderRadius: 3 }}>
+      <Breadcrumb title="Create General Document" main="Dashboard" />
+      <Card sx={{ mt: 3, p: 3, boxShadow: 5, borderRadius: 3 }}>
         <Grid container spacing={2}>
           <Grid item sm={6}>
             <TextField
@@ -143,26 +166,6 @@ const CompanyDocument = () => {
               value={formData.description}
               onChange={handleChange}
             />
-          </Grid>
-
-          <Grid item sm={6}>
-            <FormControl fullWidth>
-              <InputLabel id="company-label">Select Company</InputLabel>
-              <Select
-                size="small"
-                labelId="company-label"
-                label="Select Company"
-                name="company"
-                value={formData.company}
-                onChange={handleChange}
-              >
-                {companyData.map((company) => (
-                  <MenuItem key={company.id} value={company.id}>
-                    {company.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
           </Grid>
 
           <Grid item sm={6}>
@@ -192,8 +195,46 @@ const CompanyDocument = () => {
           </Grid>
         </Grid>
       </Card>
+
+      <Card sx={{ mt: 3, p: 3, boxShadow: 5, borderRadius: 3 }}>
+        {isLoading ? (
+          <Box display="flex" justifyContent="center" alignItems="center">
+            <CircularProgress />
+          </Box>
+        ) : DocumentData.length > 0 ? (
+          <Box sx={{ height: "100%", width: "100%" }}>
+            <DataGrid
+              rows={DocumentData}
+              columns={columns}
+              disableColumnFilter
+              disableDensitySelector
+              getRowClassName={(params) =>
+                params.indexRelativeToCurrentPage % 2 === 0
+                  ? "evenRow"
+                  : "oddRow"
+              }
+              slots={{ toolbar: GridToolbar }}
+              slotProps={{
+                toolbar: {
+                  showQuickFilter: true,
+                },
+              }}
+            />
+          </Box>
+        ) : (
+          <Typography
+            color="error"
+            sx={{ mt: 2 }}
+            align="center"
+            variant="h6"
+            component="div"
+          >
+            No Documents Available !!
+          </Typography>
+        )}
+      </Card>
     </Container>
   );
 };
 
-export default CompanyDocument;
+export default GeneralDocuments;

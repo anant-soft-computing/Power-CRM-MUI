@@ -10,6 +10,7 @@ import {
   Button,
   MenuItem,
   Card,
+  Box,
 } from "@mui/material";
 import ajaxCall from "../../helpers/ajaxCall";
 import { toast } from "react-toastify";
@@ -124,6 +125,7 @@ const SiteDocument = () => {
         <Grid container spacing={2}>
           <Grid item sm={6}>
             <TextField
+              size="small"
               fullWidth
               label="Document Name"
               name="name"
@@ -134,6 +136,7 @@ const SiteDocument = () => {
 
           <Grid item sm={6}>
             <TextField
+              size="small"
               fullWidth
               label="Description"
               name="description"
@@ -146,6 +149,7 @@ const SiteDocument = () => {
             <FormControl fullWidth>
               <InputLabel id="site-label">Select Site</InputLabel>
               <Select
+                size="small"
                 labelId="site-label"
                 label="Select Site"
                 name="site"
@@ -164,6 +168,7 @@ const SiteDocument = () => {
           <Grid item sm={6}>
             <FormControl fullWidth>
               <Input
+                size="small"
                 id="upload-document"
                 name="document"
                 type="file"
@@ -173,14 +178,17 @@ const SiteDocument = () => {
           </Grid>
 
           <Grid item sm={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              onClick={handleSubmit}
-            >
-              Submit
-            </Button>
+            <Box sx={{ display: "flex", justifyContent: "flex-end", m: 1 }}>
+              <Button
+                size="small"
+                variant="contained"
+                color="primary"
+                type="submit"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            </Box>
           </Grid>
         </Grid>
       </Card>

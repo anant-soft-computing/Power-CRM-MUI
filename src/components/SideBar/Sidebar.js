@@ -66,7 +66,10 @@ const Sidebar = ({ isOpen }) => {
       icon: <BusinessIcon color="primary" />,
       action: handleCompany,
       subItems: [
-        { text: "All Companies", path: "/Companies" },
+        {
+          text: "All Companies",
+          path: "/Companies",
+        },
         { text: "Create Company", path: "/AddCompany" },
         { text: "Company Document", path: "/CompanyDocument" },
       ],

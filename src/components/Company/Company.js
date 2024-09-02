@@ -14,6 +14,8 @@ import {
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import ajaxCall from "../../helpers/ajaxCall";
 import AccountTreeIcon from "@mui/icons-material/AccountTree";
+import AddIcon from "@mui/icons-material/Add";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import FollowTheSignsIcon from "@mui/icons-material/FollowTheSigns";
 import SpeakerNotesIcon from "@mui/icons-material/SpeakerNotes";
 import "../../css/custom.css";
@@ -127,7 +129,7 @@ const Company = () => {
         </Button>
       ),
     },
-    { headerName: "Parent Company", field: "parent_company", width: 200 },
+    { headerName: "Parent Company", field: "parent_company", width: 170 },
     {
       headerName: "Postcode",
       field: "postcode",
@@ -154,14 +156,15 @@ const Company = () => {
     {
       headerName: "Company Document",
       field: "CompanyDocument",
-      width: 190,
+      width: 240,
       renderCell: (params) => {
         const document = CompanyDocument.find(
           (doc) => doc.company === params.row.id
         );
         return document ? (
           <Button href={document.document} variant="contained" color="primary">
-            {"View Document"}
+            <RemoveRedEyeIcon sx={{ mr: 1 }} />
+            View Document
           </Button>
         ) : (
           <Button
@@ -169,6 +172,7 @@ const Company = () => {
             color="primary"
             onClick={() => navigate(`/CompanyDocument/${params.row.id}`)}
           >
+            <AddIcon sx={{ mr: 1 }} />
             Add Documents
           </Button>
         );

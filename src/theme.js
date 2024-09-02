@@ -1,122 +1,132 @@
-import { createTheme } from '@mui/material/styles';
+import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   palette: {
     primary: {
-      light: '#69b2ff',
-      main: '#1890ff',
-      dark: '#006bb3',
-      contrastText: '#ffffff',
+      light: "#6ec6ff",
+      main: "#1e88e5",
+      dark: "#005cb2",
+      contrastText: "#ffffff",
     },
     secondary: {
-      light: '#ff9e9e',
-      main: '#ff4d4f',
-      dark: '#b32424',
-      contrastText: '#ffffff',
+      light: "#ffb74d",
+      main: "#ff8f00",
+      dark: "#c56000",
+      contrastText: "#ffffff",
     },
     background: {
-      default: '#f0f5ff',
-      paper: '#ffffff',
+      default: "#f4f4f9",
+      paper: "#ffffff",
     },
     text: {
-      primary: '#000000',
-      secondary: '#595959',
-      disabled: '#bfbfbf',
+      primary: "#212121",
+      secondary: "#757575",
+      disabled: "#b0bec5",
     },
-    divider: '#d9d9d9',
+    divider: "#bdbdbd",
   },
   typography: {
-    fontFamily: [
-      '"Roboto"',
-      '"Helvetica"',
-      '"Arial"',
-      'sans-serif',
-    ].join(','),
+    fontFamily: ['"Poppins"', '"Helvetica"', '"Arial"', "sans-serif"].join(","),
     h1: {
-      fontSize: '2.125rem',
-      fontWeight: 500,
+      fontSize: "2.5rem",
+      fontWeight: 700,
+      letterSpacing: "-0.02em",
     },
     h2: {
-      fontSize: '1.75rem',
-      fontWeight: 500,
+      fontSize: "2rem",
+      fontWeight: 600,
     },
     h3: {
-      fontSize: '1.5rem',
-      fontWeight: 500,
+      fontSize: "1.75rem",
+      fontWeight: 600,
     },
     h4: {
-      fontSize: '1.25rem',
-      fontWeight: 500,
+      fontSize: "1.5rem",
+      fontWeight: 600,
     },
     h5: {
-      fontSize: '1rem',
+      fontSize: "1.25rem",
       fontWeight: 500,
     },
     h6: {
-      fontSize: '0.875rem',
+      fontSize: "1rem",
       fontWeight: 500,
     },
     button: {
-      textTransform: 'none',
+      textTransform: "uppercase",
+      fontWeight: 600,
+      letterSpacing: "0.05em",
     },
   },
   components: {
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#006bb3',
-          color: '#ffffff',
+          backgroundColor: "#1e88e5",
+          color: "#ffffff",
+          boxShadow: "none",
+          borderBottom: "1px solid #bdbdbd",
         },
       },
     },
     MuiDrawer: {
       styleOverrides: {
         paper: {
-          width: 240,
-          backgroundColor: '#ffffff',
-          color: '#000000',
+          width: 260,
+          backgroundColor: "#f4f4f9",
+          color: "#212121",
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          textTransform: 'none',
+          textTransform: "uppercase",
+          borderRadius: "20px",
+          padding: "10px 20px",
+        },
+        contained: {
+          boxShadow: "none",
+          "&:hover": {
+            boxShadow: "0 3px 6px rgba(0, 0, 0, 0.1)",
+          },
         },
       },
     },
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
-          borderRadius: '8px',
+          boxShadow: "0 4px 12px rgba(0, 0, 0, 0.1)",
+          borderRadius: "12px",
+          padding: "20px",
         },
       },
     },
     MuiTypography: {
       styleOverrides: {
         h1: {
-          fontSize: '2.125rem',
-          fontWeight: 500,
+          fontSize: "2.5rem",
+          fontWeight: 700,
+          letterSpacing: "-0.02em",
         },
         h2: {
-          fontSize: '1.75rem',
-          fontWeight: 500,
+          fontSize: "2rem",
+          fontWeight: 600,
         },
         h3: {
-          fontSize: '1.5rem',
-          fontWeight: 500,
+          fontSize: "1.75rem",
+          fontWeight: 600,
         },
         h4: {
-          fontSize: '1.25rem',
-          fontWeight: 500,
+          fontSize: "1.5rem",
+          fontWeight: 600,
         },
         h5: {
-          fontSize: '1rem',
+          fontSize: "1.25rem",
           fontWeight: 500,
         },
         h6: {
-          fontSize: '0.875rem',
+          fontSize: "1rem",
           fontWeight: 500,
         },
       },

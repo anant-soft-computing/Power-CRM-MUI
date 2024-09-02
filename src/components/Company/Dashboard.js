@@ -49,14 +49,14 @@ const CompanyDashboard = () => {
         </Button>
       ),
     },
-    { field: "owner_name", headerName: "Owner Name", width: 170 },
+    { field: "owner_name", headerName: "Owner Name", width: 120 },
     {
       field: "company.name",
       headerName: "Company",
-      width: 160,
+      width: 120,
       renderCell: (params) => params.row.company.name,
     },
-    { field: "lead_type", headerName: "Lead Type", width: 170 },
+    { field: "lead_type", headerName: "Lead Type", width: 140 },
     {
       field: "notes",
       headerName: "Notes",
@@ -103,19 +103,21 @@ const CompanyDashboard = () => {
     {
       headerName: "Site Document",
       field: "siteDocument",
-      width: 190,
+      width: 240,
       renderCell: (params) => {
-        const document = siteDocument.find((doc) => doc.site === params.row.id);
+        const document = siteDocument.find((doc) => doc.site === params.id);
         return document ? (
           <Button href={document.document} variant="contained" color="primary">
+            <RemoveRedEyeIcon sx={{ mr: 1 }} />
             {"View Document"}
           </Button>
         ) : (
           <Button
             variant="contained"
             color="primary"
-            onClick={() => navigate(`/SiteDocument/${params.row.id}`)}
+            onClick={() => navigate(`/SiteDocument/${params.id}`)}
           >
+            <AddIcon sx={{ mr: 1 }} />
             Add Documents
           </Button>
         );

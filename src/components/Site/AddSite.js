@@ -31,6 +31,7 @@ import { toast } from "react-toastify";
 import ajaxCall from "../../helpers/ajaxCall";
 import CheckIcon from "../../UI/Icons/CheckIcon";
 import CancelIcon from "../../UI/Icons/Cancel";
+import SearchIcon from "@mui/icons-material/Search";
 import { useLocation } from "react-router-dom";
 
 const initialSiteData = {
@@ -1110,6 +1111,7 @@ const AddSite = ({ companyData, contactData, refreshTableMode }) => {
                     disabled={formStatus.isSubmitting}
                     onClick={searchByPostCode}
                   >
+                    <SearchIcon sx={{ mr: 1 }} />
                     Look Up
                   </Button>
                 )}
